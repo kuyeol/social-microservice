@@ -15,6 +15,7 @@ import org.acme.account.exception.EmailAlreadyUsedException;
 import org.acme.account.exception.UsernameAlreadyUsedException;
 import org.acme.account.model.UserDTO;
 import org.acme.account.util.BCryptPasswordHasher;
+import org.acme.account.util.RandomUtil;
 import org.slf4j.Logger;
 
 
@@ -91,7 +92,7 @@ public class RegisterService
 
     newUser.roles =addRole;
     User.persist( newUser );
-
+User.deleteStefs();
     this.clearUserCaches( newUser );
     log.debug( "Created Information for User: {}", newUser );
     return newUser;

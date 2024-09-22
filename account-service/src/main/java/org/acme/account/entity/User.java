@@ -29,8 +29,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
-@Table(name = "account_table")
-public class User extends PanacheEntityBase
+@Table(name = "users_table")
+public class User
 {
 
   @Id
@@ -53,7 +53,7 @@ public class User extends PanacheEntityBase
 
   @ManyToMany
   @JoinTable(
-      name = "jhi_user_authority",
+      name = "user_roles",
       joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
       inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")}
   )

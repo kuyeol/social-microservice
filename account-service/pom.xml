@@ -73,10 +73,7 @@
             <groupId>org.wildfly.security</groupId>
             <artifactId>wildfly-elytron-credential</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-security-webauthn</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.tietoevry.quarkus</groupId>
             <artifactId>quarkus-resteasy-problem</artifactId>

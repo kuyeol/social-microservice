@@ -1,4 +1,4 @@
-package org.acme.account.service;
+package org.acme.account.util;
 
 
 import java.security.SecureRandom;
