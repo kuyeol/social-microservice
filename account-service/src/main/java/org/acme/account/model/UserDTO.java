@@ -18,7 +18,7 @@ import org.acme.account.entity.User;
 public class UserDTO
 {
 
-  public UUID id;
+  public UUID userId;
 
   @NotBlank
   @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -35,21 +35,12 @@ public class UserDTO
   @Size(min = 5, max = 254)
   public String email;
 
-  @Size(max = 256)
-  public String imageUrl;
 
   public Boolean activated = false;
 
-  @Size(min = 2, max = 10)
-  public String langKey;
-
-  public String createdBy;
 
   public Instant createdDate;
 
-  public String lastModifiedBy;
-
-  public Instant lastModifiedDate;
 
   public Set<String> roles;
 
@@ -59,8 +50,8 @@ public class UserDTO
   }
 
   public UserDTO( User user) {
-    this.id = user.id;
-    this.login = user.login;
+    this.userId = user.userId;
+    this.login  = user.login;
     this.screenName = user.screenName;
     this.email = user.email;
     this.createdDate = user.createdDate;

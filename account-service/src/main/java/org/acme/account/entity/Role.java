@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name="roles")
+@Table(name="account_roles")
 @RegisterForReflection
 public class Role extends PanacheEntityBase
 {
