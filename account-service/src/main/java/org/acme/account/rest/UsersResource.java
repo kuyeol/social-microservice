@@ -44,7 +44,7 @@ import org.acme.account.util.RepresentationToModel;
 
 import static org.acme.account.userprofile.UserProfileContext.USER_API;
 
-
+@Path( "users" )
 public class UsersResource
 {
 

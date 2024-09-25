@@ -57,7 +57,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static org.acme.account.userprofile.UserProfileContext.USER_API;
 
-
+@Path( "/USER" )
 public class UserResource
 {
 
@@ -367,12 +367,7 @@ public class UserResource
     Map< String, Object > result = new HashMap<>();
     result.put( "sameRealm", sameRealm );
     result.put( "redirect", redirect.toString() );
-    event.event( EventType.IMPERSONATE )
-         .session( userSession )
-         .user( user )
-         .detail( Details.IMPERSONATOR_REALM, authenticatedRealm.getName() )
-         .detail( Details.IMPERSONATOR, impersonator )
-         .success();
+
 
     return result;
   }
