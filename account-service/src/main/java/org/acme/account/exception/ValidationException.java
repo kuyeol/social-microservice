@@ -103,7 +103,7 @@ public final class ValidationException extends RuntimeException implements Consu
 		}
 
 		public String getAttribute() {
-			return error.getInputHint();
+			return error.getMessage();
 		}
 
 		public String getMessage() {
@@ -111,7 +111,7 @@ public final class ValidationException extends RuntimeException implements Consu
 		}
 		
 		public Object[] getMessageParameters() {
-			return error.getInputHintWithMessageParameters();
+			return error.getLocalizedMessageParams();
 		}
 
 		@Override
@@ -124,7 +124,7 @@ public final class ValidationException extends RuntimeException implements Consu
 		}
 
 		public Response.Status getStatusCode() {
-			return error.getStatusCode();
+			return Response.Status.fromStatusCode( error.hashCode() );
 		}
 	}
 

@@ -1,36 +1,25 @@
-/*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates
- * and other contributors as indicated by the @author tags.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.acme.account.model;
 
-import static org.keycloak.utils.StringUtil.isNotBlank;
 
-import org.keycloak.provider.ProviderEvent;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.acme.account.represetion.identitymanagement.ProviderEvent;
+
+
+import static org.acme.account.util.StringUtil.isNotBlank;
+
+
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
 public interface UserModel extends RoleMapperModel {
+
     String USERNAME = "username";
     String FIRST_NAME = "firstName";
     String LAST_NAME = "lastName";
@@ -49,13 +38,14 @@ public interface UserModel extends RoleMapperModel {
     Comparator<UserModel> COMPARE_BY_USERNAME = Comparator.comparing(UserModel::getUsername, String.CASE_INSENSITIVE_ORDER);
 
     interface UserRemovedEvent extends ProviderEvent {
-        RealmModel getRealm();
+
         UserModel getUser();
         KeycloakSession getKeycloakSession();
     }
 
-    interface UserPreRemovedEvent extends ProviderEvent {
-        RealmModel getRealm();
+    interface UserPreRemovedEvent extends ProviderEvent
+    {
+
         UserModel getUser();
         KeycloakSession getKeycloakSession();
     }
@@ -157,57 +147,7 @@ public interface UserModel extends RoleMapperModel {
 
     void setEmailVerified(boolean verified);
 
-    /**
-     * Obtains the groups associated with the user.
-     *
-     * @return a non-null {@link Stream} of groups.
-     */
-    Stream<GroupModel> getGroupsStream();
 
-    /**
-     * Returns a paginated stream of groups within this realm with search in the name
-     *
-     * @param search Case insensitive string which will be searched for. Ignored if null.
-     * @param first Index of first group to return. Ignored if negative or {@code null}.
-     * @param max Maximum number of records to return. Ignored if negative or {@code null}.
-     * @return Stream of desired groups. Never returns {@code null}.
-     */
-    default Stream<GroupModel> getGroupsStream(String search, Integer first, Integer max) {
-        if (search != null) search = search.toLowerCase();
-        final String finalSearch = search;
-        Stream<GroupModel> groupModelStream = getGroupsStream()
-                .filter(group -> finalSearch == null || group.getName().toLowerCase().contains(finalSearch));
-
-        if (first != null && first > 0) {
-            groupModelStream = groupModelStream.skip(first);
-        }
-
-        if (max != null && max >= 0) {
-            groupModelStream = groupModelStream.limit(max);
-        }
-
-        return groupModelStream;
-    }
-
-    default long getGroupsCount() {
-        return getGroupsCountByNameContaining(null);
-    }
-
-    default long getGroupsCountByNameContaining(String search) {
-        if (search == null) {
-            return getGroupsStream().count();
-        }
-
-        String s = search.toLowerCase();
-        return getGroupsStream().filter(group -> group.getName().toLowerCase().contains(s)).count();
-    }
-
-    void joinGroup(GroupModel group);
-    default void joinGroup(GroupModel group, MembershipMetadata metadata) {
-        joinGroup(group);
-    }
-    void leaveGroup(GroupModel group);
-    boolean isMemberOf(GroupModel group);
 
     String getFederationLink();
     void setFederationLink(String link);
@@ -225,9 +165,7 @@ public interface UserModel extends RoleMapperModel {
         return isNotBlank(getFederationLink());
     }
 
-    /**
-     * Instance of a user credential manager to validate and update the credentials of this user.
-     */
+
     SubjectCredentialManager credentialManager();
 
     enum RequiredAction {

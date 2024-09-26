@@ -13,7 +13,6 @@ public interface AdminPermissionEvaluator {
 
     AdminAuth adminAuth();
 
-    RolePermissionEvaluator roles();
     UserPermissionEvaluator users();
 
 

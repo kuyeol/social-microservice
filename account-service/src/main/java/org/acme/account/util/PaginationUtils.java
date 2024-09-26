@@ -15,26 +15,29 @@
  * limitations under the License.
  */
 
-package org.acme.account.userprofile;
+package org.acme.account.util;
 
+import jakarta.persistence.TypedQuery;
 
-import org.acme.account.exception.ValidationException;
-import org.acme.account.model.UserModel;
-import org.acme.account.represetion.identitymanagement.AbstractUserRepresentation;
-import org.acme.account.represetion.identitymanagement.Attributes;
+public class PaginationUtils {
 
-public interface UserProfile {
+    public static final int DEFAULT_MAX_RESULTS = Integer.MAX_VALUE >> 1;
 
-    void validate() throws ValidationException;
+    public static <T> TypedQuery<T> paginateQuery(TypedQuery<T> query, Integer first, Integer max) {
+        if (first != null && first >= 0) {
+            query = query.setFirstResult(first);
 
-    UserModel create() throws ValidationException;
+            // Workaround for https://hibernate.atlassian.net/browse/HHH-14295
+            if (max == null || max < 0) {
+                max = DEFAULT_MAX_RESULTS;
+            }
+        }
 
-    void update(boolean removeAttributes) throws ValidationException;
+        if (max != null && max >= 0) {
+            query = query.setMaxResults(max);
+        }
 
+        return query;
+    }
 
-
-
-    Attributes getAttributes();
-
-    <R extends AbstractUserRepresentation > R toRepresentation();
 }

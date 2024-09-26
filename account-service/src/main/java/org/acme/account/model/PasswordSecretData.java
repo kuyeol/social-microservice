@@ -3,21 +3,24 @@ package org.acme.account.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jboss.logging.Logger;
-import org.keycloak.common.util.Base64;
-import org.keycloak.common.util.MultivaluedHashMap;
+
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.acme.account.util.Base64;
+import org.acme.account.util.MultivaluedHashMap;
+
+
 public class PasswordSecretData {
 
-    public static final Logger logger = Logger.getLogger(PasswordSecretData.class);
+    public static final Logger                             logger = Logger.getLogger(PasswordSecretData.class);
 
-    private final String value;
-    private final byte[] salt;
+    private final       String                             value;
+    private final       byte[]                             salt;
 
-    private MultivaluedHashMap<String, String> additionalParameters;
+    private             MultivaluedHashMap<String, String> additionalParameters;
 
     /**
      * Creator with the option to provide customized secret data (multiple salt values, chiefly)
@@ -36,7 +39,7 @@ public class PasswordSecretData {
         }
         else {
             this.value = value;
-            this.salt = Base64.decode(salt);
+            this.salt = Base64.decode( salt);
         }
     }
 

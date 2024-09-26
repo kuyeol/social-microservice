@@ -1,23 +1,6 @@
-/*
- *
- *  * Copyright 2021  Red Hat, Inc. and/or its affiliates
- *  * and other contributors as indicated by the @author tags.
- *  *
- *  * Licensed under the Apache License, Version 2.0 (the "License");
- *  * you may not use this file except in compliance with the License.
- *  * You may obtain a copy of the License at
- *  *
- *  * http://www.apache.org/licenses/LICENSE-2.0
- *  *
- *  * Unless required by applicable law or agreed to in writing, software
- *  * distributed under the License is distributed on an "AS IS" BASIS,
- *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  * See the License for the specific language governing permissions and
- *  * limitations under the License.
- *
- */
 
-package org.acme.account.userprofile;
+
+package org.acme.account.represetion.identitymanagement;
 
 import java.util.Set;
 import java.util.function.Predicate;
@@ -85,6 +68,9 @@ public enum UserProfileContext {
         this( adminContext, authFlowContext, resetEmailVerified, StringUtil::isNotBlank);
     }
 
+    /**
+     * @return true means that this context is applicable to administrators. False means that this context is applicable to regular users
+     */
     public boolean isAdminContext() {
         return adminContext;
     }
@@ -96,10 +82,19 @@ public enum UserProfileContext {
         return authFlowContext;
     }
 
+    /**
+     * @return true means that UserModel.emailVerified flag must be reset to false in this context when email address is updated
+     */
     public boolean isResetEmailVerified() {
         return resetEmailVerified;
     }
 
+    /**
+     * Check if roles configuration contains role for this context.
+     *
+     * @param roles to be inspected
+     * @return true if roles list contains role representing checked context
+     */
     public boolean isRoleForContext(Set<String> roles) {
         if (roles == null)
             return false;
