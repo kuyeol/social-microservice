@@ -25,10 +25,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.acme.account.json.JsonSerialization;
-import org.acme.account.util.Base64;
-import org.acme.account.util.MultivaluedHashMap;
-
 
 /**
  * Used just in cases when we want to "directly" update or retrieve the hash or salt of user credential (For example during export/import)
