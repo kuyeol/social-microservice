@@ -1,3 +1,6 @@
+https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/http/UserDetailsServiceFactoryBean.java
+
+
 # account-server
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

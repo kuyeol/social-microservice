@@ -48,7 +48,7 @@ public class UsersResource
 
   private static final String SEARCH_ID_PARAMETER = "id:";
 
- //protected final AdminPermissionEvaluator auth;
+ protected final AdminPermissionEvaluator auth;
 
 
 //protected final   KeycloakSession        session;
@@ -119,51 +119,51 @@ public class UsersResource
   }
 
 
-  //@Path("{user-id}")
-  //public UserResource user( final @PathParam("user-id") String id )
-  //{
-  //
-  //  UserModel user = null;
-  //
-  //  if ( user == null ) {
-  //    // we do this to make sure somebody can't phish ids
-  //    if ( auth.users()
-  //             .canQuery() ) {
-  //      throw new NotFoundException( "User not found" );
-  //    } else {
-  //      throw new ForbiddenException();
-  //    }
-  //  }
-  //
-  //  return new UserResource( session, user, auth );
-  //}
+  @Path("{user-id}")
+  public UserResource user( final @PathParam("user-id") String id )
+  {
+
+    UserModel user = null;
+
+    if ( user == null ) {
+      // we do this to make sure somebody can't phish ids
+      if ( auth.users()
+               .canQuery() ) {
+        throw new NotFoundException( "User not found" );
+      } else {
+        throw new ForbiddenException();
+      }
+    }
+
+    return new UserResource( session, user, auth );
+  }
 
 
-    //@Path("profile")
-    //public UserProfileResource userProfile()
-    //{
-    //
-    //  return new UserProfileResource( session, auth );
-    //}
+    @Path("profile")
+    public UserProfileResource userProfile()
+    {
+
+      return new UserProfileResource( session, auth );
+    }
 
 
-  //private Stream< UserRepresentation > toRepresentation( UserPermissionEvaluator usersEvaluator, Boolean briefRepresentation, Stream< UserModel > userModels )
-  //{
-  //
-  //  boolean briefRepresentationB = briefRepresentation != null && briefRepresentation;
-  //  boolean canViewGlobal        = usersEvaluator.canView();
-  //
-  //  usersEvaluator.grantIfNoPermission( session.getAttribute( UserModel.GROUPS ) != null );
-  //  return userModels.filter( user -> canViewGlobal || usersEvaluator.canView( user ) )
-  //                   .map( user ->
-  //                           {
-  //                             UserRepresentation userRep = briefRepresentationB
-  //                                                          ? ModelToRepresentation.toBriefRepresentation( user )
-  //                                                          : ModelToRepresentation.toRepresentation( session, user );
-  //                             userRep.setAccess( usersEvaluator.getAccess( user ) );
-  //                             return userRep;
-  //                           } );
-  //}
+  private Stream< UserRepresentation > toRepresentation( UserPermissionEvaluator usersEvaluator, Boolean briefRepresentation, Stream< UserModel > userModels )
+  {
+
+    boolean briefRepresentationB = briefRepresentation != null && briefRepresentation;
+    boolean canViewGlobal        = usersEvaluator.canView();
+
+    usersEvaluator.grantIfNoPermission( session.getAttribute( UserModel.GROUPS ) != null );
+    return userModels.filter( user -> canViewGlobal || usersEvaluator.canView( user ) )
+                     .map( user ->
+                             {
+                               UserRepresentation userRep = briefRepresentationB
+                                                            ? ModelToRepresentation.toBriefRepresentation( user )
+                                                            : ModelToRepresentation.toRepresentation( session, user );
+                               userRep.setAccess( usersEvaluator.getAccess( user ) );
+                               return userRep;
+                             } );
+  }
 
 
 

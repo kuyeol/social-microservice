@@ -103,10 +103,7 @@ public class UserEntity {
     @BatchSize(size = 20)
     protected Collection<CredentialEntity> credentials = new LinkedList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = false, mappedBy="user")
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 20)
-    protected Collection<UserAttributeEntity> attributes = new LinkedList<>();
+
 
 
     @Column(name="FEDERATION_LINK")
@@ -118,7 +115,10 @@ public class UserEntity {
     @Column(name="NOT_BEFORE")
     protected int notBefore;
 
-
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = false, mappedBy="user")
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 20)
+    protected Collection<UserAttributeEntity> attributes = new LinkedList<>();
 
 
     public Collection<UserAttributeEntity> getAttributes() {
