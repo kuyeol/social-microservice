@@ -1,0 +1,4055 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@localhost">
+  <database-model serializer="dbm" dbms="CASSANDRA" family-id="CASSANDRA" format-version="4.53">
+    <root id="1">
+      <ServerVersion>4.1.6</ServerVersion>
+    </root>
+    <role id="2" parent="1" name="cassandra">
+      <CanLogin>1</CanLogin>
+      <SuperRole>1</SuperRole>
+    </role>
+    <schema id="3" parent="1" name="system">
+      <Properties>durable_writes:true
+replication:{&apos;class&apos;: &apos;org.apache.cassandra.locator.LocalStrategy&apos;}
+</Properties>
+    </schema>
+    <schema id="4" parent="1" name="system_auth">
+      <Properties>durable_writes:true
+replication:{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;1&apos;}
+</Properties>
+    </schema>
+    <schema id="5" parent="1" name="system_distributed">
+      <Properties>durable_writes:true
+replication:{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;3&apos;}
+</Properties>
+    </schema>
+    <schema id="6" parent="1" name="system_schema">
+      <Properties>durable_writes:true
+replication:{&apos;class&apos;: &apos;org.apache.cassandra.locator.LocalStrategy&apos;}
+</Properties>
+    </schema>
+    <schema id="7" parent="1" name="system_traces">
+      <Properties>durable_writes:true
+replication:{&apos;class&apos;: &apos;org.apache.cassandra.locator.SimpleStrategy&apos;, &apos;replication_factor&apos;: &apos;2&apos;}
+</Properties>
+    </schema>
+    <schema id="8" parent="1" name="system_views">
+      <Virtual>1</Virtual>
+    </schema>
+    <schema id="9" parent="1" name="system_virtual_schema">
+      <Virtual>1</Virtual>
+    </schema>
+    <table id="10" parent="3" name="IndexInfo">
+      <Comment>built column indexes</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="11" parent="3" name="available_ranges">
+      <Comment>available keyspace/ranges during bootstrap/replace that are ready to be served</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="12" parent="3" name="available_ranges_v2">
+      <Comment>available keyspace/ranges during bootstrap/replace that are ready to be served</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="13" parent="3" name="batches">
+      <Comment>batches awaiting replay</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;2&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="14" parent="3" name="built_views">
+      <Comment>built views</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="15" parent="3" name="compaction_history">
+      <Comment>week-long compaction history</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:604800
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="16" parent="3" name="local">
+      <Comment>information about the local node</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="17" parent="3" name="paxos">
+      <Comment>in-progress paxos proposals</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.LeveledCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="18" parent="3" name="paxos_repair_history">
+      <Comment>paxos repair history</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="19" parent="3" name="peer_events">
+      <Comment>events related to peers</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="20" parent="3" name="peer_events_v2">
+      <Comment>events related to peers</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="21" parent="3" name="peers">
+      <Comment>information about known peers in the cluster</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="22" parent="3" name="peers_v2">
+      <Comment>information about known peers in the cluster</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="23" parent="3" name="prepared_statements">
+      <Comment>prepared statements</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="24" parent="3" name="repairs">
+      <Comment>repairs</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="25" parent="3" name="size_estimates">
+      <Comment>per-table primary range size estimates, table is deprecated in favor of table_estimates</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="26" parent="3" name="sstable_activity">
+      <Comment>historic sstable read rates</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="27" parent="3" name="sstable_activity_v2">
+      <Comment>historic sstable read rates</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="28" parent="3" name="table_estimates">
+      <Comment>per-table range size estimates</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="29" parent="3" name="top_partitions">
+      <Comment>Stores the top partitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="30" parent="3" name="transferred_ranges">
+      <Comment>record of transferred ranges for streaming operation</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="31" parent="3" name="transferred_ranges_v2">
+      <Comment>record of transferred ranges for streaming operation</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="32" parent="3" name="view_builds_in_progress">
+      <Comment>views builds current progress</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="33" parent="4" name="network_permissions">
+      <Comment>user network permissions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:7776000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="34" parent="4" name="resource_role_permissons_index">
+      <Comment>index of db roles with permissions granted on a resource</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:7776000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="35" parent="4" name="role_members">
+      <Comment>role memberships lookup table</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:7776000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="36" parent="4" name="role_permissions">
+      <Comment>permissions granted to db roles</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:7776000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="37" parent="4" name="roles">
+      <Comment>role definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:7776000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="38" parent="5" name="parent_repair_history">
+      <Comment>Repair history</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:2592000
+speculative_retry:99p
+gc_grace_seconds:864000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.TimeWindowCompactionStrategy&apos;, &apos;compaction_window_size&apos;: &apos;1&apos;, &apos;compaction_window_unit&apos;: &apos;DAYS&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="39" parent="5" name="partition_denylist">
+      <Comment>Partition keys which have been denied access</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:864000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="40" parent="5" name="repair_history">
+      <Comment>Repair history</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:2592000
+speculative_retry:99p
+gc_grace_seconds:864000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.TimeWindowCompactionStrategy&apos;, &apos;compaction_window_size&apos;: &apos;1&apos;, &apos;compaction_window_unit&apos;: &apos;DAYS&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="41" parent="5" name="view_build_status">
+      <Comment>Materialized View build status</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:864000
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="42" parent="6" name="aggregates">
+      <Comment>user defined aggregate definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="43" parent="6" name="columns">
+      <Comment>column definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="44" parent="6" name="dropped_columns">
+      <Comment>dropped column registry</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="45" parent="6" name="functions">
+      <Comment>user defined function definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="46" parent="6" name="indexes">
+      <Comment>secondary index definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="47" parent="6" name="keyspaces">
+      <Comment>keyspace definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="48" parent="6" name="tables">
+      <Comment>table definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="49" parent="6" name="triggers">
+      <Comment>trigger definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="50" parent="6" name="types">
+      <Comment>user defined type definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="51" parent="6" name="views">
+      <Comment>view definitions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:604800
+max_index_interval:2048
+memtable_flush_period_in_ms:3600000
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="52" parent="7" name="events">
+      <Comment>tracing events</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="53" parent="7" name="sessions">
+      <Comment>tracing sessions</Comment>
+      <Properties>caching:{&apos;keys&apos;: &apos;ALL&apos;, &apos;rows_per_partition&apos;: &apos;NONE&apos;}
+compression:{&apos;chunk_length_in_kb&apos;: &apos;16&apos;, &apos;class&apos;: &apos;org.apache.cassandra.io.compress.LZ4Compressor&apos;}
+bloom_filter_fp_chance:0.01
+default_time_to_live:0
+speculative_retry:99p
+gc_grace_seconds:0
+max_index_interval:2048
+memtable_flush_period_in_ms:0
+min_index_interval:128
+read_repair_chance:0
+crc_check_chance:1
+dclocal_read_repair_chance:0
+compaction:{&apos;class&apos;: &apos;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&apos;, &apos;max_threshold&apos;: &apos;32&apos;, &apos;min_threshold&apos;: &apos;4&apos;}
+additional_write_policy:99p
+</Properties>
+    </table>
+    <table id="54" parent="8" name="batch_metrics">
+      <Comment>Metrics specific to batch statements</Comment>
+    </table>
+    <table id="55" parent="8" name="caches">
+      <Comment>system caches</Comment>
+    </table>
+    <table id="56" parent="8" name="clients">
+      <Comment>currently connected clients</Comment>
+    </table>
+    <table id="57" parent="8" name="coordinator_read_latency"/>
+    <table id="58" parent="8" name="coordinator_scan_latency"/>
+    <table id="59" parent="8" name="coordinator_write_latency"/>
+    <table id="60" parent="8" name="cql_metrics">
+      <Comment>Metrics specific to CQL prepared statement caching</Comment>
+    </table>
+    <table id="61" parent="8" name="credentials_cache_keys">
+      <Comment>keys in the credentials cache</Comment>
+    </table>
+    <table id="62" parent="8" name="disk_usage"/>
+    <table id="63" parent="8" name="gossip_info">
+      <Comment>lists the gossip information for the cluster</Comment>
+    </table>
+    <table id="64" parent="8" name="internode_inbound"/>
+    <table id="65" parent="8" name="internode_outbound"/>
+    <table id="66" parent="8" name="jmx_permissions_cache_keys">
+      <Comment>keys in the JMX permissions cache</Comment>
+    </table>
+    <table id="67" parent="8" name="local_read_latency"/>
+    <table id="68" parent="8" name="local_scan_latency"/>
+    <table id="69" parent="8" name="local_write_latency"/>
+    <table id="70" parent="8" name="max_partition_size"/>
+    <table id="71" parent="8" name="network_permissions_cache_keys">
+      <Comment>keys in the network permissions cache</Comment>
+    </table>
+    <table id="72" parent="8" name="pending_hints">
+      <Comment>Pending hints that this node has for other nodes</Comment>
+    </table>
+    <table id="73" parent="8" name="permissions_cache_keys">
+      <Comment>keys in the permissions cache</Comment>
+    </table>
+    <table id="74" parent="8" name="queries">
+      <Comment>Lists currently running queries</Comment>
+    </table>
+    <table id="75" parent="8" name="repair_jobs">
+      <Comment>Repair job</Comment>
+    </table>
+    <table id="76" parent="8" name="repair_participates">
+      <Comment>Repair participate summary</Comment>
+    </table>
+    <table id="77" parent="8" name="repair_sessions">
+      <Comment>Repair session</Comment>
+    </table>
+    <table id="78" parent="8" name="repair_validations">
+      <Comment>Repair validation</Comment>
+    </table>
+    <table id="79" parent="8" name="repairs">
+      <Comment>Repair summary</Comment>
+    </table>
+    <table id="80" parent="8" name="roles_cache_keys">
+      <Comment>keys in the roles cache</Comment>
+    </table>
+    <table id="81" parent="8" name="rows_per_read"/>
+    <table id="82" parent="8" name="settings">
+      <Comment>current settings</Comment>
+    </table>
+    <table id="83" parent="8" name="sstable_tasks">
+      <Comment>current sstable tasks</Comment>
+    </table>
+    <table id="84" parent="8" name="streaming"/>
+    <table id="85" parent="8" name="system_properties">
+      <Comment>Cassandra relevant system properties</Comment>
+    </table>
+    <table id="86" parent="8" name="thread_pools"/>
+    <table id="87" parent="8" name="tombstones_per_read"/>
+    <table id="88" parent="9" name="columns">
+      <Comment>virtual column definitions</Comment>
+    </table>
+    <table id="89" parent="9" name="keyspaces">
+      <Comment>virtual keyspace definitions</Comment>
+    </table>
+    <table id="90" parent="9" name="tables">
+      <Comment>virtual table definitions</Comment>
+    </table>
+    <column id="91" parent="10" name="table_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="92" parent="10" name="index_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="93" parent="10" name="value">
+      <Position>3</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <key id="94" parent="10" name="primary key">
+      <Columns>table_name
+index_name|ASC
+</Columns>
+    </key>
+    <column id="95" parent="11" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="96" parent="11" name="ranges">
+      <Position>2</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <key id="97" parent="11" name="primary key">
+      <Columns>keyspace_name
+</Columns>
+    </key>
+    <column id="98" parent="12" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="99" parent="12" name="full_ranges">
+      <Position>2</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <column id="100" parent="12" name="transient_ranges">
+      <Position>3</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <key id="101" parent="12" name="primary key">
+      <Columns>keyspace_name
+</Columns>
+    </key>
+    <column id="102" parent="13" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="103" parent="13" name="mutations">
+      <Position>2</Position>
+      <StoredType>list&lt;blob&gt;|0s</StoredType>
+    </column>
+    <column id="104" parent="13" name="version">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <key id="105" parent="13" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="106" parent="14" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="107" parent="14" name="view_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="108" parent="14" name="status_replicated">
+      <Position>3</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <key id="109" parent="14" name="primary key">
+      <Columns>keyspace_name
+view_name|ASC
+</Columns>
+    </key>
+    <column id="110" parent="15" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="111" parent="15" name="bytes_in">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="112" parent="15" name="bytes_out">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="113" parent="15" name="columnfamily_name">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="114" parent="15" name="compacted_at">
+      <Position>5</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="115" parent="15" name="keyspace_name">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="116" parent="15" name="rows_merged">
+      <Position>7</Position>
+      <StoredType>map&lt;int, bigint&gt;|0s</StoredType>
+    </column>
+    <key id="117" parent="15" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="118" parent="16" name="key">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="119" parent="16" name="bootstrapped">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="120" parent="16" name="broadcast_address">
+      <Position>3</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="121" parent="16" name="broadcast_port">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="122" parent="16" name="cluster_name">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="123" parent="16" name="cql_version">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="124" parent="16" name="data_center">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="125" parent="16" name="gossip_generation">
+      <Position>8</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="126" parent="16" name="host_id">
+      <Position>9</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="127" parent="16" name="listen_address">
+      <Position>10</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="128" parent="16" name="listen_port">
+      <Position>11</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="129" parent="16" name="native_protocol_version">
+      <Position>12</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="130" parent="16" name="partitioner">
+      <Position>13</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="131" parent="16" name="rack">
+      <Position>14</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="132" parent="16" name="release_version">
+      <Position>15</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="133" parent="16" name="rpc_address">
+      <Position>16</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="134" parent="16" name="rpc_port">
+      <Position>17</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="135" parent="16" name="schema_version">
+      <Position>18</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="136" parent="16" name="tokens">
+      <Position>19</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="137" parent="16" name="truncated_at">
+      <Position>20</Position>
+      <StoredType>map&lt;uuid, blob&gt;|0s</StoredType>
+    </column>
+    <key id="138" parent="16" name="primary key">
+      <Columns>key
+</Columns>
+    </key>
+    <column id="139" parent="17" name="row_key">
+      <Position>1</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="140" parent="17" name="cf_id">
+      <Position>2</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="141" parent="17" name="in_progress_ballot">
+      <Position>3</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="142" parent="17" name="in_progress_read_ballot">
+      <Position>4</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="143" parent="17" name="most_recent_commit">
+      <Position>5</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="144" parent="17" name="most_recent_commit_at">
+      <Position>6</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="145" parent="17" name="most_recent_commit_version">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="146" parent="17" name="proposal">
+      <Position>8</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="147" parent="17" name="proposal_ballot">
+      <Position>9</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="148" parent="17" name="proposal_version">
+      <Position>10</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <index id="149" parent="17" name="PaxosUncommittedIndex">
+      <ClassName>org.apache.cassandra.service.paxos.uncommitted.PaxosUncommittedIndex</ClassName>
+      <Columns></Columns>
+      <Custom>1</Custom>
+    </index>
+    <key id="150" parent="17" name="primary key">
+      <Columns>row_key
+cf_id|ASC
+</Columns>
+    </key>
+    <column id="151" parent="18" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="152" parent="18" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="153" parent="18" name="points">
+      <Position>3</Position>
+      <StoredType>frozen&lt;list&lt;frozen&lt;tuple&lt;blob, timeuuid&gt;&gt;&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="154" parent="18" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+</Columns>
+    </key>
+    <column id="155" parent="19" name="peer">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="156" parent="19" name="hints_dropped">
+      <Position>2</Position>
+      <StoredType>map&lt;timeuuid, int&gt;|0s</StoredType>
+    </column>
+    <key id="157" parent="19" name="primary key">
+      <Columns>peer
+</Columns>
+    </key>
+    <column id="158" parent="20" name="peer">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="159" parent="20" name="peer_port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="160" parent="20" name="hints_dropped">
+      <Position>3</Position>
+      <StoredType>map&lt;timeuuid, int&gt;|0s</StoredType>
+    </column>
+    <key id="161" parent="20" name="primary key">
+      <Columns>peer
+peer_port|ASC
+</Columns>
+    </key>
+    <column id="162" parent="21" name="peer">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="163" parent="21" name="data_center">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="164" parent="21" name="host_id">
+      <Position>3</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="165" parent="21" name="preferred_ip">
+      <Position>4</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="166" parent="21" name="rack">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="167" parent="21" name="release_version">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="168" parent="21" name="rpc_address">
+      <Position>7</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="169" parent="21" name="schema_version">
+      <Position>8</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="170" parent="21" name="tokens">
+      <Position>9</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <key id="171" parent="21" name="primary key">
+      <Columns>peer
+</Columns>
+    </key>
+    <column id="172" parent="22" name="peer">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="173" parent="22" name="peer_port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="174" parent="22" name="data_center">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="175" parent="22" name="host_id">
+      <Position>4</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="176" parent="22" name="native_address">
+      <Position>5</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="177" parent="22" name="native_port">
+      <Position>6</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="178" parent="22" name="preferred_ip">
+      <Position>7</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="179" parent="22" name="preferred_port">
+      <Position>8</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="180" parent="22" name="rack">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="181" parent="22" name="release_version">
+      <Position>10</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="182" parent="22" name="schema_version">
+      <Position>11</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="183" parent="22" name="tokens">
+      <Position>12</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <key id="184" parent="22" name="primary key">
+      <Columns>peer
+peer_port|ASC
+</Columns>
+    </key>
+    <column id="185" parent="23" name="prepared_id">
+      <Position>1</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="186" parent="23" name="logged_keyspace">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="187" parent="23" name="query_string">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="188" parent="23" name="primary key">
+      <Columns>prepared_id
+</Columns>
+    </key>
+    <column id="189" parent="24" name="parent_id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="190" parent="24" name="cfids">
+      <Position>2</Position>
+      <StoredType>set&lt;uuid&gt;|0s</StoredType>
+    </column>
+    <column id="191" parent="24" name="coordinator">
+      <Position>3</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="192" parent="24" name="coordinator_port">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="193" parent="24" name="last_update">
+      <Position>5</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="194" parent="24" name="participants">
+      <Position>6</Position>
+      <StoredType>set&lt;inet&gt;|0s</StoredType>
+    </column>
+    <column id="195" parent="24" name="participants_wp">
+      <Position>7</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="196" parent="24" name="ranges">
+      <Position>8</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <column id="197" parent="24" name="repaired_at">
+      <Position>9</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="198" parent="24" name="started_at">
+      <Position>10</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="199" parent="24" name="state">
+      <Position>11</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <key id="200" parent="24" name="primary key">
+      <Columns>parent_id
+</Columns>
+    </key>
+    <column id="201" parent="25" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="202" parent="25" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="203" parent="25" name="range_start">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="204" parent="25" name="range_end">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="205" parent="25" name="mean_partition_size">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="206" parent="25" name="partitions_count">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="207" parent="25" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+range_start|ASC
+range_end|ASC
+</Columns>
+    </key>
+    <column id="208" parent="26" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="209" parent="26" name="columnfamily_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="210" parent="26" name="generation">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="211" parent="26" name="rate_120m">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="212" parent="26" name="rate_15m">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="213" parent="26" name="primary key">
+      <Columns>keyspace_name
+columnfamily_name
+generation
+</Columns>
+    </key>
+    <column id="214" parent="27" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="215" parent="27" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="216" parent="27" name="id">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="217" parent="27" name="rate_120m">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="218" parent="27" name="rate_15m">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="219" parent="27" name="primary key">
+      <Columns>keyspace_name
+table_name
+id
+</Columns>
+    </key>
+    <column id="220" parent="28" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="221" parent="28" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="222" parent="28" name="range_type">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="223" parent="28" name="range_start">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="224" parent="28" name="range_end">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="225" parent="28" name="mean_partition_size">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="226" parent="28" name="partitions_count">
+      <Position>7</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="227" parent="28" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+range_type|ASC
+range_start|ASC
+range_end|ASC
+</Columns>
+    </key>
+    <column id="228" parent="29" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="229" parent="29" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="230" parent="29" name="top_type">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="231" parent="29" name="last_update">
+      <Position>4</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="232" parent="29" name="top">
+      <Position>5</Position>
+      <StoredType>frozen&lt;list&lt;frozen&lt;tuple&lt;text, bigint&gt;&gt;&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="233" parent="29" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+top_type|ASC
+</Columns>
+    </key>
+    <column id="234" parent="30" name="operation">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="235" parent="30" name="keyspace_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="236" parent="30" name="peer">
+      <Position>3</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="237" parent="30" name="ranges">
+      <Position>4</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <key id="238" parent="30" name="primary key">
+      <Columns>operation
+keyspace_name
+peer|ASC
+</Columns>
+    </key>
+    <column id="239" parent="31" name="operation">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="240" parent="31" name="keyspace_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="241" parent="31" name="peer">
+      <Position>3</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="242" parent="31" name="peer_port">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="243" parent="31" name="ranges">
+      <Position>5</Position>
+      <StoredType>set&lt;blob&gt;|0s</StoredType>
+    </column>
+    <key id="244" parent="31" name="primary key">
+      <Columns>operation
+keyspace_name
+peer|ASC
+peer_port|ASC
+</Columns>
+    </key>
+    <column id="245" parent="32" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="246" parent="32" name="view_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="247" parent="32" name="start_token">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="248" parent="32" name="end_token">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="249" parent="32" name="keys_built">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="250" parent="32" name="last_token">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="251" parent="32" name="primary key">
+      <Columns>keyspace_name
+view_name|ASC
+start_token|ASC
+end_token|ASC
+</Columns>
+    </key>
+    <column id="252" parent="33" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="253" parent="33" name="dcs">
+      <Position>2</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="254" parent="33" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="255" parent="34" name="resource">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="256" parent="34" name="role">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="257" parent="34" name="primary key">
+      <Columns>resource
+role|ASC
+</Columns>
+    </key>
+    <column id="258" parent="35" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="259" parent="35" name="member">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="260" parent="35" name="primary key">
+      <Columns>role
+member|ASC
+</Columns>
+    </key>
+    <column id="261" parent="36" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="262" parent="36" name="resource">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="263" parent="36" name="permissions">
+      <Position>3</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <key id="264" parent="36" name="primary key">
+      <Columns>role
+resource|ASC
+</Columns>
+    </key>
+    <column id="265" parent="37" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="266" parent="37" name="can_login">
+      <Position>2</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="267" parent="37" name="is_superuser">
+      <Position>3</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="268" parent="37" name="member_of">
+      <Position>4</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="269" parent="37" name="salted_hash">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="270" parent="37" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="271" parent="38" name="parent_id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="272" parent="38" name="columnfamily_names">
+      <Position>2</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="273" parent="38" name="exception_message">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="274" parent="38" name="exception_stacktrace">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="275" parent="38" name="finished_at">
+      <Position>5</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="276" parent="38" name="keyspace_name">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="277" parent="38" name="options">
+      <Position>7</Position>
+      <StoredType>map&lt;text, text&gt;|0s</StoredType>
+    </column>
+    <column id="278" parent="38" name="requested_ranges">
+      <Position>8</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="279" parent="38" name="started_at">
+      <Position>9</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="280" parent="38" name="successful_ranges">
+      <Position>10</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <key id="281" parent="38" name="primary key">
+      <Columns>parent_id
+</Columns>
+    </key>
+    <column id="282" parent="39" name="ks_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="283" parent="39" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="284" parent="39" name="key">
+      <Position>3</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <key id="285" parent="39" name="primary key">
+      <Columns>ks_name
+table_name
+key|ASC
+</Columns>
+    </key>
+    <column id="286" parent="40" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="287" parent="40" name="columnfamily_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="288" parent="40" name="id">
+      <Position>3</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="289" parent="40" name="coordinator">
+      <Position>4</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="290" parent="40" name="coordinator_port">
+      <Position>5</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="291" parent="40" name="exception_message">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="292" parent="40" name="exception_stacktrace">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="293" parent="40" name="finished_at">
+      <Position>8</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="294" parent="40" name="parent_id">
+      <Position>9</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="295" parent="40" name="participants">
+      <Position>10</Position>
+      <StoredType>set&lt;inet&gt;|0s</StoredType>
+    </column>
+    <column id="296" parent="40" name="participants_v2">
+      <Position>11</Position>
+      <StoredType>set&lt;text&gt;|0s</StoredType>
+    </column>
+    <column id="297" parent="40" name="range_begin">
+      <Position>12</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="298" parent="40" name="range_end">
+      <Position>13</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="299" parent="40" name="started_at">
+      <Position>14</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="300" parent="40" name="status">
+      <Position>15</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="301" parent="40" name="primary key">
+      <Columns>keyspace_name
+columnfamily_name
+id|ASC
+</Columns>
+    </key>
+    <column id="302" parent="41" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="303" parent="41" name="view_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="304" parent="41" name="host_id">
+      <Position>3</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="305" parent="41" name="status">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="306" parent="41" name="primary key">
+      <Columns>keyspace_name
+view_name
+host_id|ASC
+</Columns>
+    </key>
+    <column id="307" parent="42" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="308" parent="42" name="aggregate_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="309" parent="42" name="argument_types">
+      <Position>3</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="310" parent="42" name="final_func">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="311" parent="42" name="initcond">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="312" parent="42" name="return_type">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="313" parent="42" name="state_func">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="314" parent="42" name="state_type">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="315" parent="42" name="primary key">
+      <Columns>keyspace_name
+aggregate_name|ASC
+argument_types|ASC
+</Columns>
+    </key>
+    <column id="316" parent="43" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="317" parent="43" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="318" parent="43" name="column_name">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="319" parent="43" name="clustering_order">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="320" parent="43" name="column_name_bytes">
+      <Position>5</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="321" parent="43" name="kind">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="322" parent="43" name="position">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="323" parent="43" name="type">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="324" parent="43" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+column_name|ASC
+</Columns>
+    </key>
+    <column id="325" parent="44" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="326" parent="44" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="327" parent="44" name="column_name">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="328" parent="44" name="dropped_time">
+      <Position>4</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="329" parent="44" name="kind">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="330" parent="44" name="type">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="331" parent="44" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+column_name|ASC
+</Columns>
+    </key>
+    <column id="332" parent="45" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="333" parent="45" name="function_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="334" parent="45" name="argument_types">
+      <Position>3</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="335" parent="45" name="argument_names">
+      <Position>4</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="336" parent="45" name="body">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="337" parent="45" name="called_on_null_input">
+      <Position>6</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="338" parent="45" name="language">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="339" parent="45" name="return_type">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="340" parent="45" name="primary key">
+      <Columns>keyspace_name
+function_name|ASC
+argument_types|ASC
+</Columns>
+    </key>
+    <column id="341" parent="46" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="342" parent="46" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="343" parent="46" name="index_name">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="344" parent="46" name="kind">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="345" parent="46" name="options">
+      <Position>5</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="346" parent="46" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+index_name|ASC
+</Columns>
+    </key>
+    <column id="347" parent="47" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="348" parent="47" name="durable_writes">
+      <Position>2</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="349" parent="47" name="replication">
+      <Position>3</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="350" parent="47" name="primary key">
+      <Columns>keyspace_name
+</Columns>
+    </key>
+    <column id="351" parent="48" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="352" parent="48" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="353" parent="48" name="additional_write_policy">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="354" parent="48" name="bloom_filter_fp_chance">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="355" parent="48" name="caching">
+      <Position>5</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="356" parent="48" name="cdc">
+      <Position>6</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="357" parent="48" name="comment">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="358" parent="48" name="compaction">
+      <Position>8</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="359" parent="48" name="compression">
+      <Position>9</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="360" parent="48" name="crc_check_chance">
+      <Position>10</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="361" parent="48" name="dclocal_read_repair_chance">
+      <Position>11</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="362" parent="48" name="default_time_to_live">
+      <Position>12</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="363" parent="48" name="extensions">
+      <Position>13</Position>
+      <StoredType>frozen&lt;map&lt;text, blob&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="364" parent="48" name="flags">
+      <Position>14</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="365" parent="48" name="gc_grace_seconds">
+      <Position>15</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="366" parent="48" name="id">
+      <Position>16</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="367" parent="48" name="max_index_interval">
+      <Position>17</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="368" parent="48" name="memtable">
+      <Position>18</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="369" parent="48" name="memtable_flush_period_in_ms">
+      <Position>19</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="370" parent="48" name="min_index_interval">
+      <Position>20</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="371" parent="48" name="read_repair">
+      <Position>21</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="372" parent="48" name="read_repair_chance">
+      <Position>22</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="373" parent="48" name="speculative_retry">
+      <Position>23</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="374" parent="48" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+</Columns>
+    </key>
+    <column id="375" parent="49" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="376" parent="49" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="377" parent="49" name="trigger_name">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="378" parent="49" name="options">
+      <Position>4</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="379" parent="49" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+trigger_name|ASC
+</Columns>
+    </key>
+    <column id="380" parent="50" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="381" parent="50" name="type_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="382" parent="50" name="field_names">
+      <Position>3</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="383" parent="50" name="field_types">
+      <Position>4</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="384" parent="50" name="primary key">
+      <Columns>keyspace_name
+type_name|ASC
+</Columns>
+    </key>
+    <column id="385" parent="51" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="386" parent="51" name="view_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="387" parent="51" name="additional_write_policy">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="388" parent="51" name="base_table_id">
+      <Position>4</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="389" parent="51" name="base_table_name">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="390" parent="51" name="bloom_filter_fp_chance">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="391" parent="51" name="caching">
+      <Position>7</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="392" parent="51" name="cdc">
+      <Position>8</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="393" parent="51" name="comment">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="394" parent="51" name="compaction">
+      <Position>10</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="395" parent="51" name="compression">
+      <Position>11</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="396" parent="51" name="crc_check_chance">
+      <Position>12</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="397" parent="51" name="dclocal_read_repair_chance">
+      <Position>13</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="398" parent="51" name="default_time_to_live">
+      <Position>14</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="399" parent="51" name="extensions">
+      <Position>15</Position>
+      <StoredType>frozen&lt;map&lt;text, blob&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="400" parent="51" name="gc_grace_seconds">
+      <Position>16</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="401" parent="51" name="id">
+      <Position>17</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="402" parent="51" name="include_all_columns">
+      <Position>18</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="403" parent="51" name="max_index_interval">
+      <Position>19</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="404" parent="51" name="memtable">
+      <Position>20</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="405" parent="51" name="memtable_flush_period_in_ms">
+      <Position>21</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="406" parent="51" name="min_index_interval">
+      <Position>22</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="407" parent="51" name="read_repair">
+      <Position>23</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="408" parent="51" name="read_repair_chance">
+      <Position>24</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="409" parent="51" name="speculative_retry">
+      <Position>25</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="410" parent="51" name="where_clause">
+      <Position>26</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="411" parent="51" name="primary key">
+      <Columns>keyspace_name
+view_name|ASC
+</Columns>
+    </key>
+    <column id="412" parent="52" name="session_id">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="413" parent="52" name="event_id">
+      <Position>2</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="414" parent="52" name="activity">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="415" parent="52" name="source">
+      <Position>4</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="416" parent="52" name="source_elapsed">
+      <Position>5</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="417" parent="52" name="source_port">
+      <Position>6</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="418" parent="52" name="thread">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="419" parent="52" name="primary key">
+      <Columns>session_id
+event_id|ASC
+</Columns>
+    </key>
+    <column id="420" parent="53" name="session_id">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="421" parent="53" name="client">
+      <Position>2</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="422" parent="53" name="command">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="423" parent="53" name="coordinator">
+      <Position>4</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="424" parent="53" name="coordinator_port">
+      <Position>5</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="425" parent="53" name="duration">
+      <Position>6</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="426" parent="53" name="parameters">
+      <Position>7</Position>
+      <StoredType>map&lt;text, text&gt;|0s</StoredType>
+    </column>
+    <column id="427" parent="53" name="request">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="428" parent="53" name="started_at">
+      <Position>9</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <key id="429" parent="53" name="primary key">
+      <Columns>session_id
+</Columns>
+    </key>
+    <column id="430" parent="54" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="431" parent="54" name="max">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="432" parent="54" name="p50th">
+      <Position>3</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="433" parent="54" name="p999th">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="434" parent="54" name="p99th">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="435" parent="54" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="436" parent="55" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="437" parent="55" name="capacity_bytes">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="438" parent="55" name="entry_count">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="439" parent="55" name="hit_count">
+      <Position>4</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="440" parent="55" name="hit_ratio">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="441" parent="55" name="recent_hit_rate_per_second">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="442" parent="55" name="recent_request_rate_per_second">
+      <Position>7</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="443" parent="55" name="request_count">
+      <Position>8</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="444" parent="55" name="size_bytes">
+      <Position>9</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="445" parent="55" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="446" parent="56" name="address">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="447" parent="56" name="port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="448" parent="56" name="client_options">
+      <Position>3</Position>
+      <StoredType>frozen&lt;map&lt;text, text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="449" parent="56" name="connection_stage">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="450" parent="56" name="driver_name">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="451" parent="56" name="driver_version">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="452" parent="56" name="hostname">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="453" parent="56" name="protocol_version">
+      <Position>8</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="454" parent="56" name="request_count">
+      <Position>9</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="455" parent="56" name="ssl_cipher_suite">
+      <Position>10</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="456" parent="56" name="ssl_enabled">
+      <Position>11</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="457" parent="56" name="ssl_protocol">
+      <Position>12</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="458" parent="56" name="username">
+      <Position>13</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="459" parent="56" name="primary key">
+      <Columns>address
+port|ASC
+</Columns>
+    </key>
+    <column id="460" parent="57" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="461" parent="57" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="462" parent="57" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="463" parent="57" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="464" parent="57" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="465" parent="57" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="466" parent="57" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="467" parent="57" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="468" parent="58" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="469" parent="58" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="470" parent="58" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="471" parent="58" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="472" parent="58" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="473" parent="58" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="474" parent="58" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="475" parent="58" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="476" parent="59" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="477" parent="59" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="478" parent="59" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="479" parent="59" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="480" parent="59" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="481" parent="59" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="482" parent="59" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="483" parent="59" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="484" parent="60" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="485" parent="60" name="value">
+      <Position>2</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="486" parent="60" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="487" parent="61" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="488" parent="61" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="489" parent="62" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="490" parent="62" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="491" parent="62" name="mebibytes">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="492" parent="62" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="493" parent="63" name="address">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="494" parent="63" name="port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="495" parent="63" name="dc">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="496" parent="63" name="dc_version">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="497" parent="63" name="disk_usage">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="498" parent="63" name="disk_usage_version">
+      <Position>6</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="499" parent="63" name="generation">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="500" parent="63" name="heartbeat">
+      <Position>8</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="501" parent="63" name="host_id">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="502" parent="63" name="host_id_version">
+      <Position>10</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="503" parent="63" name="hostname">
+      <Position>11</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="504" parent="63" name="internal_address_and_port">
+      <Position>12</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="505" parent="63" name="internal_address_and_port_version">
+      <Position>13</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="506" parent="63" name="internal_ip">
+      <Position>14</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="507" parent="63" name="internal_ip_version">
+      <Position>15</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="508" parent="63" name="load">
+      <Position>16</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="509" parent="63" name="load_version">
+      <Position>17</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="510" parent="63" name="native_address_and_port">
+      <Position>18</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="511" parent="63" name="native_address_and_port_version">
+      <Position>19</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="512" parent="63" name="net_version">
+      <Position>20</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="513" parent="63" name="net_version_version">
+      <Position>21</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="514" parent="63" name="rack">
+      <Position>22</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="515" parent="63" name="rack_version">
+      <Position>23</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="516" parent="63" name="release_version">
+      <Position>24</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="517" parent="63" name="release_version_version">
+      <Position>25</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="518" parent="63" name="removal_coordinator">
+      <Position>26</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="519" parent="63" name="removal_coordinator_version">
+      <Position>27</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="520" parent="63" name="rpc_address">
+      <Position>28</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="521" parent="63" name="rpc_address_version">
+      <Position>29</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="522" parent="63" name="rpc_ready">
+      <Position>30</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="523" parent="63" name="rpc_ready_version">
+      <Position>31</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="524" parent="63" name="schema">
+      <Position>32</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="525" parent="63" name="schema_version">
+      <Position>33</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="526" parent="63" name="severity">
+      <Position>34</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="527" parent="63" name="severity_version">
+      <Position>35</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="528" parent="63" name="sstable_versions">
+      <Position>36</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="529" parent="63" name="sstable_versions_version">
+      <Position>37</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="530" parent="63" name="status">
+      <Position>38</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="531" parent="63" name="status_version">
+      <Position>39</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="532" parent="63" name="status_with_port">
+      <Position>40</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="533" parent="63" name="status_with_port_version">
+      <Position>41</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="534" parent="63" name="tokens_version">
+      <Position>42</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="535" parent="63" name="x1">
+      <Position>43</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="536" parent="63" name="x10">
+      <Position>44</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="537" parent="63" name="x10_version">
+      <Position>45</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="538" parent="63" name="x1_version">
+      <Position>46</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="539" parent="63" name="x2">
+      <Position>47</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="540" parent="63" name="x2_version">
+      <Position>48</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="541" parent="63" name="x3">
+      <Position>49</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="542" parent="63" name="x3_version">
+      <Position>50</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="543" parent="63" name="x4">
+      <Position>51</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="544" parent="63" name="x4_version">
+      <Position>52</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="545" parent="63" name="x5">
+      <Position>53</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="546" parent="63" name="x5_version">
+      <Position>54</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="547" parent="63" name="x6">
+      <Position>55</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="548" parent="63" name="x6_version">
+      <Position>56</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="549" parent="63" name="x7">
+      <Position>57</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="550" parent="63" name="x7_version">
+      <Position>58</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="551" parent="63" name="x8">
+      <Position>59</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="552" parent="63" name="x8_version">
+      <Position>60</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="553" parent="63" name="x9">
+      <Position>61</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="554" parent="63" name="x9_version">
+      <Position>62</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="555" parent="63" name="x_11_padding">
+      <Position>63</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="556" parent="63" name="x_11_padding_version">
+      <Position>64</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <key id="557" parent="63" name="primary key">
+      <Columns>address
+port|ASC
+</Columns>
+    </key>
+    <column id="558" parent="64" name="address">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="559" parent="64" name="port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="560" parent="64" name="dc">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="561" parent="64" name="rack">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="562" parent="64" name="corrupt_frames_recovered">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="563" parent="64" name="corrupt_frames_unrecovered">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="564" parent="64" name="error_bytes">
+      <Position>7</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="565" parent="64" name="error_count">
+      <Position>8</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="566" parent="64" name="expired_bytes">
+      <Position>9</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="567" parent="64" name="expired_count">
+      <Position>10</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="568" parent="64" name="processed_bytes">
+      <Position>11</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="569" parent="64" name="processed_count">
+      <Position>12</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="570" parent="64" name="received_bytes">
+      <Position>13</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="571" parent="64" name="received_count">
+      <Position>14</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="572" parent="64" name="scheduled_bytes">
+      <Position>15</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="573" parent="64" name="scheduled_count">
+      <Position>16</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="574" parent="64" name="throttled_count">
+      <Position>17</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="575" parent="64" name="throttled_nanos">
+      <Position>18</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="576" parent="64" name="using_bytes">
+      <Position>19</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="577" parent="64" name="using_reserve_bytes">
+      <Position>20</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="578" parent="64" name="primary key">
+      <Columns>address
+port
+dc|ASC
+rack|ASC
+</Columns>
+    </key>
+    <column id="579" parent="65" name="address">
+      <Position>1</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="580" parent="65" name="port">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="581" parent="65" name="dc">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="582" parent="65" name="rack">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="583" parent="65" name="active_connections">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="584" parent="65" name="connection_attempts">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="585" parent="65" name="error_bytes">
+      <Position>7</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="586" parent="65" name="error_count">
+      <Position>8</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="587" parent="65" name="expired_bytes">
+      <Position>9</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="588" parent="65" name="expired_count">
+      <Position>10</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="589" parent="65" name="overload_bytes">
+      <Position>11</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="590" parent="65" name="overload_count">
+      <Position>12</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="591" parent="65" name="pending_bytes">
+      <Position>13</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="592" parent="65" name="pending_count">
+      <Position>14</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="593" parent="65" name="sent_bytes">
+      <Position>15</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="594" parent="65" name="sent_count">
+      <Position>16</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="595" parent="65" name="successful_connection_attempts">
+      <Position>17</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="596" parent="65" name="using_bytes">
+      <Position>18</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="597" parent="65" name="using_reserve_bytes">
+      <Position>19</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="598" parent="65" name="primary key">
+      <Columns>address
+port
+dc|ASC
+rack|ASC
+</Columns>
+    </key>
+    <column id="599" parent="66" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="600" parent="66" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="601" parent="67" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="602" parent="67" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="603" parent="67" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="604" parent="67" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="605" parent="67" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="606" parent="67" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="607" parent="67" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="608" parent="67" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="609" parent="68" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="610" parent="68" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="611" parent="68" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="612" parent="68" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="613" parent="68" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="614" parent="68" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="615" parent="68" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="616" parent="68" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="617" parent="69" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="618" parent="69" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="619" parent="69" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="620" parent="69" name="max_ms">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="621" parent="69" name="p50th_ms">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="622" parent="69" name="p99th_ms">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="623" parent="69" name="per_second">
+      <Position>7</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="624" parent="69" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="625" parent="70" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="626" parent="70" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="627" parent="70" name="mebibytes">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <key id="628" parent="70" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="629" parent="71" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="630" parent="71" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="631" parent="72" name="host_id">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="632" parent="72" name="address">
+      <Position>2</Position>
+      <StoredType>inet|0s</StoredType>
+    </column>
+    <column id="633" parent="72" name="dc">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="634" parent="72" name="files">
+      <Position>4</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="635" parent="72" name="newest">
+      <Position>5</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="636" parent="72" name="oldest">
+      <Position>6</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="637" parent="72" name="port">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="638" parent="72" name="rack">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="639" parent="72" name="status">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="640" parent="72" name="primary key">
+      <Columns>host_id
+</Columns>
+    </key>
+    <column id="641" parent="73" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="642" parent="73" name="resource">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="643" parent="73" name="primary key">
+      <Columns>role
+resource
+</Columns>
+    </key>
+    <column id="644" parent="74" name="thread_id">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="645" parent="74" name="queued_micros">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="646" parent="74" name="running_micros">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="647" parent="74" name="task">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="648" parent="74" name="primary key">
+      <Columns>thread_id
+</Columns>
+    </key>
+    <column id="649" parent="75" name="id">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="650" parent="75" name="completed">
+      <Position>2</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="651" parent="75" name="duration_millis">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="652" parent="75" name="failure_cause">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="653" parent="75" name="keyspace_name">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="654" parent="75" name="last_updated_at">
+      <Position>6</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="655" parent="75" name="participants">
+      <Position>7</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="656" parent="75" name="ranges">
+      <Position>8</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="657" parent="75" name="repair_id">
+      <Position>9</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="658" parent="75" name="session_id">
+      <Position>10</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="659" parent="75" name="state_failure_timestamp">
+      <Position>11</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="660" parent="75" name="state_init_timestamp">
+      <Position>12</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="661" parent="75" name="state_skipped_timestamp">
+      <Position>13</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="662" parent="75" name="state_snapshot_complete_timestamp">
+      <Position>14</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="663" parent="75" name="state_snapshot_start_timestamp">
+      <Position>15</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="664" parent="75" name="state_start_timestamp">
+      <Position>16</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="665" parent="75" name="state_stream_start_timestamp">
+      <Position>17</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="666" parent="75" name="state_success_timestamp">
+      <Position>18</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="667" parent="75" name="state_validation_complete_timestamp">
+      <Position>19</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="668" parent="75" name="state_validation_start_timestamp">
+      <Position>20</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="669" parent="75" name="status">
+      <Position>21</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="670" parent="75" name="success_message">
+      <Position>22</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="671" parent="75" name="table_name">
+      <Position>23</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="672" parent="75" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="673" parent="76" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="674" parent="76" name="completed">
+      <Position>2</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="675" parent="76" name="duration_millis">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="676" parent="76" name="failure_cause">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="677" parent="76" name="global">
+      <Position>5</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="678" parent="76" name="incremental">
+      <Position>6</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="679" parent="76" name="initiator">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="680" parent="76" name="last_updated_at">
+      <Position>8</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="681" parent="76" name="preview_kind">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="682" parent="76" name="ranges">
+      <Position>10</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="683" parent="76" name="repaired_at">
+      <Position>11</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="684" parent="76" name="state_failure_timestamp">
+      <Position>12</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="685" parent="76" name="state_init_timestamp">
+      <Position>13</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="686" parent="76" name="state_skipped_timestamp">
+      <Position>14</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="687" parent="76" name="state_success_timestamp">
+      <Position>15</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="688" parent="76" name="success_message">
+      <Position>16</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="689" parent="76" name="tables">
+      <Position>17</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="690" parent="76" name="validations">
+      <Position>18</Position>
+      <StoredType>frozen&lt;set&lt;uuid&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="691" parent="76" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="692" parent="77" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="693" parent="77" name="completed">
+      <Position>2</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="694" parent="77" name="duration_millis">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="695" parent="77" name="failure_cause">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="696" parent="77" name="jobs">
+      <Position>5</Position>
+      <StoredType>frozen&lt;set&lt;uuid&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="697" parent="77" name="keyspace_name">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="698" parent="77" name="last_updated_at">
+      <Position>7</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="699" parent="77" name="participants">
+      <Position>8</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="700" parent="77" name="ranges">
+      <Position>9</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="701" parent="77" name="repair_id">
+      <Position>10</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="702" parent="77" name="state_failure_timestamp">
+      <Position>11</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="703" parent="77" name="state_init_timestamp">
+      <Position>12</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="704" parent="77" name="state_jobs_start_timestamp">
+      <Position>13</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="705" parent="77" name="state_skipped_timestamp">
+      <Position>14</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="706" parent="77" name="state_start_timestamp">
+      <Position>15</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="707" parent="77" name="state_success_timestamp">
+      <Position>16</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="708" parent="77" name="status">
+      <Position>17</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="709" parent="77" name="success_message">
+      <Position>18</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="710" parent="77" name="table_names">
+      <Position>19</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="711" parent="77" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="712" parent="78" name="id">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </column>
+    <column id="713" parent="78" name="bytes_read">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="714" parent="78" name="completed">
+      <Position>3</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="715" parent="78" name="duration_millis">
+      <Position>4</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="716" parent="78" name="estimated_partitions">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="717" parent="78" name="estimated_total_bytes">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="718" parent="78" name="failure_cause">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="719" parent="78" name="initiator">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="720" parent="78" name="keyspace_name">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="721" parent="78" name="last_updated_at">
+      <Position>10</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="722" parent="78" name="partitions_processed">
+      <Position>11</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="723" parent="78" name="progress_percentage">
+      <Position>12</Position>
+      <StoredType>float|0s</StoredType>
+    </column>
+    <column id="724" parent="78" name="ranges">
+      <Position>13</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="725" parent="78" name="repair_id">
+      <Position>14</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="726" parent="78" name="session_id">
+      <Position>15</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="727" parent="78" name="state_failure_timestamp">
+      <Position>16</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="728" parent="78" name="state_init_timestamp">
+      <Position>17</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="729" parent="78" name="state_sending_trees_timestamp">
+      <Position>18</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="730" parent="78" name="state_skipped_timestamp">
+      <Position>19</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="731" parent="78" name="state_start_timestamp">
+      <Position>20</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="732" parent="78" name="state_success_timestamp">
+      <Position>21</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="733" parent="78" name="status">
+      <Position>22</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="734" parent="78" name="success_message">
+      <Position>23</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="735" parent="78" name="table_name">
+      <Position>24</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="736" parent="78" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="737" parent="79" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="738" parent="79" name="command_id">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="739" parent="79" name="completed">
+      <Position>3</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="740" parent="79" name="duration_millis">
+      <Position>4</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="741" parent="79" name="failure_cause">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="742" parent="79" name="keyspace_name">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="743" parent="79" name="last_updated_at">
+      <Position>7</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="744" parent="79" name="options_column_families">
+      <Position>8</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="745" parent="79" name="options_data_centers">
+      <Position>9</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="746" parent="79" name="options_force_repair">
+      <Position>10</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="747" parent="79" name="options_hosts">
+      <Position>11</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="748" parent="79" name="options_ignore_unreplicated_keyspaces">
+      <Position>12</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="749" parent="79" name="options_incremental">
+      <Position>13</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="750" parent="79" name="options_job_threads">
+      <Position>14</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="751" parent="79" name="options_optimise_streams">
+      <Position>15</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="752" parent="79" name="options_parallelism">
+      <Position>16</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="753" parent="79" name="options_preview_kind">
+      <Position>17</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="754" parent="79" name="options_primary_range">
+      <Position>18</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="755" parent="79" name="options_pull_repair">
+      <Position>19</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="756" parent="79" name="options_ranges">
+      <Position>20</Position>
+      <StoredType>frozen&lt;set&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="757" parent="79" name="options_subrange_repair">
+      <Position>21</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="758" parent="79" name="options_trace">
+      <Position>22</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="759" parent="79" name="participants">
+      <Position>23</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="760" parent="79" name="ranges">
+      <Position>24</Position>
+      <StoredType>frozen&lt;list&lt;frozen&lt;list&lt;text&gt;&gt;&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="761" parent="79" name="sessions">
+      <Position>25</Position>
+      <StoredType>frozen&lt;set&lt;timeuuid&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="762" parent="79" name="state_failure_timestamp">
+      <Position>26</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="763" parent="79" name="state_init_timestamp">
+      <Position>27</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="764" parent="79" name="state_prepare_complete_timestamp">
+      <Position>28</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="765" parent="79" name="state_prepare_start_timestamp">
+      <Position>29</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="766" parent="79" name="state_repair_complete_timestamp">
+      <Position>30</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="767" parent="79" name="state_repair_start_timestamp">
+      <Position>31</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="768" parent="79" name="state_setup_timestamp">
+      <Position>32</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="769" parent="79" name="state_skipped_timestamp">
+      <Position>33</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="770" parent="79" name="state_start_timestamp">
+      <Position>34</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="771" parent="79" name="state_success_timestamp">
+      <Position>35</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="772" parent="79" name="status">
+      <Position>36</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="773" parent="79" name="success_message">
+      <Position>37</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="774" parent="79" name="table_names">
+      <Position>38</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="775" parent="79" name="type">
+      <Position>39</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="776" parent="79" name="unfiltered_ranges">
+      <Position>40</Position>
+      <StoredType>frozen&lt;list&lt;frozen&lt;list&lt;text&gt;&gt;&gt;&gt;|0s</StoredType>
+    </column>
+    <key id="777" parent="79" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="778" parent="80" name="role">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="779" parent="80" name="primary key">
+      <Columns>role
+</Columns>
+    </key>
+    <column id="780" parent="81" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="781" parent="81" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="782" parent="81" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="783" parent="81" name="max">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="784" parent="81" name="p50th">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="785" parent="81" name="p99th">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="786" parent="81" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="787" parent="82" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="788" parent="82" name="value">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="789" parent="82" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="790" parent="83" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="791" parent="83" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="792" parent="83" name="task_id">
+      <Position>3</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="793" parent="83" name="completion_ratio">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="794" parent="83" name="kind">
+      <Position>5</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="795" parent="83" name="progress">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="796" parent="83" name="sstables">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="797" parent="83" name="total">
+      <Position>8</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="798" parent="83" name="unit">
+      <Position>9</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="799" parent="83" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+task_id|ASC
+</Columns>
+    </key>
+    <column id="800" parent="84" name="id">
+      <Position>1</Position>
+      <StoredType>timeuuid|0s</StoredType>
+    </column>
+    <column id="801" parent="84" name="bytes_received">
+      <Position>2</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="802" parent="84" name="bytes_sent">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="803" parent="84" name="bytes_to_receive">
+      <Position>4</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="804" parent="84" name="bytes_to_send">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="805" parent="84" name="duration_millis">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="806" parent="84" name="failure_cause">
+      <Position>7</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="807" parent="84" name="files_received">
+      <Position>8</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="808" parent="84" name="files_sent">
+      <Position>9</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="809" parent="84" name="files_to_receive">
+      <Position>10</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="810" parent="84" name="files_to_send">
+      <Position>11</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="811" parent="84" name="follower">
+      <Position>12</Position>
+      <StoredType>boolean|0s</StoredType>
+    </column>
+    <column id="812" parent="84" name="last_updated_at">
+      <Position>13</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="813" parent="84" name="operation">
+      <Position>14</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="814" parent="84" name="peers">
+      <Position>15</Position>
+      <StoredType>frozen&lt;list&lt;text&gt;&gt;|0s</StoredType>
+    </column>
+    <column id="815" parent="84" name="progress_percentage">
+      <Position>16</Position>
+      <StoredType>float|0s</StoredType>
+    </column>
+    <column id="816" parent="84" name="status">
+      <Position>17</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="817" parent="84" name="status_failure_timestamp">
+      <Position>18</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="818" parent="84" name="status_init_timestamp">
+      <Position>19</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="819" parent="84" name="status_start_timestamp">
+      <Position>20</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="820" parent="84" name="status_success_timestamp">
+      <Position>21</Position>
+      <StoredType>timestamp|0s</StoredType>
+    </column>
+    <column id="821" parent="84" name="success_message">
+      <Position>22</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="822" parent="84" name="primary key">
+      <Columns>id
+</Columns>
+    </key>
+    <column id="823" parent="85" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="824" parent="85" name="value">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="825" parent="85" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="826" parent="86" name="name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="827" parent="86" name="active_tasks">
+      <Position>2</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="828" parent="86" name="active_tasks_limit">
+      <Position>3</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="829" parent="86" name="blocked_tasks">
+      <Position>4</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="830" parent="86" name="blocked_tasks_all_time">
+      <Position>5</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="831" parent="86" name="completed_tasks">
+      <Position>6</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="832" parent="86" name="pending_tasks">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <key id="833" parent="86" name="primary key">
+      <Columns>name
+</Columns>
+    </key>
+    <column id="834" parent="87" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="835" parent="87" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="836" parent="87" name="count">
+      <Position>3</Position>
+      <StoredType>bigint|0s</StoredType>
+    </column>
+    <column id="837" parent="87" name="max">
+      <Position>4</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="838" parent="87" name="p50th">
+      <Position>5</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <column id="839" parent="87" name="p99th">
+      <Position>6</Position>
+      <StoredType>double|0s</StoredType>
+    </column>
+    <key id="840" parent="87" name="primary key">
+      <Columns>keyspace_name
+table_name
+</Columns>
+    </key>
+    <column id="841" parent="88" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="842" parent="88" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="843" parent="88" name="column_name">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="844" parent="88" name="clustering_order">
+      <Position>4</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="845" parent="88" name="column_name_bytes">
+      <Position>5</Position>
+      <StoredType>blob|0s</StoredType>
+    </column>
+    <column id="846" parent="88" name="kind">
+      <Position>6</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="847" parent="88" name="position">
+      <Position>7</Position>
+      <StoredType>int|0s</StoredType>
+    </column>
+    <column id="848" parent="88" name="type">
+      <Position>8</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="849" parent="88" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+column_name|ASC
+</Columns>
+    </key>
+    <column id="850" parent="89" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="851" parent="89" name="primary key">
+      <Columns>keyspace_name
+</Columns>
+    </key>
+    <column id="852" parent="90" name="keyspace_name">
+      <Position>1</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="853" parent="90" name="table_name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <column id="854" parent="90" name="comment">
+      <Position>3</Position>
+      <StoredType>text|0s</StoredType>
+    </column>
+    <key id="855" parent="90" name="primary key">
+      <Columns>keyspace_name
+table_name|ASC
+</Columns>
+    </key>
+  </database-model>
+</dataSource>
