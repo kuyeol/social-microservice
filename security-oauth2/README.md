@@ -1,3 +1,23 @@
+# Todo: workpoint
+
+https://github.com/eclipse-vertx/vertx-auth/blob/master/vertx-auth-oauth2/src/main/java/io/vertx/ext/auth/oauth2/OAuth2AuthorizationURL.java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # security-oauth2-quickstart
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
