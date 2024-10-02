@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Quarkus" url="file://$PROJECT_DIR$/account-server" />
+    <file type="Quarkus" url="file://$PROJECT_DIR$/authz-server" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/account-service/pom.xml" />
+        <option value="$PROJECT_DIR$/account-server/pom.xml" />
+        <option value="$PROJECT_DIR$/authz-server/pom.xml" />
       </list>
     </option>
   </component>
