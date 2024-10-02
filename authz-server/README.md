@@ -5,6 +5,9 @@ https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-oauth2/src/ma
 https://github.com/apache/cxf/tree/main/rt/rs/security/oauth-parent/oauth2/src/main/java/org/apache/cxf/rs/security/oauth2
 
 
+# 쿼커스 ___GrantType___ 코드플로우 가이드
+https://quarkus.io/guides/security-oidc-code-flow-authentication#accessing-authorization-data
+
 
 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-31#section-4.1
 
