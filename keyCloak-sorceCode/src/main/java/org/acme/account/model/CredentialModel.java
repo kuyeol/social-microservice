@@ -116,6 +116,18 @@ public class CredentialModel implements Serializable {
 
     // DEPRECATED - the methods below exists for the backwards compatibility
 
+    private Map<String, Object> readMapFromJson(boolean secret) {
+        String jsonStr = secret ? secretData : credentialData;
+        if (jsonStr == null) {
+            return new HashMap<>();
+        }
+
+        try {
+            return JsonSerialization.readValue(jsonStr, Map.class);
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+    }
 
     private void writeMapAsJson(Map<String, Object> map, boolean secret) {
         try {
