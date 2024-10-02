@@ -1,6 +1,8 @@
 # vertx OAuth2
 https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-oauth2/src/main/java/io/vertx/ext/auth/oauth2
 
+# Apache CFX
+https://github.com/apache/cxf/tree/main/rt/rs/security/oauth-parent/oauth2/src/main/java/org/apache/cxf/rs/security/oauth2
 
 
 
