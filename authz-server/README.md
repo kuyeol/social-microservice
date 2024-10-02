@@ -8,12 +8,14 @@ https://github.com/apache/cxf/tree/main/rt/rs/security/oauth-parent/oauth2/src/m
 # 쿼커스 ___GrantType___ 코드플로우 가이드
 https://quarkus.io/guides/security-oidc-code-flow-authentication#accessing-authorization-data
 
-
+# 기타 예정 서비스 참고 링크
+---
 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-31#section-4.1
-
-
+---
 https://github.com/vert-x3/vertx-redis-client/blob/master/src/main/java/io/vertx/redis/client/impl/BaseRedisClient.java
+---
 https://github.com/vert-x3/vertx-cassandra-client/blob/master/src/main/java/io/vertx/cassandra/impl/ResultSetImpl.java
+---
 # 리디렉션uri를 외부 노출중인 엔드포인트로 출력하기
 ## 역방향 프록시 뒤에서 Quarkus 애플리케이션 실행
 [쿼커리레퍼런스링크](https://quarkus.io/guides/security-oidc-code-flow-authentication#running-quarkus-application-behind-a-reverse-proxy)
