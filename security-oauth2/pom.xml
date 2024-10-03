@@ -47,6 +47,11 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+      <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-auth-oauth2</artifactId>
+        <version>4.5.4</version>
+      </dependency>
     </dependencies>
 
     <build>
