@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="@localhost" uuid="b1375908-52b4-426b-bf09-5038af0603d6">
       <driver-ref>cassandra</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.ing.data.cassandra.jdbc.CassandraDriver</jdbc-driver>
+      <jdbc-driver>com.dbschema.CassandraJdbcDriver</jdbc-driver>
       <jdbc-url>jdbc:cassandra://localhost:9042</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
