@@ -3,6 +3,8 @@
 
 1. 인증 흐름 사양 정의 문서 링크[^1]
 
+https://docs.spring.io/spring-authorization-server/reference/guides/how-to-ext-grant-type.html
+
 [^1]: https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth
 
 http://localhost:8080/hello?continue
