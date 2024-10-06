@@ -1,10 +1,25 @@
 
 > [!note] 
 > 서버 엔드포인트 정의 목록 확인
-> ``` http://localhost:9000/.well-known/openid-configuration   ```
-> 
+> ```http request 
+> http://localhost:9000/.well-known/openid-configuration   
+> ```
+ 
 
+- 클라이언트가 사용자를 인증하기 위해 리디렉션할 권한 부여 엔드포인트
+  - "http://localhost:8080/oauth2/authorize"     
 
+- 클라이언트가 액세스 토큰을 요청하기 위해 호출할 토큰 엔드포인트
+  - "token_endpoint": "http://localhost:8080/oauth2/token" 
+
+- 리소스 서버가 토큰을 검증에 사용할 수 있는 공개 키,세트를 얻기 위해 호출하는 엔드포인트
+  - "jwks_uri": "http://localhost:8080/oauth2/jwks"   
+
+- 리소스 서버가 불투명 토큰을 검증하기 위해 호출할 수 있는 인트로스펙트 엔드포인트
+  - "http://localhost:8080/oauth2/introspect"                  
+
+ ---
+           /oauth2/authorize?
 
 
 ![img.png](img.png)

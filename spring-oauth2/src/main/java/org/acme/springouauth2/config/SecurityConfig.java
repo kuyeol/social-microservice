@@ -20,15 +20,17 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import java.util.UUID;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+@EnableAuthorizationServer
+public class SecurityConfig extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
@@ -73,7 +75,20 @@ public class SecurityConfig {
                                                            .scope( "message.write" )
                                                            .build();
 
-        return new InMemoryRegisteredClientRepository( messagingClient );
+
+        RegisteredClient registeredClient = RegisteredClient
+                .withId(UUID.randomUUID().toString())
+                .clientId("client")
+                .clientSecret( "{noop}secret" )
+
+                .clientSettings(ClientSettings.builder()
+                                              .requireProofKey(false)
+                                              .build())
+                .build();
+
+
+
+        return new InMemoryRegisteredClientRepository( registeredClient);
     }
     @Bean
     @Order(2)
