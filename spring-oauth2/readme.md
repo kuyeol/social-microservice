@@ -1,7 +1,8 @@
 
 > [!note] 
 > 서버 엔드포인트 정의 목록 확인
-> http://localhost:9000/.well-known/openid-configuration
+> ``` http://localhost:9000/.well-known/openid-configuration   ```
+> 
 
 
 
