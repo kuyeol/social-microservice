@@ -1,4 +1,16 @@
 
+
+# Device Sample Convert To Token OAuth Flow
+- refactoring Reference sample code 
+- 
+
+- [OAuth2 장치 검증 엔드포인트](https://docs.spring.io/spring-authorization-server/reference/1.4/protocol-endpoints.
+html#oauth2-token-endpoint)
+
+- [DeviceClientAuthenticationProvider](https://github.com/spring-projects/spring-authorization-server/tree/main/samples/demo-authorizationserver/src/main/java/sample/authentication)
+
+---
+
 > [!note] 
 > 서버 엔드포인트 정의 목록 확인
 > ```http request 
@@ -33,13 +45,45 @@ https://docs.spring.io/spring-authorization-server/reference/guides/how-to-ext-g
 
 http://localhost:8080/hello?continue
 
+
+
+```bash
+
+domain=localhost;
+port = 9000;
+
+
+curl --request POST \
+  --url 'https://{yourDomain}/oauth/token' \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data grant_type=authorization_code \
+  --data 'client_id={yourClientId}' \
+  --data 'client_secret={yourClientSecret}' \
+  --data 'code=yourAuthorizationCode}' \
+  --data 'redirect_uri={https://yourApp/callback}'
+  
+  
+  
+http://{domain}:port/authorize?
+    response_type=code&
+    client_id={ClientId}&
+    redirect_uri={http://yourApp/callback}&
+    scope={scope}&
+    state={state}
+   
+
+    
 http://localhost:9000/oauth2/authorize?
-➥response_type=code&
-➥client_id=client&
-➥scope=openid&
-➥redirect_uri=http://localhost:8080/login/ouath/code/login-client&
-➥code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&
-➥code_challenge_method=S256
+  response_type=code&
+  client_id=client&
+  scope=openid&
+  redirect_uri=http://localhost:8080/login/ouath/code/login-client&
+  code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&
+  code_challenge_method=S256
+    
+```
+
+
 
 curl -X POST 'http://localhost:8080/oauth2/token?
 ➥client_id=client&

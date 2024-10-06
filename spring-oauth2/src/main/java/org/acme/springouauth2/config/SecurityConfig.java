@@ -1,6 +1,5 @@
 package org.acme.springouauth2.config;
 
-
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
@@ -24,27 +23,28 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import static org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer.authorizationServer;
 import java.util.UUID;
 
 @Configuration
-@EnableAuthorizationServer
-public class SecurityConfig extends AuthorizationServerConfigurerAdapter {
+public class SecurityConfig {
 
-    @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
+  @Bean
+  public AuthorizationServerSettings authorizationServerSettings() {
 
-        return AuthorizationServerSettings.builder()
-                                          .build();
-    }
+    return AuthorizationServerSettings.builder().build();
+  }
 
-    // @formatter:off
+  // @formatter:off
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
+
+
+
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
 
         http.getConfigurer( OAuth2AuthorizationServerConfigurer.class)
             .oidc(Customizer.withDefaults());
@@ -52,7 +52,8 @@ public class SecurityConfig extends AuthorizationServerConfigurerAdapter {
         http.exceptionHandling((e) -> e.authenticationEntryPoint(
                 new LoginUrlAuthenticationEntryPoint("/login") ) );
 
-        return http.build();}
+        return http.build();
+  }
 
 
 
@@ -67,8 +68,7 @@ public class SecurityConfig extends AuthorizationServerConfigurerAdapter {
                                                                         .toString() )
                                                            .clientId( "messaging-client" )
                                                            .clientSecret( "{noop}secret" )
-                                                           .clientAuthenticationMethod(
-                                                                   ClientAuthenticationMethod.CLIENT_SECRET_BASIC )
+                                                           .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC )
                                                            .authorizationGrantType( new AuthorizationGrantType(
                                                                    "urn:ietf:params:oauth:grant-type:custom_code" ) )
                                                            .scope( "message.read" )
