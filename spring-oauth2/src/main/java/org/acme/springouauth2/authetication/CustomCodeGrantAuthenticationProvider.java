@@ -18,94 +18,71 @@ package org.acme.springouauth2.authetication;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.core.ClaimAccessor;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
-import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.oauth2.core.*;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.Assert;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CustomCodeGrantAuthenticationProvider implements AuthenticationProvider {
 	// @fold:on
-	private final OAuth2AuthorizationService authorizationService;
-	private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+	private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1";
+	private final Log logger = LogFactory.getLog(getClass());
+	private final RegisteredClientRepository registeredClientRepository;
 
-	public CustomCodeGrantAuthenticationProvider(OAuth2AuthorizationService authorizationService,
-			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
-		Assert.notNull(authorizationService, "authorizationService cannot be null");
-		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
-		this.authorizationService = authorizationService;
-		this.tokenGenerator = tokenGenerator;
+
+	public CustomCodeGrantAuthenticationProvider(RegisteredClientRepository registeredClientRepository) {
+		Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
+		this.registeredClientRepository = registeredClientRepository;
 	}
 	// @fold:off
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		CustomCodeGrantAuthenticationToken customCodeGrantAuthentication =
+		CustomCodeGrantAuthenticationToken customClientAuthentication =
 				(CustomCodeGrantAuthenticationToken) authentication;
 
-		// Ensure the client is authenticated
-		OAuth2ClientAuthenticationToken clientPrincipal =
-				getAuthenticatedClientElseThrowInvalidClient(customCodeGrantAuthentication);
-		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
-
-		// Ensure the client is configured to use this authorization grant type
-		if (!registeredClient.getAuthorizationGrantTypes().contains(customCodeGrantAuthentication.getGrantType())) {
-			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
+		if (!ClientAuthenticationMethod.NONE.equals( customClientAuthentication.getClientAuthenticationMethod())) {
+			return null;
 		}
 
-		// TODO Validate the code parameter
-
-		// Generate the access token
-		OAuth2TokenContext tokenContext = DefaultOAuth2TokenContext.builder()
-				.registeredClient(registeredClient)
-				.principal(clientPrincipal)
-				.authorizationServerContext(AuthorizationServerContextHolder.getContext())
-				.tokenType(OAuth2TokenType.ACCESS_TOKEN)
-				.authorizationGrantType(customCodeGrantAuthentication.getGrantType())
-				.authorizationGrant(customCodeGrantAuthentication)
-				.build();
-
-		OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
-		if (generatedAccessToken == null) {
-			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-					"The token generator failed to generate the access token.", null);
-			throw new OAuth2AuthenticationException(error);
+		String clientId = customClientAuthentication.getPrincipal().toString();
+		RegisteredClient registeredClient = this.registeredClientRepository.findByClientId(clientId);
+		if (registeredClient == null) {
+			throwInvalidClient( OAuth2ParameterNames.CLIENT_ID);
 		}
-		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-				generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-				generatedAccessToken.getExpiresAt(), null);
 
-		// Initialize the OAuth2Authorization
-		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-				.principalName(clientPrincipal.getName())
-				.authorizationGrantType(customCodeGrantAuthentication.getGrantType());
-		if (generatedAccessToken instanceof ClaimAccessor) {
-			authorizationBuilder.token(accessToken, (metadata) ->
-				metadata.put(
-					OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
-					((ClaimAccessor) generatedAccessToken).getClaims())
-			);
-		} else {
-			authorizationBuilder.accessToken(accessToken);
+		if (this.logger.isTraceEnabled()) {
+			this.logger.trace("Retrieved registered client");
 		}
-		OAuth2Authorization authorization = authorizationBuilder.build();
 
-		// Save the OAuth2Authorization
-		this.authorizationService.save(authorization);
+		if (!registeredClient.getClientAuthenticationMethods().contains(
+				customClientAuthentication.getClientAuthenticationMethod())) {
+			throwInvalidClient("authentication_method");
+		}
 
-		return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken);
+		if (this.logger.isTraceEnabled()) {
+			this.logger.trace("Validated device client authentication parameters");
+		}
+
+		if (this.logger.isTraceEnabled()) {
+			this.logger.trace("Authenticated device client");
+		}
+
+
+		return new CustomCodeGrantAuthenticationToken(registeredClient,
+														customClientAuthentication.getClientAuthenticationMethod(), null);
 	}
 
 	@Override
@@ -114,16 +91,17 @@ public class CustomCodeGrantAuthenticationProvider implements AuthenticationProv
 	}
 
 	// @fold:on
-	private static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
-		OAuth2ClientAuthenticationToken clientPrincipal = null;
-		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-		}
-		if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-			return clientPrincipal;
-		}
-		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+	private static void throwInvalidClient(String parameterName) {
+		OAuth2Error error = new OAuth2Error(
+				OAuth2ErrorCodes.INVALID_CLIENT,
+				"Device client authentication failed: " + parameterName,
+				ERROR_URI
+		);
+		throw new OAuth2AuthenticationException(error);
 	}
+
+
+
 	// @fold:off
 
 }
