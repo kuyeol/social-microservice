@@ -575,3 +575,355 @@ public class ClaimsParameterTokenMapper extends AbstractOIDCProtocolMapper imple
 }
 
 ```
+
+
+```java
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.ECDSAKeyProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.ECDSASigner;
+import com.nimbusds.jose.jwk.Curve;
+import com.nimbusds.jose.jwk.ECKey;
+import com.nimbusds.jose.jwk.gen.ECKeyGenerator;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemReader;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.security.*;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+import java.security.spec.*;
+import java.util.Date;
+import java.util.Map;
+
+@Slf4j
+public class JwtTest {
+    private static final String ALG = "ES256";
+    private static final String TYP ="JWT";
+    private static final String KID = "7548ee0a-83ed-11ea-bc55-0242ac130003";
+    private static final String ISS = "toast.com";
+    private static final Date IAT_DATE = new Date();
+    private static final long IAT_LONG = IAT_DATE.getTime() / 1000;
+
+    /**
+     * PEM Format, ES256
+     */
+    private static String EC_PUBLIC_KEY_STR = "-----BEGIN PUBLIC KEY-----\n" + // Encapsulation Boundary
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEKY/2QKid9XCTRWCusDHUddgjWUTs\n" +
+            "kYpY2wjWcgZ6vVfBlYRL0UhyLGbgBpucjGGjRAYoWRvn83f+GhAfiqmydw==\n" +
+            "-----END PUBLIC KEY-----";
+    /**
+     * PEM Format, ES256
+     */
+    private static String EC_PRIVATE_KEY_STR = "-----BEGIN PRIVATE KEY-----\n" +
+            "MEECAQAwEwYHKoZIzj0CAQYIKoZIzj0DAQcEJzAlAgEBBCBfWNacqAsGHMnGbWiZ\n" +
+            "XR81mRvB4w/Icva0jGFPduwBxQ==\n" +
+            "-----END PRIVATE KEY-----";
+
+    private static ECPublicKey EC_PUBLIC_KEY;
+    private static ECPrivateKey EC_PRIVATE_KEY;
+
+    /**
+     * PEM 형식의 키를 Java의 ECPublicKey, ECPrivateKey로 변환
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    @BeforeAll
+    public static void beforeAll() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        final KeyFactory keyPairGenerator = KeyFactory.getInstance("EC"); // EC is ECDSA in Java
+
+        EC_PUBLIC_KEY = (ECPublicKey) keyPairGenerator.generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(removeEncapsulationBoundaries(EC_PUBLIC_KEY_STR))));
+        EC_PRIVATE_KEY = (ECPrivateKey) keyPairGenerator.generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(removeEncapsulationBoundaries(EC_PRIVATE_KEY_STR))));
+    }
+
+    private static void logJWT(String library, String jwt) {
+        log.debug("library: {}, JWT: {}", library, jwt);
+
+        final String[] splitJwt = jwt.split("\\.");
+
+        log.debug("library: {}, Header: {}", library, new String(Base64.decodeBase64(splitJwt[0])));
+        log.debug("library: {}, Payload: {}", library, new String(Base64.decodeBase64(splitJwt[1])));
+    }
+
+    /**
+     * PEM 형식의 캡슐화 경계(Encapsulation Boundary)와 개행, 공백을 제거
+     *
+     * @param key
+     * @return
+     */
+    private static String removeEncapsulationBoundaries(String key) {
+        return key.replaceAll("\n", "")
+                .replaceAll(" ", "")
+                .replaceAll("-{5}[a-zA-Z]*-{5}", "");
+    }
+
+    /**
+     *  JWT 검증은 auth0의 라이브러리를 사용
+     *  https://jwt.io/ 에서도 검증 가능
+     *
+     * @param jwt
+     * @param publicKey
+     */
+    private static void verifyJWT(String jwt, ECPublicKey publicKey) {
+        final Algorithm algorithm = Algorithm.ECDSA256(new ECDSAKeyProvider() {
+            @Override
+            public ECPublicKey getPublicKeyById(String s) {
+                return publicKey;
+            }
+
+            @Override
+            public ECPrivateKey getPrivateKey() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public String getPrivateKeyId() {
+                throw new UnsupportedOperationException();
+            }
+        });
+
+        JWT.require(algorithm)
+                .build()
+                .verify(jwt);
+    }
+
+    private static void verifyJWTByJava(String jwt, ECPublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        final String[] splitJwt = jwt.split("\\.");
+        final String headerStr = splitJwt[0];
+        final String payloadStr = splitJwt[1];
+        final String signatureStr = splitJwt[2];
+
+        final Signature signature = Signature.getInstance("SHA256withECDSAinP1363Format");
+        signature.initVerify(publicKey);
+        signature.update((headerStr + "." + payloadStr).getBytes());
+
+        assert signature.verify(Base64.decodeBase64(signatureStr));
+    }
+
+    @Test
+    public void test_removeEncapsulationBoundaries() {
+        // Given
+
+        // When
+        final String publicKey = removeEncapsulationBoundaries(EC_PUBLIC_KEY_STR);
+        final String privateKey = removeEncapsulationBoundaries(EC_PRIVATE_KEY_STR);
+
+        // Then
+        assert !publicKey.contains("-----BEGIN PUBLIC KEY-----");
+        assert !publicKey.contains("-----END PUBLIC KEY-----");
+        assert !publicKey.contains("\n");
+
+        assert !privateKey.contains("-----BEGIN PRIVATE KEY-----");
+        assert !privateKey.contains("-----END PRIVATE KEY-----");
+        assert !privateKey.contains("\n");
+    }
+
+    /**
+     * Nimbus를 이용해 ES256 키 생성
+     *
+     * @throws JOSEException
+     */
+    @Test
+    public void test_nimbus_generateECKey() throws JOSEException {
+        // Given
+
+        // When
+        final ECKey ecKey = new ECKeyGenerator(Curve.P_256)
+                .generate();
+
+        // Then
+        // Nothing Happen
+        log.info("ecKey.publicKey: {}", Base64.encodeBase64String(ecKey.toECPublicKey().getEncoded()));
+        log.info("ecKey.privateKey: {}", Base64.encodeBase64String(ecKey.toECPrivateKey().getEncoded()));
+    }
+
+    /**
+     * Java API를 이용해 ES256 키 생성
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     */
+    @Test
+    public void test_pure_java_generateKeyPair() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        // Given
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp256r1")); // == P256
+
+        // When
+        final KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        // Then
+        // Nothing Happen
+        log.info("ecKey.publicKey: {}", Base64.encodeBase64String(keyPair.getPublic().getEncoded()));
+        log.info("ecKey.privateKey: {}", Base64.encodeBase64String(keyPair.getPrivate().getEncoded()));
+    }
+
+    /**
+     * Nimbus를 이용해 JWT 생성
+     *
+     * @throws JOSEException
+     */
+    @Test
+    public void test_nimbus_JWT() throws JOSEException {
+        // Given
+
+        // When
+        final JWSSigner signer = new ECDSASigner(EC_PRIVATE_KEY, Curve.P_256);
+        final SignedJWT signedJWT = new SignedJWT(
+                new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(KID).type(JOSEObjectType.JWT).build(),
+                new JWTClaimsSet.Builder().issuer(ISS).issueTime(IAT_DATE).build());
+        signedJWT.sign(signer);
+
+        final String jwt = signedJWT.serialize();
+
+        logJWT("nimbus", jwt);
+
+        // Then
+        verifyJWT(jwt, EC_PUBLIC_KEY);
+    }
+
+    /**
+     * Auth0을 이용해 JWT 생성
+     */
+    @Test
+    public void test_auth0_JWT() {
+        // Given
+        Algorithm algorithm = Algorithm.ECDSA256(EC_PUBLIC_KEY, EC_PRIVATE_KEY); // == ES256
+
+        // When
+        final String jwt = JWT.create()
+                .withKeyId(KID)
+                .withIssuer(ISS)
+                .withIssuedAt(IAT_DATE)
+                .sign(algorithm);
+
+        logJWT("auth0", jwt);
+
+        // Then
+        verifyJWT(jwt, EC_PUBLIC_KEY);
+    }
+
+    /**
+     * Jjwt를 이용해 JWT 생성
+     */
+    @Test
+    public void test_jjwt_JWT() {
+        // Given
+
+        // When
+        final String jwt = Jwts.builder()
+                .setHeaderParam("kid", KID)
+                .setHeaderParam("typ", TYP)
+                .setHeaderParam("alg", ALG)
+                .setIssuer(ISS)
+                .setIssuedAt(IAT_DATE)
+                .signWith(EC_PRIVATE_KEY, SignatureAlgorithm.ES256)
+                .compact();
+
+        logJWT("jjwt", jwt);
+
+        // Then
+        verifyJWT(jwt, EC_PUBLIC_KEY);
+    }
+
+    /**
+     * Java API를 이용해 JWT 생성
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws IOException
+     * @throws InvalidKeyException
+     * @throws SignatureException
+     */
+    @Test
+    public void test_java_JWT() throws NoSuchAlgorithmException, IOException, InvalidKeyException, SignatureException {
+        // Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final Map<String, Object> header = Maps.newLinkedHashMap();
+        header.put("kid", KID);
+        header.put("typ", TYP);
+        header.put("alg", ALG);
+        final String headerStr =  Base64.encodeBase64URLSafeString(objectMapper.writeValueAsBytes(header));
+
+        final Map<String, Object> payload = Maps.newLinkedHashMap();
+        payload.put("iss", ISS);
+        payload.put("iat", IAT_LONG);
+        final String payloadStr = Base64.encodeBase64URLSafeString(objectMapper.writeValueAsBytes(payload));
+
+        // When
+        // Java 9부터 가능(Java 8에서 'java.security.NoSuchAlgorithmException: SHA256withECDSAinP1363Format Signature not available')
+        // SHA256withECDSA와 서명 형식이 다름
+        final Signature signature = Signature.getInstance("SHA256withECDSAinP1363Format");
+        signature.initSign(EC_PRIVATE_KEY);
+        signature.update((headerStr + "." + payloadStr).getBytes());
+
+        byte[] signatureBytes = signature.sign();
+
+        final String signatureStr = Base64.encodeBase64URLSafeString(signatureBytes);
+
+        final String jwt = headerStr + "." + payloadStr + "." + signatureStr;
+
+        logJWT("java", jwt);
+
+        // Then
+        verifyJWT(jwt, EC_PUBLIC_KEY);
+        verifyJWTByJava(jwt, EC_PUBLIC_KEY);
+    }
+
+    /**
+     * 암호화 라이브러리의 PemReader를 이용해 PEM 형식 키 읽기 (PemWriter로 쓰기도 가능)
+     *
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    @Test
+    public void test_bouncyCastle_PEM_to_Key() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        // Given
+        final KeyFactory keyPairGenerator = KeyFactory.getInstance("EC");
+
+        // When
+        ECPublicKey publicKey = null;
+        try (PemReader publicKeyPemReader = new PemReader(new StringReader(EC_PUBLIC_KEY_STR))) {
+            final PemObject publicKeyPemObject =  publicKeyPemReader.readPemObject();
+            publicKey = (ECPublicKey) keyPairGenerator.generatePublic(new X509EncodedKeySpec(publicKeyPemObject.getContent()));
+
+        }
+
+        ECPrivateKey privateKey = null;
+        try (PemReader privateKeyPemReader = new PemReader(new StringReader(EC_PRIVATE_KEY_STR))) {
+            final PemObject privateKeyPemObject = privateKeyPemReader.readPemObject();
+            privateKey =  (ECPrivateKey) keyPairGenerator.generatePrivate(new PKCS8EncodedKeySpec(privateKeyPemObject.getContent()));
+        }
+
+
+        // Then
+        final String jwt = Jwts.builder()
+                .setHeaderParam("kid", KID)
+                .setHeaderParam("typ", TYP)
+                .setHeaderParam("alg", ALG)
+                .setIssuer(ISS)
+                .setIssuedAt(IAT_DATE)
+                .signWith(privateKey, SignatureAlgorithm.ES256)
+                .compact();
+
+        logJWT("bouncy castle and jjwt", jwt);
+
+        // Then
+        verifyJWT(jwt, publicKey);
+    }
+}
+
+```

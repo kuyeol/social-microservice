@@ -5,6 +5,11 @@
 [코드 바로 가기](referenceSource/microprofile-jwt-auth/api/src/main/java/org/eclipse/microprofile)
 
 
+# 바운시캐슬 using quarkus 테스트 코드 레포 링크
+https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle-jsse/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleJsseEndpoint.java
+https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleEndpoint.java
+
+
 ---
 
 ```
