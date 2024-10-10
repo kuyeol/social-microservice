@@ -1,3 +1,8 @@
+
+
+
+
+
 = Using Smallrye-JWT Quickstart
 
 This quickstart project is the code part of the Quarkus Smallrye-JWT guide. It contains
@@ -21,6 +26,6 @@ curl -v http://127.0.0.1:9000/secured/roles-allowed; echo
 
 ctx.getUserPrincipal().getName() -> [ jquarkus.io]
 ctx.isSecure() -> [ isHttps: false],
-ctx.getAuthenticationScheme() -> [authScheme: Bearer], 
+ctx.getAuthenticationScheme() -> [authScheme: Bearer],
 jwt.getClaimNames() -> [hasJWT: true],
 jwt.getClaim("birthdate").toString() -> [birthdate: 2001-07-13]
