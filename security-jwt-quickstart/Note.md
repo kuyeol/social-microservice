@@ -2,13 +2,15 @@
 
 
 # jwt + 클레임 구성 참고
-[코드 바로 가기](referenceSource/microprofile-jwt-auth/api/src/main/java/org/eclipse/microprofile)
+- [코드경로 바로 가기](referenceSource/microprofile-jwt-auth/api/src/main/java/org/eclipse/microprofile)
 
 
 # 바운시캐슬 using quarkus 테스트 코드 레포 링크
-https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle-jsse/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleJsseEndpoint.java
-https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleEndpoint.java
+- https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle-jsse/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleJsseEndpoint.java
+- https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleEndpoint.java
 
+# 키클록 키생성 로직 경로
+keycloak/common/crypto/
 
 ---
 
