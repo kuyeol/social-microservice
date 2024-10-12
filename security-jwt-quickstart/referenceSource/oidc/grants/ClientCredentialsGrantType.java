@@ -164,7 +164,6 @@ public class ClientCredentialsGrantType extends OAuth2GrantTypeBase {
             throw new CorsErrorResponseException(cors, cpe.getError(), cpe.getErrorDetail(), Response.Status.BAD_REQUEST);
         }
 
-        // TODO : do the same as codeToToken()
         AccessTokenResponse res = null;
         try {
             res = responseBuilder.build();

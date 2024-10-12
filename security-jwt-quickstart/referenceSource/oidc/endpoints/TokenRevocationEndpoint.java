@@ -256,7 +256,6 @@ public class TokenRevocationEndpoint {
                     TokenManager.dettachClientSession(clientSession);
 
                     if (userSession != null) {
-                        // TODO: Might need optimization to prevent loading client sessions from cache in getAuthenticatedClientSessions()
                         if (userSession.getAuthenticatedClientSessions().isEmpty()) {
                             session.sessions().removeUserSession(realm, userSession);
                         }

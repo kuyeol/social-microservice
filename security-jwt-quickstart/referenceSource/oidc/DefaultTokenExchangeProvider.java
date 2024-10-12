@@ -695,7 +695,6 @@ public class DefaultTokenExchangeProvider implements TokenExchangeProvider {
         return user;
     }
 
-    // TODO: move to utility class
     private void updateUserSessionFromClientAuth(UserSessionModel userSession) {
         for (Map.Entry<String, String> attr : clientAuthAttributes.entrySet()) {
             userSession.setNote(attr.getKey(), attr.getValue());
