@@ -1,6 +1,13 @@
 
 
 
+토큰 요청 엔드포인트 구성
+[TokenManager.java](referenceSource/oidc/TokenManager.javaㄴ)
+
+[TokenEndpoint.java](referenceSource/oidc/endpoints/TokenEndpoint.java)
+referenceSource/oidc/OIDCLoginProtocolService.java
+[OIDCLoginProtocolService.java](referenceSource/oidc/OIDCLoginProtocolService.java)
+
 # jwt + 클레임 구성 참고
 - [코드경로 바로 가기](referenceSource/microprofile-jwt-auth/api/src/main/java/org/eclipse/microprofile)
 
@@ -8,6 +15,50 @@
 # 바운시캐슬 using quarkus 테스트 코드 레포 링크
 - https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle-jsse/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleJsseEndpoint.java
 - https://github.com/quarkusio/quarkus/blob/main/integration-tests/bouncycastle/src/main/java/io/quarkus/it/bouncycastle/BouncyCastleEndpoint.java
+
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.
+
+eyJpc3MiOiJodHRwczovL2V4YW1wbGUuY29tL2lzc3VlciIsInVwbiI6ImpxdWFya3VzLmlvIiwiZ3Jvd
+XBzIjpbIlVzZXIiLCJBZG1pbiJdLCJiaXJ0aGRhdGUiOiIyMDAxLTA3LTEzIiwiaWF0IjoxNzI4NzAwOTQwLCJleHAiOjE3Mjg3MDEyNDAsImp0aSI6IjV
+hZGQzOWIzLTA1MzAtNGZmZS05YjE0LTkxODY5ODNmOGVjOCJ9.
+
+kyZ3SXNDBXzs_LEzcS2_bDphrFpE8a2r-62PHo0glpwkKK8_hUwMKTc1iz7rkZvFZySU
+LeB4R41IRyT5lux9uDVJy24zLR_qPAr7wvY8BT33lH9k-_BUjj6TtMwYrbAsiFtc-zb5utoi34wQCpINgw0jMLom1bQIoscG4p2Tp5Yhw0S2lzHvQBcu5y
+YNl5jvnQW2KGekRBWot5N_suua4FeSFazBKWYehrBjHeU0ChmSG_FZGm76CIeKVIbQ07zMzsnJKHxZHCyt4_kHtoLTJIRJZAH5z5wJhisO_zSrCekSRP0SvUVNdLideLJuP_NbzMoN6narA7M-yam7EVwp1A
+
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.
+
+eyJpc3MiOiJodHRwczovL2V4YW1wbGUuY29tL2lzc3VlciIsInVwbiI6ImpxdWFya3VzLmlvIiwiZ3Jvd
+XBzIjpbIlVzZXIiLCJBZG1pbiJdLCJiaXJ0aGRhdGUiOiIyMDAxLTA3LTEzIiwiaWF0IjoxNzI4NzAwOTE2LCJleHAiOjE3Mjg3MDEyMTYsImp0aSI6ImU
+xZjI5Yzc4LWRmNmYtNDZhYS05MWM5LTJmYjkzMWM4YWNhZSJ9.
+
+ay83SWLZ06S32kNOT7aofMabzyotaFUunF-gBL05-ckL6eY20L92zgdVNEuUGPVNCDF3
+gqbguOcQ4eeUt6HlvPrb5asW19J-cOD6LV_I0AtYQlbU68D_SPE_D4-uAEvnXuMUHr2ePEfGtwq7YmswQwEckGSDQhwd51pEzd8mS1ztDUKM8QdDD1aDMM
+ONZtK9GP-8aAyrpldK-KviHoX54qq6clCzvplJjvVirubi-O9Oqj-CrTLIlDrycqvLkvPKab2mcmCd5toCIvmjm0Elo78vmtZcbXT6Ges9UO1iDK4-4BeyRz900jgAh2nrn1CyG_V26Htl_Yw6hvrpUH154w
+
+
+
+
+```json
+{
+  "hashIterations":27500,
+  "algorithm":"pbkdf2-sha256",
+  "additionalParameters":{}
+}
+```
+
+```json
+
+{
+  "value":"z7rOzXFHm04t3NFf/lqnvpAfFmjUtF6G6Dg6K8nqweI=",
+  "salt":"MkRLUbCul+DaT13z96kczw==", 
+  "additionalParameters":{}
+}
+
+```
+
 
 # 키클록 키생성 로직 경로
 keycloak/common/crypto/

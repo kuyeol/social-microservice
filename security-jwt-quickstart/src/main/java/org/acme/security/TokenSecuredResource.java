@@ -28,12 +28,17 @@ public class TokenSecuredResource {
     @Claim(standard = Claims.birthdate)
     String birthdate;
 
+
+    @Inject
+    SecurityContext securityContext;
+
     @GET
     @Path("permit-all")
     @PermitAll
     @Produces(MediaType.TEXT_PLAIN)
     public String hello(@Context SecurityContext ctx) {
-        return getResponseString(ctx)+"ddddd";
+
+        return getResponseString(ctx);
     }
 
     @GET
@@ -74,9 +79,9 @@ public class TokenSecuredResource {
                 + " isHttps: %s,"
                 + " authScheme: %s,"
                 + " hasJWT: %s",
-                name, 
-                ctx.isSecure(), 
-                ctx.getAuthenticationScheme(), 
+                name,
+                ctx.isSecure(),
+                ctx.getAuthenticationScheme(),
                 hasJwt());
     }
 
