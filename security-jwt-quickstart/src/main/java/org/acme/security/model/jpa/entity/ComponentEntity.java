@@ -14,12 +14,11 @@ import jakarta.persistence.Table;
 @Table(name = "Component")
 public class ComponentEntity {
 
-
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    // we do this because relationships often fetch id, but not entity.  This avoids an extra SQL
     protected String id;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REALM_ID")
     protected RealmEntity realm;
@@ -33,14 +32,14 @@ public class ComponentEntity {
     @Column(name="PROVIDER_NAME")
     protected String providerName;
 
-    @Column(name="PARENT_ID")
-    protected String parentId;
-
+    
     @Column(name="SUB_TYPE")
     protected String subType;
 
 
+protected String value;
 
+    
     public String getId() {
         return id;
     }
