@@ -2,13 +2,25 @@
 
     // TODO : 개발 절차 
 
-1. 간단하게 엔터티와 모델 작성
-2. 모델에 RSA 키 저장
-3. KeyLoad implements
-4. RSA 사용 JWT 발급
+## 1. 간단하게 엔터티와 모델 작성
+> [!Note]
+> .
 
-쿼리파라미터로 엔드포인트에 요청
-일다 클라이언트아이디와 비번을 헤더에 같이 보내서 검증후 발급
+## 2. 모델에 RSA 키 저장
+
+> [!Note]   
+> .aaa
+
+## 3. KeyLoad implements
+> [!Note]
+> .
+
+## 4. RSA 사용 JWT 발급
+> [!Note] 
+> .
+
+- 쿼리파라미터로 엔드포인트에 요청
+- 일다 클라이언트아이디와 비번을 헤더에 같이 보내서 검증후 발급
 
 토큰 요청 엔드포인트 구성
 [TokenManager.java](referenceSource/oidc/TokenManager.javaㄴ)
