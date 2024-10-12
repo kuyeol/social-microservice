@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 
 public class ComponentModel {
+
     private String id;
     private String name;
     private String providerId;
@@ -22,7 +23,8 @@ public class ComponentModel {
     private MultivaluedHashMap<String, String> config = new MultivaluedHashMap<>();
     private transient ConcurrentHashMap<String, Object> notes = new ConcurrentHashMap<>();
 
-    public ComponentModel() {}
+    public ComponentModel() {
+    }
 
     public ComponentModel(ComponentModel copy) {
         this.id = copy.id;

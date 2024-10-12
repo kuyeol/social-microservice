@@ -18,28 +18,28 @@ public class ComponentEntity {
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
     protected String id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REALM_ID")
     protected RealmEntity realm;
 
-    @Column(name="NAME")
+    @Column(name = "NAME")
     protected String name;
 
-    @Column(name="PROVIDER_TYPE")
+    @Column(name = "PROVIDER_TYPE")
     protected String providerType;
 
-    @Column(name="PROVIDER_NAME")
+    @Column(name = "PROVIDER_NAME")
     protected String providerName;
 
-    
-    @Column(name="SUB_TYPE")
+
+    @Column(name = "SUB_TYPE")
     protected String subType;
 
 
-protected String value;
+    protected String value;
 
-    
+
     public String getId() {
         return id;
     }
@@ -92,13 +92,21 @@ protected String value;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (!(o instanceof ComponentEntity)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof ComponentEntity)) {
+            return false;
+        }
 
         ComponentEntity that = (ComponentEntity) o;
 
-        if (!id.equals(that.getId())) return false;
+        if (!id.equals(that.getId())) {
+            return false;
+        }
 
         return true;
     }
