@@ -5,6 +5,11 @@ import org.acme.security.util.MultivaluedHashMap;
 import org.infinispan.protostream.annotations.ProtoFactory;
 import org.infinispan.protostream.annotations.ProtoField;
 import org.infinispan.protostream.annotations.ProtoTypeId;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 public class ComponentModel {
