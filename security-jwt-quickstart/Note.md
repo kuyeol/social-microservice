@@ -7,6 +7,41 @@ return Urls.clientRegistration(backendUri, realm.getName(), OIDCLoginProtocol.LO
 }
 ```
 
+
+
+
+
+
+
+
+
+> Entity :
+> - 
+> Model :
+> - 
+> Provider :
+> - 
+> JpaProvider :
+> - 
+> Manager :
+> > Field
+> > - KeycloakSession
+> > - ModelProvider
+> > Constructor
+> >  ( KeycloakSession session )
+> > - this.session = session
+> > - this.model = session.models()
+> > Methods
+> > - 
+> 
+> Represetaion :
+> - 
+> Resource :
+> -
+#0
+---
+
+
     // TODO : 개발 절차 
 
 ## 1. 간단하게 엔터티와 모델 작성

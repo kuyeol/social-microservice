@@ -30,6 +30,7 @@ public class Startup {
       this.name = name;
       this.password = password;
       this.role = role;
+
     }
 
     public  void add(String name, String password, String role){
