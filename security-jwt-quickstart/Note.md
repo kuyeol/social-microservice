@@ -1,14 +1,25 @@
-    
+```java
+private URI getRegistrationClientUri(ClientModel client) {
+KeycloakContext context = session.getContext();
+RealmModel realm = context.getRealm();
+URI backendUri = context.getUri(UrlType.BACKEND).getBaseUri();
+return Urls.clientRegistration(backendUri, realm.getName(), OIDCLoginProtocol.LOGIN_PROTOCOL, client.getClientId());
+}
+```
 
     // TODO : 개발 절차 
 
 ## 1. 간단하게 엔터티와 모델 작성
 > [!Note]
-> 렐름 -> 리소스 서버
+> 
+> 렐름 -> 마이크로서비스 집합
+> > 렐름명 , 마스터클라이언트
 > 
 > 클라이언트 -> 마이크로서비스
+> > 렐름명 , 클라이언트명 , 클라이어트url 
 > 
-> 컴포넌트 -> 리소스 서버에 제공된키
+> 컴포넌트 -> 렐름에 암호키 할당
+> > 렐름명 , 타입명 , 값 
 
 ## 2. 모델에 RSA 키 저장
 

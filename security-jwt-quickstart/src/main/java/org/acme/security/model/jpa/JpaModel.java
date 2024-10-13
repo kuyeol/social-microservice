@@ -1,4 +1,6 @@
 package org.acme.security.model.jpa;
 
-public class JpaModel {
+public interface JpaModel<T> {
+  T getEntity();
+
 }

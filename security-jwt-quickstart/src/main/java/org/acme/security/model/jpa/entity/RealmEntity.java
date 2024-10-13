@@ -34,8 +34,6 @@ import java.util.Set;
 public class RealmEntity {
 
 
-    ///
-
 
     @Id
     @Column(name = "ID", length = 36)
@@ -48,29 +46,29 @@ public class RealmEntity {
     @Column(name = "ENABLED")
     protected boolean enabled;
 
-    @Column(name = "ACCESS_TOKEN_LIFESPAN")
-    protected int accessTokenLifespan;
+    @Column(name = "TOKEN_LIFESPAN")
+    protected int tokenLifespan;
 
-    @Column(name = "MASTER_ADMIN_CLIENT")
-    protected String masterAdminClient;
+    @Column(name = "ADMIN_CLIENT")
+    protected String adminClient;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "realm")
     Set<ComponentEntity> components = new HashSet<>();
 
-    public int getAccessTokenLifespan() {
-        return accessTokenLifespan;
+    public int getTokenLifespan() {
+        return tokenLifespan;
     }
 
-    public void setAccessTokenLifespan(int accessTokenLifespan) {
-        this.accessTokenLifespan = accessTokenLifespan;
+    public void setTokenLifespan(int tokenLifespan) {
+        this.tokenLifespan = tokenLifespan;
     }
 
-    public String getMasterAdminClient() {
-        return masterAdminClient;
+    public String getAdminClient() {
+        return adminClient;
     }
 
-    public void setMasterAdminClient(String masterAdminClient) {
-        this.masterAdminClient = masterAdminClient;
+    public void setAdminClient(String adminClient) {
+        this.adminClient = adminClient;
     }
 
 

@@ -1,11 +1,11 @@
 package org.acme.security.provider;
 
 import java.util.stream.Stream;
-import org.acme.security.crypto.KeyWrraper;
+import org.acme.security.crypto.KeyWrapper;
 
 public interface KeyProvider extends Provider {
 
-    Stream<KeyWrraper> getKeysStream();
+    Stream<KeyWrapper> getKeysStream();
 
     default void close() {
 
