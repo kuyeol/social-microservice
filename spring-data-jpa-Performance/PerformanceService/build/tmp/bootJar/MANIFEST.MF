@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Spring-Boot-Native-Processed: true
+Sbom-Format: CycloneDX
+Sbom-Location: META-INF/sbom/application.cdx.json
+
