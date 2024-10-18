@@ -29,4 +29,14 @@ import jakarta.persistence.Table;
 @Table(name = "specialties")
 public class Specialty extends NamedEntity {
 
+    public int getTotalVeterinaries() {
+        return totalVeterinaries;
+    }
+
+    public void setTotalVeterinaries(int totalVeterinaries) {
+        this.totalVeterinaries = totalVeterinaries;
+    }
+
+    private int totalVeterinaries;
+
 }

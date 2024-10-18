@@ -1,3 +1,60 @@
+
+
+# user
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="현재엔터티명")
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 20)
+    protected Collection<하위Entity> credentials = new LinkedList<>();
+
+
+public Collection<CredentialEntity> getCredentials() {
+if (credentials == null) {
+credentials = new LinkedList<>();
+}
+return credentials;
+}
+
+    public void setCredentials(Collection<하위Entity> credentials) {
+        this.credentials = credentials;
+    }
+
+
+
+---
+# CRED
+
+@NamedQueries({
+@NamedQuery(name="credentialByUser", query="select cred from CredentialEntity cred where cred.user = :user order by cred.priority"),
+@NamedQuery(name="deleteCredentialsByRealm", query="delete from CredentialEntity cred where cred.user IN (select u from UserEntity u where u.realmId=:realmId)"),
+@NamedQuery(name="deleteCredentialsByRealmAndLink", query="delete from CredentialEntity cred where cred.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
+
+})
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="상위엔터티컬럼명")
+    protected 상위Entity user;
+
+
+    public 상위Entity getUser() {
+        return user;
+    }
+    public void setUser(상위Entity user) {
+        this.user = user;
+    }
+
+
+
+
+----
+
+
+
+
+
+
 # Spring PetClinic Sample Application [![Build Status](https://github.com/spring-projects/spring-petclinic/actions/workflows/maven-build.yml/badge.svg)](https://github.com/spring-projects/spring-petclinic/actions/workflows/maven-build.yml)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/spring-projects/spring-petclinic) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=7517918)

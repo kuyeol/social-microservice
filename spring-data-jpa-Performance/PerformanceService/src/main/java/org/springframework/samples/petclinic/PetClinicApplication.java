@@ -19,6 +19,8 @@ package org.springframework.samples.petclinic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportRuntimeHints;
+import org.springframework.samples.petclinic.perform.entity.location.Hall;
+import org.springframework.samples.petclinic.perform.entity.location.Venue;
 
 /**
  * PetClinic Spring Boot Application.
@@ -28,9 +30,17 @@ import org.springframework.context.annotation.ImportRuntimeHints;
  */
 @SpringBootApplication
 @ImportRuntimeHints(PetClinicRuntimeHints.class)
+//@EnableSwagger2
 public class PetClinicApplication {
 
 	public static void main(String[] args) {
+
+
+
+
+
+
+
 		SpringApplication.run(PetClinicApplication.class, args);
 	}
 

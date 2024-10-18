@@ -72,4 +72,14 @@ public class Vet extends Person {
 		getSpecialtiesInternal().add(specialty);
 	}
 
+
+	public void addSpecialty(int  headcount) {
+
+		for (int i = 0; i < headcount; i++) {
+			getSpecialtiesInternal().add((Specialty) specialties);
+		}
+
+	}
+
+
 }

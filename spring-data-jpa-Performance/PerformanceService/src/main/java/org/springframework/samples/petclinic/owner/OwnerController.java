@@ -21,6 +21,9 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.vet.Vet;
+import org.springframework.samples.petclinic.vet.VetRepository;
+import org.springframework.samples.petclinic.vet.Vets;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,10 +51,16 @@ class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerRepository owners;
+	private final VetRepository vets;
 
-	public OwnerController(OwnerRepository clinicService) {
+
+
+
+
+	public OwnerController(OwnerRepository clinicService, VetRepository vet) {
 		this.owners = clinicService;
-	}
+        this.vets = vet;
+    }
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -70,6 +79,9 @@ class OwnerController {
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
+
+
+
 	@PostMapping("/owners/new")
 	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
@@ -81,6 +93,23 @@ class OwnerController {
 		redirectAttributes.addFlashAttribute("message", "New Owner Created");
 		return "redirect:/owners/" + owner.getId();
 	}
+
+	@PostMapping("/vets/new")
+	public String creationVetsForm(@Valid Vet vet, BindingResult result, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("error", "There was an error in creating the owner.");
+			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		}
+
+		this.vets.save(vet);
+		redirectAttributes.addFlashAttribute("message", "New Owner Created");
+		return "redirect:/vets/" + vet.getId();
+	}
+
+
+
+
+
 
 	@GetMapping("/owners/find")
 	public String initFindForm() {
