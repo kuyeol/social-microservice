@@ -52,15 +52,15 @@ class OwnerController {
 
 	private final OwnerRepository owners;
 	private final VetRepository vets;
+	private final PetTypeRepository petTypeRepository;
 
 
-
-
-
-	public OwnerController(OwnerRepository clinicService, VetRepository vet) {
+	public OwnerController(OwnerRepository clinicService, VetRepository vet,
+		PetTypeRepository petTypeRepository) {
 		this.owners = clinicService;
         this.vets = vet;
-    }
+		this.petTypeRepository = petTypeRepository;
+	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -83,7 +83,8 @@ class OwnerController {
 
 
 	@PostMapping("/owners/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes) {
+	public String processCreationForm(@Valid Owner owner, BindingResult result,
+		RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("error", "There was an error in creating the owner.");
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;

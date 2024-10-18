@@ -15,8 +15,12 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import jakarta.persistence.Transient;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -42,7 +46,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "pets")
-public class Pet extends NamedEntity {
+public class Pet extends NamedEntity implements Serializable {
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -51,6 +55,18 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	private PetType type;
+
+	public SelectType getTypes() {
+		return types;
+	}
+
+	public void setTypes(SelectType types) {
+		this.types = types;
+	}
+
+	private SelectType types;
+
+
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "pet_id")
@@ -71,6 +87,7 @@ public class Pet extends NamedEntity {
 
 	public void setType(PetType type) {
 		this.type = type;
+
 	}
 
 	public Collection<Visit> getVisits() {

@@ -30,16 +30,9 @@ import org.springframework.samples.petclinic.perform.entity.location.Venue;
  */
 @SpringBootApplication
 @ImportRuntimeHints(PetClinicRuntimeHints.class)
-//@EnableSwagger2
 public class PetClinicApplication {
 
 	public static void main(String[] args) {
-
-
-
-
-
-
 
 		SpringApplication.run(PetClinicApplication.class, args);
 	}

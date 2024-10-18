@@ -27,4 +27,8 @@ import jakarta.persistence.Table;
 @Table(name = "types")
 public class PetType extends NamedEntity {
 
+
+
+
+
 }
