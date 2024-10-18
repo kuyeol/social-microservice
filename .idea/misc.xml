@@ -9,8 +9,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/account-service/pom.xml" />
-        <option value="$PROJECT_DIR$/account-server/pom.xml" />
-        <option value="$PROJECT_DIR$/authz-server/pom.xml" />
       </list>
     </option>
   </component>
