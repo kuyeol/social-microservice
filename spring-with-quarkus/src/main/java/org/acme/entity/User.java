@@ -1,5 +1,6 @@
 package org.acme.entity;
 
+import jakarta.persistence.NamedQuery;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "findByName",
+    query = "select u from User u where u.firstName  = :name")
 public class User {
 
     @Id
@@ -24,8 +27,8 @@ public class User {
     private String lastName;
     private String address;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Book> books;
+    //@OneToMany(cascade = CascadeType.ALL)
+    //private List<Book> books;
 
     // Default constructor for JPA deserialization
     public User() {
@@ -40,15 +43,15 @@ public class User {
 
     }
 
-    public String getNameOfMostOwnedBook() {
-        Map<String, Long> bookOwnershipCount = books.stream()
-            .collect(Collectors.groupingBy(Book::getName, Collectors.counting()));
-        return bookOwnershipCount.entrySet()
-            .stream()
-            .max(Map.Entry.comparingByValue())
-            .map(Map.Entry::getKey)
-            .orElse(null);
-    }
+    //public String getNameOfMostOwnedBook() {
+    //    Map<String, Long> bookOwnershipCount = books.stream()
+    //        .collect(Collectors.groupingBy(Book::getName, Collectors.counting()));
+    //    return bookOwnershipCount.entrySet()
+    //        .stream()
+    //        .max(Map.Entry.comparingByValue())
+    //        .map(Map.Entry::getKey)
+    //        .orElse(null);
+    //}
 
     public Long getId() {
         return id;
@@ -82,11 +85,11 @@ public class User {
         this.address = address;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
+    //public List<Book> getBooks() {
+    //    return books;
+    //}
+    //
+    //public void setBooks(List<Book> books) {
+    //    this.books = books;
+    //}
 }

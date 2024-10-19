@@ -1,5 +1,6 @@
 package org.acme.dto.mapper;
 
+import jakarta.persistence.EntityManager;
 import java.util.stream.Collectors;
 import org.acme.dto.BookDto;
 import org.acme.dto.TDTO;
@@ -7,7 +8,6 @@ import org.acme.entity.Book;
 import org.acme.entity.User;
 
 public class UserMapper {
-
 
 
 

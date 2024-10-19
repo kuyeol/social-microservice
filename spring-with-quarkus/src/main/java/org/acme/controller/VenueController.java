@@ -1,20 +1,16 @@
 package org.acme.controller;
 
 
-import jakarta.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.acme.dto.Dto;
-import org.acme.entity.location.Venue;
+import jakarta.ws.rs.QueryParam;
+import java.util.List;
+import org.acme.dto.TDTO;
+import org.acme.entity.User;
 import org.acme.repository.VenueRepository;
 import org.acme.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,26 +30,53 @@ public class VenueController {
         this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public Venue getFooWithId(@PathVariable String id) throws Exception {
-        return service.getVenueById(id);
+    //@GetMapping("/{id}")
+    //public Venue getFooWithId(@PathVariable String id) throws Exception {
+    //    return service.getVenueById(id);
+    //}
+
+    //@PostMapping("/users")
+    //public ResponseEntity<Venue> createUser(@Valid @RequestBody Dto userDTO) throws URISyntaxException {
+    //    HttpHeaders responseHeaders = new HttpHeaders();
+    //    responseHeaders.set("Baeldung-Example-Header", "Value-ResponseEntityBuilderWithHttpHeaders");
+    //    if (userDTO.getName() == null) {
+    //        throw new RuntimeException();
+    //        // Lowercase the user login before comparing with database
+    //    } else {
+    //        Venue newUser = service.registerUser(userDTO, userDTO.getName());
+    //
+    //        return ResponseEntity.created(new URI("/api/admin/users/" + newUser.getVenueName()))
+    //            .headers(responseHeaders)
+    //            .body(newUser);
+    //    }
+    //}
+    //
+
+
+    @PostMapping("/user")
+    public void create(TDTO dto) {
+
+        service.create(dto);
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<Venue> createUser(@Valid @RequestBody Dto userDTO) throws URISyntaxException {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Baeldung-Example-Header", "Value-ResponseEntityBuilderWithHttpHeaders");
-        if (userDTO.getName() == null) {
-            throw new RuntimeException();
-            // Lowercase the user login before comparing with database
-        } else {
-            Venue newUser = service.registerUser(userDTO, userDTO.getName());
 
-            return ResponseEntity.created(new URI("/api/admin/users/" + newUser.getVenueName()))
-                .headers(responseHeaders)
-                .body(newUser);
-        }
+    @GetMapping("/{name}")
+    public List<User> getUser(@PathVariable("name") String name) {
+
+
+
+        return service.findByName(name);
+
     }
+
+
+    @PostMapping("/user1")
+    public List<User> getUserSS(TDTO dto) {
+
+        return service.findByName(dto.getFirstName());
+
+    }
+
 
 
 }
