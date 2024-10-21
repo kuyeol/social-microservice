@@ -1,10 +1,8 @@
 package org.acme.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 
 public class TDTO {
-
 
 
     @JsonProperty("id")
@@ -16,17 +14,13 @@ public class TDTO {
     @JsonProperty("LAST_NAME")
     private final String lastName;
 
-   @JsonProperty("ADDRESS")
+    @JsonProperty("ADDRESS")
     private final String address;
-
-
 
 
     public TDTO(Long id) {
         this(id, null, null, null);
     }
-
-
 
 
     // Default constructor for Jackson deserialization

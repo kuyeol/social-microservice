@@ -1,11 +1,10 @@
 package org.acme.controller;
 
 
-import jakarta.ws.rs.QueryParam;
 import java.util.List;
+import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.entity.User;
-import org.acme.repository.VenueRepository;
 import org.acme.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
-public class VenueController {
+public class VenueResource {
 
 
-    @Autowired
-    private VenueRepository venueRepository;
     @Autowired
     private Service service;
 
-    public VenueController(VenueRepository venueRepository, Service service) {
-        this.venueRepository = venueRepository;
+    public VenueResource(Service service) {
         this.service = service;
     }
 
@@ -53,19 +49,32 @@ public class VenueController {
     //
 
 
-    @PostMapping("/user")
+    @PostMapping("/create/user")
     public void create(TDTO dto) {
 
         service.create(dto);
     }
 
 
-    @GetMapping("/{name}")
+    @GetMapping("Base/{name}")
     public List<User> getUser(@PathVariable("name") String name) {
 
-
-
         return service.findByName(name);
+
+    }
+
+
+    @GetMapping("s/{name}")
+    public User getUsers(@PathVariable("name") String name) {
+        String N="string";
+        return service.findByNameCol(name);
+
+    }
+
+    @GetMapping("getlist")
+    public Stream<TDTO> getUserss( ) {
+
+        return service.searchForUserStream();
 
     }
 
@@ -76,7 +85,6 @@ public class VenueController {
         return service.findByName(dto.getFirstName());
 
     }
-
 
 
 }
