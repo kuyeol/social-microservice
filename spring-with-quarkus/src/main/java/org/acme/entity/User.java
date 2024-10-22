@@ -1,17 +1,14 @@
 package org.acme.entity;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.NamedQuery;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.acme.utils.ModelUtils;
 
 @Entity
 @Table(name = "users")
@@ -20,8 +17,9 @@ import jakarta.persistence.Table;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name="ID", length = 36)
+    @Access(AccessType.PROPERTY)
+    protected String id;
 
     private String firstName;
     private String lastName;
@@ -37,27 +35,18 @@ public class User {
 
 
     public User(String firstName, String lastName, String address) {
+        this.id = ModelUtils.generateId();
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
 
     }
 
-    //public String getNameOfMostOwnedBook() {
-    //    Map<String, Long> bookOwnershipCount = books.stream()
-    //        .collect(Collectors.groupingBy(Book::getName, Collectors.counting()));
-    //    return bookOwnershipCount.entrySet()
-    //        .stream()
-    //        .max(Map.Entry.comparingByValue())
-    //        .map(Map.Entry::getKey)
-    //        .orElse(null);
-    //}
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -85,11 +74,21 @@ public class User {
         this.address = address;
     }
 
-    //public List<Book> getBooks() {
-    //    return books;
-    //}
-    //
-    //public void setBooks(List<Book> books) {
-    //    this.books = books;
-    //}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof User)) return false;
+
+        User that = (User) o;
+
+        if (!id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

@@ -66,15 +66,18 @@ public class VenueResource {
 
     @GetMapping("s/{name}")
     public User getUsers(@PathVariable("name") String name) {
-        String N="string";
+        String N = "string";
         return service.findByNameCol(name);
 
     }
 
-    @GetMapping("getlist")
-    public Stream<TDTO> getUserss( ) {
+    @GetMapping("getlist/{name}")
+    public Stream<TDTO> getUserss(@PathVariable("name")String name) {
 
-        return service.searchForUserStream();
+        TDTO dto = new TDTO();
+        dto.setFirstName(name);
+
+        return service.searchForUserStream(dto, 0, 100);
 
     }
 
