@@ -2,8 +2,10 @@ package org.acme.controller;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import org.acme.dto.TDTO;
+import org.acme.dto.UserDto;
 import org.acme.entity.User;
 import org.acme.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +74,7 @@ public class VenueResource {
     }
 
     @GetMapping("getlist/{name}")
-    public Stream<TDTO> getUserss(@PathVariable("name")String name) {
+    public Stream<TDTO> getUserss(@PathVariable("name") String name) {
 
         TDTO dto = new TDTO();
         dto.setFirstName(name);
@@ -89,5 +91,25 @@ public class VenueResource {
 
     }
 
+
+    @GetMapping("projecyion")
+    public UserDto FIND(String id) throws Exception {
+
+        return service.projectionEntity(id);
+
+    }
+
+
+    @GetMapping("ALL/projecyion")
+    public List<UserDto> allFIND() throws Exception {
+
+        List<UserDto> dtos = service.getAllEntities();
+
+
+
+
+        return dtos;
+
+    }
 
 }

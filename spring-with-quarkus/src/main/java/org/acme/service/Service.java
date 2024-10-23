@@ -7,7 +7,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.From;
-import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
@@ -18,17 +17,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 import org.acme.dto.TDTO;
+import org.acme.dto.UserDto;
 import org.acme.dto.UserModel;
 import org.acme.dto.mapper.UserMapper;
 import org.acme.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.acme.utils.PaginationUtils.paginateQuery;
 import static org.acme.utils.QueryUtil.closing;
 
 @Transactional
 @org.springframework.stereotype.Service
-//@Qualifier("LookupProvider")
-@SuppressWarnings("JpaQueryApiInspection")
 public class Service {
 
     private static final String EMAIL = "email";
@@ -42,6 +41,8 @@ public class Service {
     private EntityManager em;
 
 
+
+
     public Service(EntityManager em) {
         this.em = em;
 
@@ -53,6 +54,40 @@ public class Service {
         User user = UserMapper.toEntity(dto);
         em.persist(user);
     }
+
+
+    public UserDto projectionEntity(String id) throws Exception {
+
+        User user = em.find(User.class, id);
+
+        return UserMapper.toUserDt(user);
+    }
+
+
+
+    public List<UserDto> getAllEntities() throws Exception {
+        // JPQL 쿼리 작성: YourEntity는 조회하려는 엔터티 클래스
+
+
+        String jpql = "SELECT e FROM User e";
+
+        TypedQuery<User> query = em.createQuery(jpql, User.class);
+
+        List<UserDto> dtos = new ArrayList<>();
+
+        for (User user : query.getResultList()) {
+            if (user.getFirstName()==null) return null;
+            if (user.getFirstName()!=null && user.getLastName()!=null) {
+
+                dtos.add(UserMapper.toUserDt(user));
+            }
+
+        }
+
+        return dtos;
+    }
+
+
 
 
     public User find(TDTO dto) {
@@ -110,7 +145,6 @@ public class Service {
         CriteriaQuery<TDTO> criteria = builder.createQuery(TDTO.class);
         Root<User> roo = criteria.from(User.class);
 
-        Path<String> pp = roo.get(User_.id);
 
         Map<String, String> searchAttributes = new HashMap<>();
         searchAttributes.put(FIRST_NAME, model.getFirstName());
