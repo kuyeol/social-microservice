@@ -1,4 +1,4 @@
-1package org.acme.service;
+package org.acme.service;
 
 
 import jakarta.persistence.EntityManager;

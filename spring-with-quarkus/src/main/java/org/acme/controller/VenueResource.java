@@ -28,28 +28,6 @@ public class VenueResource {
         this.service = service;
     }
 
-    //@GetMapping("/{id}")
-    //public Venue getFooWithId(@PathVariable String id) throws Exception {
-    //    return service.getVenueById(id);
-    //}
-
-    //@PostMapping("/users")
-    //public ResponseEntity<Venue> createUser(@Valid @RequestBody Dto userDTO) throws URISyntaxException {
-    //    HttpHeaders responseHeaders = new HttpHeaders();
-    //    responseHeaders.set("Baeldung-Example-Header", "Value-ResponseEntityBuilderWithHttpHeaders");
-    //    if (userDTO.getName() == null) {
-    //        throw new RuntimeException();
-    //        // Lowercase the user login before comparing with database
-    //    } else {
-    //        Venue newUser = service.registerUser(userDTO, userDTO.getName());
-    //
-    //        return ResponseEntity.created(new URI("/api/admin/users/" + newUser.getVenueName()))
-    //            .headers(responseHeaders)
-    //            .body(newUser);
-    //    }
-    //}
-    //
-
 
     @PostMapping("/create/user")
     public void create(TDTO dto) {
