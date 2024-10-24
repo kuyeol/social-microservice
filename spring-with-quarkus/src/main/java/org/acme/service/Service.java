@@ -44,9 +44,8 @@ public class Service {
 
 
     public Service(EntityManager em) {
+
         this.em = em;
-
-
     }
 
 
@@ -72,6 +71,7 @@ public class Service {
         String jpql = "SELECT e FROM User e";
 
         TypedQuery<User> query = em.createQuery(jpql, User.class);
+
 //todo: 유저맵퍼에서 리스트 가져오기
 // list<user> dtouser = query.getResultList();
 
