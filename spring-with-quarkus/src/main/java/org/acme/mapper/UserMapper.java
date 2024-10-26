@@ -1,4 +1,4 @@
-package org.acme.dto.mapper;
+package org.acme.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.entity.Book;
 import org.acme.entity.User;
+import org.acme.entity.location.Venue;
+import org.acme.mdoel.VenueModel;
 
 public class UserMapper {
 
@@ -15,7 +17,6 @@ public class UserMapper {
     public static User toEntity(TDTO dto) {
         return new User(dto.getFirstName(), dto.getLastName(), dto.getAddress());
     }
-
 
     public static TDTO toDTO(User user) {
 

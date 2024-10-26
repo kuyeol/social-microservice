@@ -19,9 +19,8 @@ import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.dto.UserModel;
-import org.acme.dto.mapper.UserMapper;
+import org.acme.mapper.UserMapper;
 import org.acme.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.acme.utils.PaginationUtils.paginateQuery;
 import static org.acme.utils.QueryUtil.closing;
@@ -42,9 +41,7 @@ public class Service {
 
 
 
-
     public Service(EntityManager em) {
-
         this.em = em;
     }
 

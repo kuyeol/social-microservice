@@ -1,61 +1,62 @@
 package org.acme.entity.location;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import org.acme.utils.ModelUtils;
 
 
 @Entity
-//@NamedQuery(name = "Venue.findByName", query = "select u from Venue u where u.venueName = ?1")
+@NamedQuery(name = "Venue.findByName", query = "select u from Venue u where u.venueName = ?1")
 public class Venue {
 
+    @Id
+    @Column(name = "Id", length = 36)
+    @Access(AccessType.PROPERTY)
+    protected String id;
+
+
+    @Column(name = "VENUENAME")
+    protected String venueName;
+
+    protected Long size;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "Venue_Id")
+    protected Collection<Hall> halls = new LinkedList<>();
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId() {
+        this.id = ModelUtils.generateId();
     }
 
-    public List<Hall> getHalls() {
+    public Collection<Hall> getHalls() {
+        if (halls == null) {
+            halls = new LinkedList<>();
+        }
         return halls;
     }
 
-    @Id
-    private String id;
-
-    private String venueName;
-
-    private Long size;
-
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "venue_id")
-    private final List<Hall> halls = new ArrayList<>();
-
-
-    public Venue(String venueName, Long size, List<Hall> halls) {
-        super();
-        this.venueName = venueName;
-        this.size = size;
-        this.halls.addAll(halls);
+    public void setHalls(Collection<Hall> halls) {
+        this.halls = halls;
     }
 
-    public Venue() {
-        super();
-    }
 
-    public Venue(String venueName, Long size) {
-        super();
-        this.venueName = venueName;
-        this.size = size;
-    }
+
 
 
     public Long getSize() {

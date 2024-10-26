@@ -7,7 +7,9 @@ import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.entity.User;
+import org.acme.mdoel.VenueModel;
 import org.acme.service.Service;
+import org.acme.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +26,25 @@ public class VenueResource {
     @Autowired
     private Service service;
 
-    public VenueResource(Service service) {
+
+    @Autowired
+    private VenueService venueService;
+
+    public VenueResource(Service service, VenueService venueService) {
         this.service = service;
+        this.venueService = venueService;
     }
+
+
+
+
+    @PostMapping("/create/venue")
+    public VenueModel createVenue(VenueModel model) {
+
+        venueService.createArtikel(model);
+        return model;
+    }
+
 
 
     @PostMapping("/create/user")
