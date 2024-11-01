@@ -5,36 +5,40 @@ import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import javax.persistence.Table;
 import org.acme.utils.ModelUtils;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 @Entity
-@NamedQuery(name = "Venue.findByName", query = "select u from Venue u where u.venueName = ?1")
+@Table
 public class Venue {
 
     @Id
-    @Column(name = "Id", length = 36)
+    @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    protected String id;
+    private String id;
 
 
     @Column(name = "VENUENAME")
-    protected String venueName;
+    private String venueName;
 
-    protected Long size;
+    @Column(name = "size")
+    private Long size;
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "Venue_Id")
-    protected Collection<Hall> halls = new LinkedList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy= "venue")
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size=20)
+    private Collection<Hall> halls = new LinkedHashSet<>();
 
     public String getId() {
         return id;
@@ -46,7 +50,7 @@ public class Venue {
 
     public Collection<Hall> getHalls() {
         if (halls == null) {
-            halls = new LinkedList<>();
+            halls = new LinkedHashSet<>();
         }
         return halls;
     }
@@ -54,9 +58,6 @@ public class Venue {
     public void setHalls(Collection<Hall> halls) {
         this.halls = halls;
     }
-
-
-
 
 
     public Long getSize() {
@@ -84,4 +85,26 @@ public class Venue {
             ", halls=" + halls +
             '}';
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Venue)) return false;
+
+        Venue that = (Venue) o;
+
+        if (!id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+
+
 }

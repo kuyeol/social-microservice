@@ -2,6 +2,8 @@ package org.acme.dto;
 
 public class UserDto {
 
+
+
     private String username;
 
 
@@ -17,9 +19,7 @@ public class UserDto {
     }
 
     public void setUsername(String name) {
-        if(name == null && name.isEmpty()) {
-            return;
-        }
+
         this.username = name;
     }
 

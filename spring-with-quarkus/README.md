@@ -1,4 +1,79 @@
 
+
+```java
+
+
+
+@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="user")
+@Fetch(FetchMode.SELECT)
+@BatchSize(size = 20)
+protected Collection<CredentialEntity> credentials = new LinkedList<>();
+
+---
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
+    protected UserEntity user;
+
+
+```
+
+
+```sql
+create table hall
+(
+seatcount integer     not null,
+id        varchar(36) not null
+primary key,
+venue_id  varchar(36)
+constraint fkx55jd3ym293mw39i0sfnb16v
+references venue,
+hallname  varchar(255)
+);
+
+alter table hall
+owner to quarkus;
+```
+
+
+
+```sql
+-- auto-generated definition
+create table credential
+(
+    id              varchar(36) not null
+        constraint constraint_f
+            primary key,
+    salt            bytea,
+    type            varchar(255),
+    user_id         varchar(36)
+        constraint fk_pfyr0glasqyl0dei3kl69r6v0
+            references user_entity,
+    created_date    bigint,
+    user_label      varchar(255),
+    secret_data     text,
+    credential_data text,
+    priority        integer
+);
+
+alter table credential
+    owner to quarkus;
+
+create index idx_user_credential
+    on credential (user_id);
+
+```
+
+
+
+
+
+
+
+
+
+
+
 @PostConstruct
 private void loadData() {    
 repository.deleteAll();    

@@ -79,7 +79,6 @@ public class Service {
         for (User user : query.getResultList()) {
             if (user.getFirstName()==null) return null;
             if (user.getFirstName()!=null && user.getLastName()!=null) {
-
                 dtos.add(UserMapper.toUserDt(user));
             }
 

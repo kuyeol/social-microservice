@@ -38,7 +38,7 @@ public class VenueResource {
 
 
 
-    @PostMapping("/create/venue")
+    @PostMapping("/create/venueEntity")
     public VenueModel createVenue(VenueModel model) {
 
         venueService.createArtikel(model);

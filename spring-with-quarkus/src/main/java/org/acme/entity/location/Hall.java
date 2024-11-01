@@ -2,39 +2,45 @@ package org.acme.entity.location;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import java.util.Collection;
 import java.util.LinkedList;
-import org.acme.entity.object.Seat;
 import org.acme.utils.ModelUtils;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 @Entity
-@Table(name = "HALL", uniqueConstraints = {@UniqueConstraint(columnNames = {"VENUE_ID", "HALLNAME"})})
+@Table(name = "HALL")
 public class Hall {
 
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    protected String id;
+    private String id;
 
     @Column(name = "HALLNAME")
-    protected String hallName;
+    private String hallName;
 
 
-    @Column(name = "VENUE_ID")
-    protected String venueId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "venue_id",nullable = false)
+    private Venue venue;
 
-    protected int seatCount;
+    private int seatCount;
 
 
-    @OneToMany
-    protected Collection<Seat> seatCapacity = new LinkedList<>();
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="hall")
+    @Fetch(FetchMode.SELECT)
+    private Collection<Seat> seatCapacity = new LinkedList<>();
 
 
     public Collection<Seat> getSeatCapacity() {
@@ -48,12 +54,12 @@ public class Hall {
         this.seatCapacity = seatCapacity;
     }
 
-    public String getVenueId() {
-        return venueId;
+    public Venue getVenue() {
+        return venue;
     }
 
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
+    public void setVenue(Venue venue) {
+        this.venue = venue;
     }
 
     public String getId() {
@@ -80,6 +86,28 @@ public class Hall {
     public void setSeatCount(int seatCount) {
         this.seatCount = seatCount;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Hall)) return false;
+
+        Hall that = (Hall) o;
+
+        if (!id.equals(that.getId())) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+
+
 
 
 }

@@ -1,15 +1,10 @@
 package org.acme.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 import org.acme.dto.BookDto;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.entity.Book;
 import org.acme.entity.User;
-import org.acme.entity.location.Venue;
-import org.acme.mdoel.VenueModel;
 
 public class UserMapper {
 
@@ -24,6 +19,7 @@ public class UserMapper {
     }
 
     public static UserDto toUserDt(User user) throws Exception {
+
         if (user == null) {
             throw new Exception("User is null");
         }
@@ -33,7 +29,6 @@ public class UserMapper {
         if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
             rep.setUsername(user.getFirstName());
         }
-
 
 
         return rep;

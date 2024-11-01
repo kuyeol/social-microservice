@@ -3,7 +3,6 @@ package org.acme.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.acme.entity.location.Venue;
 import org.acme.mapper.VenueMapper;
 import org.acme.mdoel.VenueModel;
 @Transactional
