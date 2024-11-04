@@ -1,4 +1,4 @@
-package org.acme.entity;
+package org.acme.entity.person;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;

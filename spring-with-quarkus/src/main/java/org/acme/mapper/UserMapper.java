@@ -3,8 +3,8 @@ package org.acme.mapper;
 import org.acme.dto.BookDto;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
-import org.acme.entity.Book;
-import org.acme.entity.User;
+
+import org.acme.entity.person.User;
 
 public class UserMapper {
 
@@ -34,18 +34,8 @@ public class UserMapper {
         return rep;
     }
 
-    //public static Stream<UserDto> toUserDto(Stream<User> user) {
-    //    if (user == null) {
-    //        return null;
-    //    }
-    //    Stream<UserDto> dtos = user.map(UserMapper::toUserDt);
-    //
-    //    return dtos;
-    //}
 
-    public static BookDto toDto(Book entity) {
-        return new BookDto(entity.getName(), entity.getAuthor());
-    }
+
 
 
 }

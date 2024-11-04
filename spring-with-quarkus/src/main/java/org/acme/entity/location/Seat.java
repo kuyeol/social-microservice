@@ -29,8 +29,8 @@ public class Seat  {
     private int seatCapacity;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HALL_ID")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "HALL_ID",nullable = false)
     private Hall hall;
 
 

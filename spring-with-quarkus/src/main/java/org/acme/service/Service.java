@@ -20,7 +20,7 @@ import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.dto.UserModel;
 import org.acme.mapper.UserMapper;
-import org.acme.entity.User;
+import org.acme.entity.person.User;
 
 import static org.acme.utils.PaginationUtils.paginateQuery;
 import static org.acme.utils.QueryUtil.closing;

@@ -2,11 +2,10 @@ package org.acme.controller;
 
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
-import org.acme.entity.User;
+import org.acme.entity.person.User;
 import org.acme.mdoel.VenueModel;
 import org.acme.service.Service;
 import org.acme.service.VenueService;
@@ -34,7 +33,6 @@ public class VenueResource {
         this.service = service;
         this.venueService = venueService;
     }
-
 
 
 
