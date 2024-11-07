@@ -61,7 +61,7 @@ public class Schedule {
     }
 
     private LocalDateTime date;
-    private LocalTime startTime;
+     private LocalTime startTime;
     private LocalTime endTime;
     private Duration runingTime = Duration.between(startTime, endTime);
     ;

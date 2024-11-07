@@ -19,8 +19,8 @@ import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.dto.UserModel;
-import org.acme.mapper.UserMapper;
 import org.acme.entity.person.User;
+import org.acme.mapper.UserMapper;
 
 import static org.acme.utils.PaginationUtils.paginateQuery;
 import static org.acme.utils.QueryUtil.closing;
@@ -38,7 +38,6 @@ public class Service {
 
     @PersistenceContext
     private EntityManager em;
-
 
 
     public Service(EntityManager em) {
@@ -60,7 +59,6 @@ public class Service {
     }
 
 
-
     public List<UserDto> getAllEntities() throws Exception {
         // JPQL 쿼리 작성: YourEntity는 조회하려는 엔터티 클래스
 
@@ -69,16 +67,18 @@ public class Service {
 
         TypedQuery<User> query = em.createQuery(jpql, User.class);
 
-//todo: 유저맵퍼에서 리스트 가져오기
-// list<user> dtouser = query.getResultList();
+        //todo: 유저맵퍼에서 리스트 가져오기
+        // list<user> dtouser = query.getResultList();
 
-//UserMapper.toUserDt(dtouser);
+        //UserMapper.toUserDt(dtouser);
 
         List<UserDto> dtos = new ArrayList<>();
 
         for (User user : query.getResultList()) {
-            if (user.getFirstName()==null) return null;
-            if (user.getFirstName()!=null && user.getLastName()!=null) {
+            if (user.getFirstName() == null) {
+                return null;
+            }
+            if (user.getFirstName() != null && user.getLastName() != null) {
                 dtos.add(UserMapper.toUserDt(user));
             }
 
@@ -86,8 +86,6 @@ public class Service {
 
         return dtos;
     }
-
-
 
 
     public User find(TDTO dto) {
