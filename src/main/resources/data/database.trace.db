@@ -1,6 +1,0 @@
-2024-11-03 14:43:46.828041+09:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table public.component_config (component_id varchar(36) not null, id varchar(36) not null, name varchar(255) not null, [*]value clob, primary key (id))"; expected "identifier"; SQL statement:
-create table public.component_config (component_id varchar(36) not null, id varchar(36) not null, name varchar(255) not null, value clob, primary key (id)) [42001-230]
-2024-11-03 14:43:46.837013+09:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COMPONENT_CONFIG" not found; SQL statement:
-create index public.idx_compo_config_compo on public.component_config (component_id) [42102-230]

@@ -1,0 +1,1 @@
+{"common":{"messageId":null,"message":"success","requestUri":"/v1/boards-count","gtid":"","timestamp":null,"internalHttpStatusCode":200},"data":[{"boardNo":10,"boardEngName":"REVIEWS","count":239,"existEvent":true},{"boardNo":62,"boardEngName":"EXPECTED_COMMENT","count":385,"existEvent":false}]}
