@@ -1,7 +1,7 @@
 package org.acme.mapper;
 
 import org.acme.entity.location.Venue;
-import org.acme.mdoel.VenueModel;
+import org.acme.model.VenueModel;
 
 
 public class VenueMapper {

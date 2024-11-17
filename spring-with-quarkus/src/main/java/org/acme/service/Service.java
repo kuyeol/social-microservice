@@ -45,6 +45,18 @@ public class Service {
     }
 
 
+    public void validate(TDTO dto) {
+        if (dto.getFirstName() == null || dto.getLastName() == null || dto.getId() == null || (em.find(User.class,
+            dto.getId()) == null)) {
+            throw new RuntimeException("User not found");
+        } else {
+            System.out.println("User found");
+            em.persist(dto);
+        }
+
+    }
+
+
     public void create(TDTO dto) {
         User user = UserMapper.toEntity(dto);
         em.persist(user);

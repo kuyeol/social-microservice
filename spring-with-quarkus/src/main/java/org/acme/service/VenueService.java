@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.acme.mapper.VenueMapper;
-import org.acme.mdoel.VenueModel;
+import org.acme.model.VenueModel;
 @Transactional
 @org.springframework.stereotype.Service
 public class VenueService {

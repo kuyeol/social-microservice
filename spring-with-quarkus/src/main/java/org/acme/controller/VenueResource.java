@@ -1,13 +1,12 @@
 package org.acme.controller;
 
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 import org.acme.dto.TDTO;
 import org.acme.dto.UserDto;
 import org.acme.entity.person.User;
-import org.acme.mdoel.VenueModel;
+import org.acme.model.VenueModel;
 import org.acme.service.Service;
 import org.acme.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;

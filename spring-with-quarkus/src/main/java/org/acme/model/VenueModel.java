@@ -1,9 +1,16 @@
-package org.acme.mdoel;
+package org.acme.model;
+
+
+import jakarta.persistence.Graph;
 
 public class VenueModel {
 
     private String venueName;
     private Long size;
+
+
+
+
 
 
     public String getVenueName() {
