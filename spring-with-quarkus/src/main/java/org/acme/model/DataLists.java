@@ -1,8 +1,12 @@
 package org.acme.model;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 public class DataLists {
 
@@ -121,15 +125,132 @@ public class DataLists {
 
     static final Map<String, String> testList = new ConcurrentHashMap<>();
 
-    public static void main(String[] a) throws Exep {
+    public static void main(String[] a) throws ReservationConflictException {
 
 
-        addRental("10:00", "Unavailable");
-        addRental("10:00", "Available");
+        int k = 10;
+        int s = 0;
+        while (k >= 1) {
+            s += k;
+            k -= k & -k;
+
+        }
+        System.out.println(s);
 
 
         //Stream testStream = testList.entrySet().stream();
         //testStream.forEach(System.out::println);
+
+        addRental("10:00", "Unavailable");
+        addRental("10:00", "Available");
+
+        String dateString = "2024-03-10 09:30";
+        String endString = "2024-03-10 22:00";
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        LocalDateTime parsedDateTime = LocalDateTime.parse(dateString, formatter);
+        LocalDateTime parsedEndTime = LocalDateTime.parse(endString, formatter);
+
+        enum State {
+            START, END
+        }
+
+        class Slot {
+            LocalDateTime time;
+            State init;
+            Slot slot;
+
+            private final State set = State.END;
+
+            public Slot(LocalDateTime time) {
+                this.time = time;
+
+            }
+
+            public void setStatus(State s) {
+                this.init = s;
+            }
+
+            public void setState() {
+                slot = new Slot(time);
+                slot.init = set;
+
+            }
+
+
+            public Slot getSlot() {
+                return slot;
+            }
+
+
+            @Override
+            public String toString() {
+                return "\t" + time + " : " + init;
+            }
+
+
+        }
+
+        LocalDateTime slotT = LocalDateTime.parse(dateString, formatter);
+
+        //TODO: 범위 계산 메서드 작성 참고
+        /**
+         *   Period ,Duration
+         *   .isBefore() , .isAfter()
+         */
+
+
+        Map<String, State> timeSlots = new LinkedHashMap<>();
+
+
+        while (parsedDateTime.isBefore(parsedEndTime)) {
+
+            LocalDateTime temp = parsedDateTime;
+            parsedDateTime = temp.plusMinutes(30);
+            if (temp.getMinute() == 30) {
+                timeSlots.putIfAbsent(temp.format(formatter), State.END);
+            }
+            timeSlots.putIfAbsent(temp.format(formatter), State.START);
+        }
+
+        LocalDateTime date = LocalDateTime.of(2024, 03, 10, 9, 00);
+        LocalDateTime end = LocalDateTime.of(2023, 10, 10, 20, 20);
+
+
+        //
+
+        for (int i = 0; i < 10; i++) {
+            timeSlots.get(date.format(formatter));
+           // System.out.println(timeSlots.get(date.format(formatter)));
+            String d = String.valueOf(timeSlots.get(date.format(formatter)));
+
+            String dd = "hi";
+
+            if(dd !=null) {
+                System.out.println("FOR LOOP : "+d);
+                continue;
+            }else {
+                System.out.println("FOR LOOP : "+d);
+            }
+
+        }
+
+
+        System.out.println(timeSlots.get("2024-03-10 13:00").equals(State.START));
+
+        System.out.println();
+
+        Stream tableStream = timeSlots.entrySet().stream();
+
+
+        tableStream.forEach(System.out::println);
+
+
+        String formatDateTime = parsedDateTime.format(formatter);
+        // Display the parsed LocalDateTime object
+        System.out.println("Parsed Date and Time: " + parsedDateTime);
+        System.out.println("Parsed Date and Time: " + formatDateTime);
 
     }
 
@@ -143,7 +264,7 @@ public class DataLists {
 
         if (thisValue == null) {
             thisValue = testList.put(k, v);
-            System.out.println("\t[Notice ]\t: " + k + "에 예약이 성공적으로 추가 되었습니다");
+            System.out.println("\t[Notice ]\t: " + k + " 예약이 성공적으로 추가 되었습니다");
         } else {
             System.out.println("\t[Warning]\t: " + k + "는 이미 예약되어 있습니다");
         }
