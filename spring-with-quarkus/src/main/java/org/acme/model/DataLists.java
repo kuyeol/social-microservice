@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public class DataLists {
 
+
     private String[] array;
 
 
@@ -20,6 +21,7 @@ public class DataLists {
 
     public DataLists(String[] array) {
         this.array = array;
+
     }
 
     public void setData(int start, int end) {
@@ -54,14 +56,14 @@ public class DataLists {
     public static int factori(int n) throws Exep {
         rr = n;
         getR();
-        System.out.println("\t" + "(" + n + ")");
+        java.lang.System.out.println("\t" + "(" + n + ")");
         if (n < 0) {
             throw new Exep("0보다 작음");
         } else if (n == 0) {
             return 1;
         } else {
-            System.out.print("\t - " + n + " * ");
-            System.out.print(rr);
+            java.lang.System.out.print("\t - " + n + " * ");
+            java.lang.System.out.print(rr);
             return n * factori(n - 1);
         }
 
@@ -77,7 +79,7 @@ public class DataLists {
                 for (int k = 0; k < 1; k++) {
                     p += n;
 
-                    System.out.println(p);
+                    java.lang.System.out.println(p);
                 }
 
             }
@@ -92,7 +94,7 @@ public class DataLists {
         int y = 0;
         for (int i = 0; i < x * n; i++) {
             y += x;
-            System.out.println(i + ": " + y);
+            java.lang.System.out.println(i + ": " + y);
             for (int j = 0; j < n; j++) {
 
                 p += y;
@@ -114,10 +116,10 @@ public class DataLists {
 
             long[] temp = f(x - 1);
             for (long t : temp) {
-                System.out.print("'" + t + ",");
+                java.lang.System.out.print("'" + t + ",");
             }
             long[] temp2 = {temp[0] + temp[1], temp[0]};
-            System.out.println("\n / " + temp[0] + " / " + temp[1]);
+            java.lang.System.out.println("\n / " + temp[0] + " / " + temp[1]);
 
             return temp2;
         }
@@ -125,18 +127,25 @@ public class DataLists {
 
     static final Map<String, String> testList = new ConcurrentHashMap<>();
 
-    public static void main(String[] a) throws ReservationConflictException {
+
+    public static void main(String[] a) {
 
 
-        int k = 10;
-        int s = 0;
-        while (k >= 1) {
-            s += k;
-            k -= k & -k;
+        TimeTable tt = new TimeTable();
 
-        }
-        System.out.println(s);
+        System.out.println(tt);
 
+        tt.addSlot(10);
+        tt.addSlot(110);
+        tt.addSlot(1110);
+        tt.addSlot(11110);
+        tt.getRental();
+        tt.getRental();
+        tt.getRental();
+        tt.getRental();
+        tt.getRental();
+
+        System.out.println(tt);
 
         //Stream testStream = testList.entrySet().stream();
         //testStream.forEach(System.out::println);
@@ -200,6 +209,8 @@ public class DataLists {
          *   .isBefore() , .isAfter()
          */
 
+        LocalDateTime date = LocalDateTime.of(2024, 03, 10, 9, 00);
+        LocalDateTime end = LocalDateTime.of(2023, 10, 10, 20, 20);
 
         Map<String, State> timeSlots = new LinkedHashMap<>();
 
@@ -214,43 +225,22 @@ public class DataLists {
             timeSlots.putIfAbsent(temp.format(formatter), State.START);
         }
 
-        LocalDateTime date = LocalDateTime.of(2024, 03, 10, 9, 00);
-        LocalDateTime end = LocalDateTime.of(2023, 10, 10, 20, 20);
 
-
-        //
-
-        for (int i = 0; i < 10; i++) {
-            timeSlots.get(date.format(formatter));
-           // System.out.println(timeSlots.get(date.format(formatter)));
-            String d = String.valueOf(timeSlots.get(date.format(formatter)));
-
-            String dd = "hi";
-
-            if(dd !=null) {
-                System.out.println("FOR LOOP : "+d);
-                continue;
-            }else {
-                System.out.println("FOR LOOP : "+d);
-            }
-
-        }
+        Stream tableStream = timeSlots.entrySet().stream();
+        tableStream.forEach(System.out::println);
 
 
         System.out.println(timeSlots.get("2024-03-10 13:00").equals(State.START));
 
         System.out.println();
 
-        Stream tableStream = timeSlots.entrySet().stream();
-
-
-        tableStream.forEach(System.out::println);
-
 
         String formatDateTime = parsedDateTime.format(formatter);
         // Display the parsed LocalDateTime object
         System.out.println("Parsed Date and Time: " + parsedDateTime);
+
         System.out.println("Parsed Date and Time: " + formatDateTime);
+
 
     }
 
@@ -264,9 +254,9 @@ public class DataLists {
 
         if (thisValue == null) {
             thisValue = testList.put(k, v);
-            System.out.println("\t[Notice ]\t: " + k + " 예약이 성공적으로 추가 되었습니다");
+            java.lang.System.out.println("\t[Notice ]\t: " + k + " 예약이 성공적으로 추가 되었습니다");
         } else {
-            System.out.println("\t[Warning]\t: " + k + "는 이미 예약되어 있습니다");
+            java.lang.System.out.println("\t[Warning]\t: " + k + "는 이미 예약되어 있습니다");
         }
         return thisValue;
     }
