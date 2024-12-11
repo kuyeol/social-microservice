@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.LinkedList;
+import org.acme.entity.item.Seat;
 import org.acme.utils.ModelUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -42,7 +43,9 @@ public class Hall {
     @Fetch(FetchMode.SELECT)
     private Collection<Seat> seatCapacity = new LinkedList<>();
 
-
+public Hall(){
+    setId();
+}
     public Collection<Seat> getSeatCapacity() {
         if (seatCapacity == null) {
             seatCapacity = new LinkedList<>();
@@ -107,7 +110,15 @@ public class Hall {
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "\nHall {" +
+            "\n"+
+            "id='" + id + '\'' +
+            ", hallName='" + hallName + '\'' +
+            ", venue=" + venue +
+            ", seatCount=" + seatCount +
+            ", seatCapacity=" + seatCapacity +
+            '}';
+    }
 }

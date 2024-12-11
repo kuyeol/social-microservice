@@ -18,7 +18,7 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table
-public class Venue {
+public  class Venue {
 
     @Id
     @Column(name = "ID", length = 36)
@@ -32,10 +32,18 @@ public class Venue {
     @Column(name = "size")
     private Long size;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy= "venue")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "venue")
     @Fetch(FetchMode.SELECT)
-    @BatchSize(size=20)
+    @BatchSize(size = 20)
     private Collection<Hall> halls = new LinkedHashSet<>();
+
+    public Venue() {
+        setId();
+    }
+
+    public Venue(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -52,17 +60,27 @@ public class Venue {
         return halls;
     }
 
-    public void setHalls(Collection<Hall> halls) {
-        this.halls = halls;
+
+    public void setHalls(String halls) {
+
+        Hall hall = new Hall();
+
+        hall.setHallName(halls);
+
+        this.halls.add(hall);
     }
 
 
     public Long getSize() {
+
+        this.size = (long) halls.size();
+
+
         return size;
     }
 
     public void setSize(Long size) {
-        this.size = size;
+        //this.size = (long) halls.size();
     }
 
 
@@ -76,23 +94,32 @@ public class Venue {
 
     @Override
     public String toString() {
-        return "Venue{" +
-            "venueName='" + venueName + '\'' +
-            ", size=" + size +
-            ", halls=" + halls +
-            '}';
+        return "\tVenue{" +
+            "\t\n"+
+            "\tvenueName='" + venueName + '\'' +
+            "\t, size=" + size +
+            "\t,\n halls=" + halls +
+            "\t\n"+'}';
     }
 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (!(o instanceof Venue)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof Venue)) {
+            return false;
+        }
 
         Venue that = (Venue) o;
 
-        if (!id.equals(that.id)) return false;
+        if (!id.equals(that.id)) {
+            return false;
+        }
 
         return true;
     }
@@ -101,7 +128,6 @@ public class Venue {
     public int hashCode() {
         return id.hashCode();
     }
-
 
 
 }

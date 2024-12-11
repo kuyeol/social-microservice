@@ -11,9 +11,7 @@ public class ReservationManager {
 
     private static final Map<LocalDateTime, Reservation> reservations = new ConcurrentHashMap<>();
 
-    public  List<Reservation> addReservations(Map<LocalDateTime, Reservation> mapTemp ,LocalDateTime startTime,
-        int numSlots
-        /* ... other reservation details */) throws ReservationConflictException {
+    public List<Reservation> addReservations(Map<LocalDateTime, Reservation> mapTemp, LocalDateTime startTime, int numSlots) throws ReservationConflictException {
 
         // 1. Generate Time Slots:
         List<LocalDateTime> timeSlots =

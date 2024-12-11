@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
+import org.acme.entity.location.Hall;
+import org.acme.entity.location.Venue;
 
 public class DataLists {
 
@@ -129,6 +131,50 @@ public class DataLists {
 
 
     public static void main(String[] a) {
+
+
+        VenueManager vm = new VenueManager();
+
+        Venue venue1 = new Venue();
+        Venue venue2 = new Venue();
+        Venue venue3 = new Venue("3433443");
+
+        venue1.setVenueName("예술의 전당");
+        venue2.setVenueName("현대 아트홀");
+        venue3.setVenueName("카네기 아트홀");
+
+
+        Hall hallA = new Hall();
+        hallA.setId();
+        hallA.setHallName("hallA");
+
+        Hall hallb = new Hall();
+        hallb.setId();
+        hallb.setHallName("hallb");
+
+        venue1.setHalls("hallA");
+        venue1.setHalls("hallb");
+
+        vm.addVenue(venue1);
+        vm.addVenue(venue2);
+        vm.addVenue(venue3);
+
+
+
+        System.out.println(vm);
+        System.out.println(vm.getSizes());
+        System.out.println(vm.getSize());
+
+        vm.removeVenue("현대아트홀");
+        vm.removeVenue("예술의전당");
+
+        System.out.println("-----");
+        System.out.println("-----");
+        System.out.println("-----");
+
+        System.out.println(vm);
+
+
 
 
         TimeTable tt = new TimeTable();

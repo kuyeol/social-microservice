@@ -98,7 +98,7 @@ public class VenueResource {
     @GetMapping("ALL/projecyion")
     public List<UserDto> allFIND() throws Exception {
 
-        List<UserDto> dtos = service.getAllEntities();
+        List<UserDto> dtos = service.getAllEntities(UserDto.class);
 
 
 

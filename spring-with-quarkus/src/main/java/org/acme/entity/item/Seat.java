@@ -1,4 +1,4 @@
-package org.acme.entity.location;
+package org.acme.entity.item;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -9,12 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.acme.entity.location.Hall;
 
 
 @Entity
 //@NamedQuery(name="getHallSeatCount", query="select count(u) from Seat u where u.hallId = :hallId")
-@Table(name="seat")
-public class Seat  {
+@Table(name = "seat")
+public class Seat {
 
     @Id
     @Column(name = "ID", length = 36)
@@ -22,15 +23,16 @@ public class Seat  {
     private String id;
 
 
-
     @Column(name = "seat_no")
     private int seatNumber;
+
+    private String seatGrade;
 
     private int seatCapacity;
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "HALL_ID",nullable = false)
+    @JoinColumn(name = "HALL_ID", nullable = false)
     private Hall hall;
 
 
@@ -41,6 +43,7 @@ public class Seat  {
     public void setHallId(Hall hallId) {
         this.hall = hallId;
     }
+
     public int getSeatNumber() {
         return seatNumber;
     }
@@ -58,7 +61,22 @@ public class Seat  {
     }
 
 
+    public String getSeatGrade() {
+        return seatGrade;
+    }
 
+    public void setSeatGrade(String seatGrade) {
+        this.seatGrade = seatGrade;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Seat{" +
+            "id='" + id + '\'' +
+            ", seatGrade=['" + seatGrade + '\'' +
+            "] , seatNumber=No." + seatNumber +
+            ", seatCapacity=" + seatCapacity +
+            ", hall=" + hall +
+            '}';
+    }
 }

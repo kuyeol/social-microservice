@@ -27,7 +27,7 @@ import static org.acme.utils.QueryUtil.closing;
 
 @Transactional
 @org.springframework.stereotype.Service
-public class Service {
+public class Service<T> {
 
     private static final String EMAIL = "email";
     private static final String EMAIL_VERIFIED = "emailVerified";
@@ -36,11 +36,15 @@ public class Service {
     private static final String LAST_NAME = "lastName";
     private static final char ESCAPE_BACKSLASH = '\\';
 
+    private final Class<T> entityClass;
+    private T t;
+
     @PersistenceContext
     private EntityManager em;
 
 
-    public Service(EntityManager em) {
+    public Service(Class<T> entityClass, EntityManager em) {
+        this.entityClass = entityClass;
         this.em = em;
     }
 
@@ -71,13 +75,13 @@ public class Service {
     }
 
 
-    public List<UserDto> getAllEntities() throws Exception {
+    public List<UserDto> getAllEntities(Class<T> entityClass) throws Exception {
         // JPQL 쿼리 작성: YourEntity는 조회하려는 엔터티 클래스
 
 
         String jpql = "SELECT e FROM User e";
 
-        TypedQuery<User> query = em.createQuery(jpql, User.class);
+        TypedQuery<T> query = em.createQuery(jpql, entityClass);
 
         //todo: 유저맵퍼에서 리스트 가져오기
         // list<user> dtouser = query.getResultList();
@@ -86,12 +90,12 @@ public class Service {
 
         List<UserDto> dtos = new ArrayList<>();
 
-        for (User user : query.getResultList()) {
-            if (user.getFirstName() == null) {
+        for (T user : query.getResultList()) {
+            if (user == null) {
                 return null;
             }
-            if (user.getFirstName() != null && user.getLastName() != null) {
-                dtos.add(UserMapper.toUserDt(user));
+            if (user != null && user != null) {
+                dtos.add(UserMapper.toUserDt((User) user));
             }
 
         }
