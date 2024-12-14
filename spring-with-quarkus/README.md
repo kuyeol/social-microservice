@@ -1,3 +1,99 @@
+public interface Service {
+ResponseEntity<?> handle(String method);
+String getName();
+}
+
+
+@Path("/api")
+
+public class Resource {
+
+    @Inject
+    Service example;
+
+    public Resource(Service exampleResource) {
+        this.example = exampleResource;
+    }
+
+
+    @GET
+    public String hello() {
+        return "Hello World";
+    }
+
+
+    @GET
+    @Path("{uri}/{method}")
+    public ResponseEntity<?> routeRequest(@PathParam("uri") String uri, @PathVariable String method) {
+
+
+        try {
+            if (example.getName().equals(uri)) {
+                System.out.println(example.getName());
+                return example.handle(method);
+            } else if ("product".equals(uri)) {
+                return example.handle(method);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+}
+
+
+
+Path("/user")
+@RestController
+public class ChildService  implements Service{
+
+
+
+    private final String serviceName= "user";
+
+
+
+    @GET
+    @Path("get")
+    public Response getChildData( String id) {
+
+        return Response.ok("Data for child with ID: " + id).build();
+    }
+
+    @Override
+    public ResponseEntity<?> handle(String method) {
+
+        if ("get".equals(method)) {
+            return ResponseEntity.ok(getChildData(method));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Override
+    public String getName() {
+        return this.serviceName;
+    }
+}
+
+
+
+----
+
+
+예시 
+베이스url은 보편적인 http url이다
+
+자식서비스 uri = 베이스url/서비스명/{호출메서드}
+로 명시적으로 정의 
+
+부모 서비스에서 하나의 RestApi를 이용해 자식서비스명에 따라 호출하도록한다
+
+
+
+
 디자인 패턴 문제:
 
 상황: 다양한 종류의 커피
