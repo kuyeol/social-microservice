@@ -17,7 +17,8 @@ import org.acme.utils.ModelUtils;
 @UserDefinition
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "findByName", query = "select u from User u where u.firstName  = :name")
+@NamedQuery(name = "findByName", query = "select u from User u where u.username  = :name")
+@NamedQuery(name = "findByPassword", query = "select u from User u where u.password  = :pw")
 public class User {
 
     @Id
@@ -135,5 +136,18 @@ public class User {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "id='" + id + '\'' +
+            ", role='" + role + '\'' +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", address='" + address + '\'' +
+            '}';
     }
 }
