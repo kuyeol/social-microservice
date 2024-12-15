@@ -138,7 +138,7 @@ Java
 PanacheRepository 인터페이스를 구현하여 간단하게 엔티티 매니저를 사용할 수 있습니다.
 
 1.4. 보안 설정:
-
+```
 Quarkus는 application.properties 또는 application.yml에서 보안 설정을 구성합니다.
 
 quarkus.datasource.db-kind=postgresql
@@ -159,6 +159,7 @@ quarkus.security.jpa.enabled=true: JPA 기반 인증을 활성화합니다.
 quarkus.security.jpa.authenticator.user-query: 사용자 정보를 조회하는 JPQL 쿼리를 지정합니다.
 
 quarkus.security.jpa.authenticator.hash-password=true: 비밀번호를 해시하여 저장합니다.
+```
 
 import.sql 파일을 사용하여 초기 데이터를 추가할 수 있습니다.
 
@@ -170,7 +171,7 @@ INSERT INTO user_roles (user_id, role) VALUES (1, 'USER');
 Use code with caution.
 SQL
 1.5. 컨트롤러:
-
+```
 import io.quarkus.security.identity.SecurityIdentity;
 import org.jboss.resteasy.reactive.RestPath;
 
@@ -216,6 +217,8 @@ public Response success() {
 return Response.ok("success"+ securityIdentity.getPrincipal().getName()).build();
 }
 }
+```
+
 Use code with caution.
 Java
 @Path 와 @GET과 같은 JAX-RS 어노테이션을 사용하여 HTTP 엔드포인트를 설정합니다.
