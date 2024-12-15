@@ -378,7 +378,7 @@ Java
 @PersistenceContext: 엔티티 매니저를 주입합니다.
 
 2.4. 사용자 인증 클래스:
-
+```
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -433,6 +433,7 @@ public class CustomIdentityStore implements IdentityStore {
         }).orElse(CredentialValidationResult.INVALID_RESULT);
     }
 }
+```
 Use code with caution.
 Java
 IdentityStore 인터페이스를 구현하여 사용자 인증 로직을 정의합니다.
