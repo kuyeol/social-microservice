@@ -14,7 +14,7 @@ quarkus-jdbc-postgresql: PostgreSQL JDBC 드라이버
 quarkus-security: Spring Security 대안
 
 quarkus-security-jpa: JPA 기반 인증
-
+```
 <!-- Maven 예시 -->
 <dependencies>
     <dependency>
@@ -38,10 +38,11 @@ quarkus-security-jpa: JPA 기반 인증
             <artifactId>quarkus-resteasy-reactive</artifactId>
         </dependency>
     </dependencies>
+```
 Use code with caution.
 Xml
 1.2. 엔티티 클래스 (User):
-
+```
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
@@ -49,7 +50,7 @@ import io.quarkus.security.jpa.Username;
 
 import javax.persistence.*;
 import java.util.List;
-
+`
 @Entity
 @Table(name = "users")
 @UserDefinition
@@ -114,6 +115,8 @@ public void setRoles(List<String> roles) {
 this.roles = roles;
 }
 }
+```
+
 Use code with caution.
 Java
 @UserDefinition: Quarkus Security에 의해 인식되는 사용자 엔티티임을 나타냅니다.
@@ -121,7 +124,7 @@ Java
 @Username, @Password, @Roles: 사용자 이름, 비밀번호, 권한 필드를 지정합니다.
 
 1.3. 리포지토리 인터페이스:
-
+```
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -133,12 +136,13 @@ public Optional<User> findByUsername(String username) {
 return find("username", username).firstResultOptional();
 }
 }
+```
 Use code with caution.
 Java
 PanacheRepository 인터페이스를 구현하여 간단하게 엔티티 매니저를 사용할 수 있습니다.
 
 1.4. 보안 설정:
-
+```
 Quarkus는 application.properties 또는 application.yml에서 보안 설정을 구성합니다.
 
 quarkus.datasource.db-kind=postgresql
@@ -159,6 +163,7 @@ quarkus.security.jpa.enabled=true: JPA 기반 인증을 활성화합니다.
 quarkus.security.jpa.authenticator.user-query: 사용자 정보를 조회하는 JPQL 쿼리를 지정합니다.
 
 quarkus.security.jpa.authenticator.hash-password=true: 비밀번호를 해시하여 저장합니다.
+```
 
 import.sql 파일을 사용하여 초기 데이터를 추가할 수 있습니다.
 
@@ -170,7 +175,7 @@ INSERT INTO user_roles (user_id, role) VALUES (1, 'USER');
 Use code with caution.
 SQL
 1.5. 컨트롤러:
-
+```
 import io.quarkus.security.identity.SecurityIdentity;
 import org.jboss.resteasy.reactive.RestPath;
 
@@ -216,6 +221,8 @@ public Response success() {
 return Response.ok("success"+ securityIdentity.getPrincipal().getName()).build();
 }
 }
+```
+
 Use code with caution.
 Java
 @Path 와 @GET과 같은 JAX-RS 어노테이션을 사용하여 HTTP 엔드포인트를 설정합니다.
@@ -371,7 +378,7 @@ Java
 @PersistenceContext: 엔티티 매니저를 주입합니다.
 
 2.4. 사용자 인증 클래스:
-
+```
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -426,6 +433,7 @@ public class CustomIdentityStore implements IdentityStore {
         }).orElse(CredentialValidationResult.INVALID_RESULT);
     }
 }
+```
 Use code with caution.
 Java
 IdentityStore 인터페이스를 구현하여 사용자 인증 로직을 정의합니다.
