@@ -1,6 +1,7 @@
 package org.acme.service.customer.entity;
 
 
+import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;
 
 import io.quarkus.security.jpa.Username;
@@ -11,16 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import org.acme.utils.ModelUtils;
 
 
-
-
-
-//@Table(name = "USERS",
-//    uniqueConstraints = {
-//        @UniqueConstraint(columnNames = {"USERNAME"})
-//
-//    })
 
 @Entity
 @Table(name = "USERS")
@@ -39,15 +33,8 @@ public class User {
     @Username
     private String username;
 
-
+    @Password
     private String password;
-
-
-    //
-    //@OneToMany(fetch = jakarta.persistence.FetchType.EAGER, mappedBy = "user")
-    //@BatchSize(size = 20)
-    //protected Collection<Credential> credentials = new LinkedList<>();
-
 
     private String email;
 
@@ -55,17 +42,10 @@ public class User {
 
     private Long createdTimestamp;
 
-
-    //public Collection<Credential> getCredentials() {
-    //    if (credentials == null) {
-    //        credentials = new LinkedList<>();
-    //    }
-    //    return credentials;
-    //}
-    //
-    //public void setCredentials(Collection<Credential> credentials) {
-    //    this.credentials = credentials;
-    //}
+    public User() {
+       this.id = ModelUtils.generateId();
+        this.createdTimestamp = System.currentTimeMillis();
+    }
 
     public Long getCreatedTimestamp() {
         return createdTimestamp;
@@ -100,10 +80,6 @@ public class User {
     }
 
 
-    //// Default constructor for JPA deserialization
-    public User() {
-
-    }
 
 
     public String getEmail() {
@@ -123,23 +99,23 @@ public class User {
         this.address = address;
     }
 
-    //@Override
-    //public boolean equals(Object o) {
-    //    if (this == o) return true;
-    //    if (o == null) return false;
-    //    if (!(o instanceof User)) return false;
-    //
-    //    User that = (User) o;
-    //
-    //    if (!id.equals(that.id)) return false;
-    //
-    //    return true;
-    //}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof User)) return false;
 
-    //@Override
-    //public int hashCode() {
-    //    return id.hashCode();
-    //}
+        User that = (User) o;
+
+        if (!id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
 
 }

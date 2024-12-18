@@ -5,16 +5,16 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.acme.service.customer.entity.User;
 
 
 @ApplicationScoped
 public class CustomerRepository implements Repository<User> {
 
-    @PersistenceContext
+    @Inject
     EntityManager em;
 
 
@@ -24,13 +24,15 @@ public class CustomerRepository implements Repository<User> {
 
 
         em.find(User.class, name);
-        Set<User> U =
-            em.createNamedQuery("findByName", User.class).setParameter("username", name).getResultList().stream()
-                .collect(
-                    Collectors.toSet());
+        List<String> list = new ArrayList<>();
+        em.createNamedQuery("findByName", User.class).setParameter("username", name).getResultList().stream()
+            .filter(s -> s.equals(name)).map(p -> list.add(
+                p.getUsername()));
 
+        System.out.println(list);
 
-        return U.stream().findFirst();
+        return Optional.ofNullable(
+            em.createNamedQuery("findByName", User.class).setParameter("username", name).getSingleResultOrNull());
 
     }
 

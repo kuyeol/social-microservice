@@ -19,33 +19,27 @@ public class UserForm implements FormData {
     private String username;
     private String password;
 
+    private boolean isVaild = false;
 
     private int result = 1;
 
 
-    public boolean getStatus() {
-
-        getUsername();
-        getPassword();
-
-        boolean isVaild = false;
-
-        if (result == 1) {
-
-            map.put("status", "성공");
-
-
-
-            return true;
-
-        } else {
-
-            map.put("status", "실패");
-
-            return false;
-        }
-
-    }
+    //public boolean getStatus() {
+    //
+    //    if (result == 1) {
+    //
+    //        map.put("status", "성공");
+    //
+    //        return true;
+    //
+    //    } else {
+    //
+    //        map.put("status", "실패");
+    //
+    //        return false;
+    //    }
+    //
+    //}
 
     private int getValid(final String k, final String v, int max) {
 
@@ -72,7 +66,7 @@ public class UserForm implements FormData {
         } else {
 
             map.remove(k);
-           // map.put(key, "200");
+            // map.put(key, "200");
             return result;
         }
 
@@ -87,12 +81,12 @@ public class UserForm implements FormData {
 
             return "";
 
-        } else if (getValid("username", this.username, ID_MAX) != 0) {
-
-            return this.username;
-        } else {
+        } else if (getValid("username", this.username, ID_MAX) == 0) {
 
             return "";
+        } else {
+
+            return this.username;
         }
 
     }
@@ -100,14 +94,13 @@ public class UserForm implements FormData {
     @Override
     public String getPassword() {
 
-        if (getValid("password", this.password, PASS_MAX) != 0) {
-            return this.password;
-        } else {
+        if (getValid("password", this.password, PASS_MAX) == 0) {
+
             return "";
+        } else {
+            return this.password;
         }
     }
-
-
 
 
     public JsonObject getMessage() {
