@@ -34,10 +34,10 @@ public class Resource {
 
     @POST
     @Path("/login")
-    @Operation(summary = "Logs a user in", description = "Logs a user in by setting the session cookie and returns user data")
+
     public Response login(User user) {
         // In a real application, you would authenticate the user here.
-        User authenticatedUser = new User("123", user.getName(), "user");
+        User authenticatedUser = new User();
 
         // Create a session
         String sessionId = sessionManager.createSession(authenticatedUser.getId());
@@ -65,7 +65,7 @@ public class Resource {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         // In a real application, you would load user data from database
-        User authenticatedUser = new User(userId, "user", "user");
+        User authenticatedUser = new User();
 
         return Response.ok(authenticatedUser).build();
 
@@ -84,8 +84,6 @@ public class Resource {
     @Path("{path}")
     @Produces(MediaType.APPLICATION_JSON)
     public String hello(@PathParam("path") String path) {
-
-
 
 
         return path;

@@ -1,8 +1,8 @@
 package org.acme.service.customer.entity;
 
-import io.quarkus.security.jpa.Password;
+
 import io.quarkus.security.jpa.Roles;
-import io.quarkus.security.jpa.UserDefinition;
+
 import io.quarkus.security.jpa.Username;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -11,15 +11,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import org.acme.utils.ModelUtils;
 
 
-@UserDefinition
+
+
+
+//@Table(name = "USERS",
+//    uniqueConstraints = {
+//        @UniqueConstraint(columnNames = {"USERNAME"})
+//
+//    })
+
 @Entity
-@Table(name = "users")
-@NamedQuery(name = "findByName", query = "select u from User u where u.username  = :name")
-@NamedQuery(name = "findByPassword", query = "select u from User u where u.password  = :pw")
+@Table(name = "USERS")
+@NamedQuery(name = "findByName", query = "select u from User u where u.username  = :username")
 public class User {
+
 
     @Id
     @Column(name = "ID", length = 36)
@@ -29,19 +36,44 @@ public class User {
     @Roles
     private final String role = "user";
 
-
     @Username
     private String username;
 
 
-    @Password
     private String password;
 
-    private String firstName;
-    private String lastName;
+
+    //
+    //@OneToMany(fetch = jakarta.persistence.FetchType.EAGER, mappedBy = "user")
+    //@BatchSize(size = 20)
+    //protected Collection<Credential> credentials = new LinkedList<>();
+
+
+    private String email;
+
     private String address;
 
+    private Long createdTimestamp;
 
+
+    //public Collection<Credential> getCredentials() {
+    //    if (credentials == null) {
+    //        credentials = new LinkedList<>();
+    //    }
+    //    return credentials;
+    //}
+    //
+    //public void setCredentials(Collection<Credential> credentials) {
+    //    this.credentials = credentials;
+    //}
+
+    public Long getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(Long timestamp) {
+        createdTimestamp = timestamp;
+    }
 
     public String getPassword() {
         return password;
@@ -68,41 +100,20 @@ public class User {
     }
 
 
-    // Default constructor for JPA deserialization
+    //// Default constructor for JPA deserialization
     public User() {
-        this.id = ModelUtils.generateId();
-    }
-
-
-    public User(String firstName, String lastName, String address) {
-        this.id = ModelUtils.generateId();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
 
     }
 
-    public String getName() {
 
-
-        return firstName + lastName;
+    public String getEmail() {
+        return email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getAddress() {
         return address;
@@ -112,42 +123,23 @@ public class User {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof User)) {
-            return false;
-        }
+    //@Override
+    //public boolean equals(Object o) {
+    //    if (this == o) return true;
+    //    if (o == null) return false;
+    //    if (!(o instanceof User)) return false;
+    //
+    //    User that = (User) o;
+    //
+    //    if (!id.equals(that.id)) return false;
+    //
+    //    return true;
+    //}
 
-        User that = (User) o;
+    //@Override
+    //public int hashCode() {
+    //    return id.hashCode();
+    //}
 
-        if (!id.equals(that.id)) {
-            return false;
-        }
 
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-            "id='" + id + '\'' +
-            ", role='" + role + '\'' +
-            ", username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", address='" + address + '\'' +
-            '}';
-    }
 }
