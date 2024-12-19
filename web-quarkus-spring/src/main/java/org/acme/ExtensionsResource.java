@@ -2,6 +2,7 @@ package org.acme;
 
 
 import io.vertx.core.json.JsonObject;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.GET;
@@ -17,10 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.acme.repository.AccountValidator;
 import org.acme.repository.CustomerRepository;
 import org.acme.service.customer.UserForm;
 import org.acme.service.customer.entity.User;
-
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.MethodInfo;
+import org.jboss.jandex.Type;
 
 @ApplicationScoped
 @Path("/user")
@@ -39,13 +44,16 @@ public class ExtensionsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response makeUser(final UserForm form) {
 
+
         if (customerRepository.findByName(form.getUsername()).isPresent()) {
 
             String msg = "이미 등록 된 유저 입니다";
 
+
+
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(errorResponse(msg)).build();
 
-        } else if (form.getUsername().isEmpty() || form.getPassword().isEmpty()) {
+        } else if (form.getUsername().isEmpty() && form.getPassword().isEmpty() ) {
 
             return Response.serverError().entity(errorResponse(form.getMessage())).build();
 
@@ -66,6 +74,10 @@ public class ExtensionsResource {
     public Response finduser(@QueryParam("username")String username) {
 
         Optional<User> u = customerRepository.findByName(username);
+
+
+
+
         return Response.ok(u).build();
 
     }
@@ -95,7 +107,7 @@ public class ExtensionsResource {
 
         User user = new User();
         user.setUsername(form.getUsername());
-        user.setPassword(form.getPassword());
+
         user.setEmail(form.getUsername());
 
         customerRepository.add(user);
@@ -112,8 +124,6 @@ public class ExtensionsResource {
     public Optional<Map<String, String>> convert(TypedQuery<User> query) {
 
         Map<String, String> map = new HashMap<>();
-
-        map.put("password", query.getSingleResultOrNull().getPassword());
 
         return Optional.of(map);
     }

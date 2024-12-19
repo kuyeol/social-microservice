@@ -14,12 +14,12 @@ import jakarta.persistence.Table;
 
 @Table(name = "CREDENTIAL")
 @Entity
-//@NamedQueries({
-//
-//    @NamedQuery(name = "credentialByUser", query = "select cred from Credential cred where cred.user = :user order by cred.priority"),
-//
-//    @NamedQuery(name = "deleteCredentialsByRealm", query =
-//        "delete from Credential cred where cred.user IN (select u from" + " User u where u.id=:Id)")})
+@NamedQueries({
+
+    @NamedQuery(name = "credentialByUser", query = "select cred from Credential cred where cred.user = :user order by cred.priority"),
+
+    @NamedQuery(name = "deleteCredentialsByRealm", query =
+        "delete from Credential cred where cred.user IN (select u from" + " User u where u.id=:Id)")})
 public class Credential {
 
 
@@ -28,7 +28,9 @@ public class Credential {
     @Access(AccessType.PROPERTY)
     private String id;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
+    protected User user;
 
 
     @Column(name = "TYPE")
@@ -56,13 +58,13 @@ public class Credential {
     }
 
 
-    //public User getUser() {
-    //    return user;
-    //}
-    //
-    //public void setUser(User user) {
-    //    this.user = user;
-    //}
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 
     public String getType() {

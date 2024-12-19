@@ -3,7 +3,11 @@ package org.acme.service.customer;
 import io.vertx.core.json.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.acme.repository.FormData;
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.MethodInfo;
+import org.jboss.jandex.Type;
 
 public class UserForm implements FormData {
 
@@ -21,7 +25,9 @@ public class UserForm implements FormData {
 
     private boolean isVaild = false;
 
-    private int result = 1;
+    private int result = 0;
+
+
 
 
     //public boolean getStatus() {
@@ -47,16 +53,12 @@ public class UserForm implements FormData {
 
         if (value < MIN) {
 
-            result *= 0;
-
             int len = MIN - value;
             map.put(k, "글자 수 가" + len + " 만큼 부족 합니다");
 
             return result;
 
         } else if (value > max) {
-
-            result *= 0;
 
             int len = value - max;
             map.put(k, "글자 수 가" + len + " 만큼 초과 하였습니다");
@@ -65,8 +67,9 @@ public class UserForm implements FormData {
 
         } else {
 
-            map.remove(k);
-            // map.put(key, "200");
+            //  map.remove(k);
+            map.put("key", "200");
+            result = 1;
             return result;
         }
 
@@ -77,7 +80,6 @@ public class UserForm implements FormData {
 
         if (!username.matches(ID_REX)) {
             map.put("username", "허용 되지않은 문자가 포함 되었습니다");
-            result *= 0;
 
             return "";
 
@@ -85,6 +87,7 @@ public class UserForm implements FormData {
 
             return "";
         } else {
+
 
             return this.username;
         }
@@ -97,7 +100,9 @@ public class UserForm implements FormData {
         if (getValid("password", this.password, PASS_MAX) == 0) {
 
             return "";
+
         } else {
+
             return this.password;
         }
     }

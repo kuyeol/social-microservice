@@ -7,13 +7,19 @@ import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.Username;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.acme.utils.ModelUtils;
-
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 @Entity
@@ -33,15 +39,17 @@ public class User {
     @Username
     private String username;
 
-    @Password
-    private String password;
+
 
     private String email;
 
     private String address;
 
     private Long createdTimestamp;
-
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="user")
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 20)
+    protected Collection<Credential> credentials = new LinkedList<>();
     public User() {
        this.id = ModelUtils.generateId();
         this.createdTimestamp = System.currentTimeMillis();
@@ -55,13 +63,7 @@ public class User {
         createdTimestamp = timestamp;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getUsername() {
         return username;
