@@ -30,10 +30,10 @@ public Response makeUser(UserForm a) {
             
         } else {
 
-            User user = new User();
-            user.setUsername(a.getUsername());
-            user.setPassword(a.getPassword());
-            customerRepository.add(user);
+            User customer = new User();
+            customer.setUsername(a.getUsername());
+            customer.setPassword(a.getPassword());
+            customerRepository.add(customer);
 
             // return Response.ok(successMethod("회원등록")).build();
             return Response.ok(successMethod(a.getUsername() + " 님의 회원등록")).build();
@@ -183,7 +183,7 @@ public class UserForm {
 
 인증 로직: authenticate 메서드에서 비밀번호를 평문으로 비교하고 있습니다. 비밀번호 해싱을 적용하면, 입력된 비밀번호를 동일한 방식으로 해싱하여 저장된 해시 값과 비교해야 합니다.
 
-user: 자세한 구현은 현재 핵심 로직을 분리 하고 데이터 구조를 생성하여 메서드반환을 하도록한뒤 추가혀려고한다 이유는
+customer: 자세한 구현은 현재 핵심 로직을 분리 하고 데이터 구조를 생성하여 메서드반환을 하도록한뒤 추가혀려고한다 이유는
 현재 세부구현을 먼저 또는 동시에 할 경우 코드가 지저분해지고 품질 저하발생하기 떄문
 
 예외 처리: getaBoolean 메서드에서 예외 발생 시 빈 Optional을 반환합니다. 예외 처리를 개선하여 에러의 원인을 명확하게 파악하고, 클라이언트에 적절한 에러 메시지를 반환해야 합니다. 예를 들어, 사용자를 찾을 수 없는 경우와 비밀번호가 일치하지 않는 경우를 구분하여 처리할 수 있습니다.
@@ -191,7 +191,7 @@ user: 자세한 구현은 현재 핵심 로직을 분리 하고 데이터 구조
 getSingleResultOrNull 사용: getSingleResultOrNull 메서드는 javax.persistence.NoResultException 또는 javax.persistence.NonUniqueResultException 을 발생시킬 수 있습니다. 이를 try-catch 블록으로 감싸거나, getResultList() 를 사용하여 결과 리스트를 가져온 후 처리하는 것이 더 안전합니다.
 
 
-user: { 유저아이디가 없는경우 :Optional.empty,
+customer: { 유저아이디가 없는경우 :Optional.empty,
 유저아이디가 있지만 암호가 틀린경우 :Optional[false],
 모든 정보 일치 :Optional[true] }
 
@@ -200,7 +200,7 @@ user: { 유저아이디가 없는경우 :Optional.empty,
 
 불필요한 변환: convert 메서드는 User 객체를 Map으로 변환하고 있지만, authenticate 메서드에서 User 객체를 직접 사용할 수 있습니다. 불필요한 변환 과정을 제거하여 코드를 간소화할 수 있습니다.
 
-user: 객체를 복제하여 데이터 전송을 안전하게 하려고 한다 추가로 별도의 input폼 데이터구조를 생성할 예정
+customer: 객체를 복제하여 데이터 전송을 안전하게 하려고 한다 추가로 별도의 input폼 데이터구조를 생성할 예정
 
 
 

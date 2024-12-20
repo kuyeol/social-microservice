@@ -134,10 +134,10 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
 
     private void removeUser(UserEntity user) {
         String id = user.getId();
-        em.createNamedQuery("deleteUserRoleMappingsByUser").setParameter("user", user).executeUpdate();
-        em.createNamedQuery("deleteUserGroupMembershipsByUser").setParameter("user", user).executeUpdate();
-        em.createNamedQuery("deleteUserConsentClientScopesByUser").setParameter("user", user).executeUpdate();
-        em.createNamedQuery("deleteUserConsentsByUser").setParameter("user", user).executeUpdate();
+        em.createNamedQuery("deleteUserRoleMappingsByUser").setParameter("customer", user).executeUpdate();
+        em.createNamedQuery("deleteUserGroupMembershipsByUser").setParameter("customer", user).executeUpdate();
+        em.createNamedQuery("deleteUserConsentClientScopesByUser").setParameter("customer", user).executeUpdate();
+        em.createNamedQuery("deleteUserConsentsByUser").setParameter("customer", user).executeUpdate();
 
         em.remove(user);
         em.flush();
@@ -151,7 +151,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
     public void setNotBeforeForUser(UserModel user, int notBefore) {
         UserEntity entity = em.getReference(UserEntity.class, user.getId());
         if (entity == null) {
-            throw new ModelException("User does not exists");
+            throw new ModelException("Customer does not exists");
         }
         entity.setNotBefore(notBefore);
     }
@@ -159,7 +159,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
     public int getNotBeforeOfUser( UserModel user) {
         UserEntity entity = em.getReference(UserEntity.class, user.getId());
         if (entity == null) {
-            throw new ModelException("User does not exists");
+            throw new ModelException("Customer does not exists");
         }
         return entity.getNotBefore();
     }
@@ -279,7 +279,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
 
 
 //    @Override
-//    public UserModel getServiceAccount(ClientModel client) {
+//    public CustomerModel getServiceAccount(ClientModel client) {
 //        TypedQuery<UserEntity> query = em.createNamedQuery("getRealmUserByServiceAccount", UserEntity.class);
 //        query.setParameter("realmId", client.getRealm().getId());
 //        query.setParameter("clientInternalId", client.getId());
@@ -290,8 +290,8 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
 //            throw new IllegalStateException("More service account linked users found for client=" + client.getClientId() +
 //                    ", results=" + results);
 //        } else {
-//            UserEntity user = results.get(0);
-//            return new UserAdapter(session, client.getRealm(), em, user);
+//            UserEntity customer = results.get(0);
+//            return new UserAdapter(session, client.getRealm(), em, customer);
 //        }
 //    }
 
@@ -461,7 +461,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
     public Stream<CredentialModel> getStoredCredentialsByTypeStream( UserModel user, String type) {
         UserEntity userEntity = userInEntityManagerContext(user.getId());
         if (userEntity != null) {
-            // user already in persistence context, no need to execute a query
+            // customer already in persistence context, no need to execute a query
             return userEntity.getCredentials().stream().filter(it -> type.equals(it.getType()))
                     .sorted(Comparator.comparingInt(CredentialEntity::getPriority))
                     .map(this::toModel);
@@ -493,7 +493,7 @@ public class JpaUserProvider implements UserProvider, UserCredentialStore {
 
         if (user.getEmail() != null && !user.getEmail().equals(user.getEmailConstraint())) {
             // Realm settings have been changed from allowing duplicate emails to not allowing them.
-            // We need to update the email constraint to reflect this change in the user entities.
+            // We need to update the email constraint to reflect this change in the customer entities.
             user.setEmailConstraint(user.getEmail());
             em.persist(user);
         }

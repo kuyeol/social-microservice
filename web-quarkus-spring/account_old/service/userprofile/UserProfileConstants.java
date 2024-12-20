@@ -20,12 +20,12 @@
 package org.account.service.userprofile;
 
 /**
- * Constants related to user profile
+ * Constants related to customer profile
  *
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */
 public class UserProfileConstants {
 
-    public static final String ROLE_USER = "user";
+    public static final String ROLE_USER = "customer";
     public static final String ROLE_ADMIN = "admin";
 }

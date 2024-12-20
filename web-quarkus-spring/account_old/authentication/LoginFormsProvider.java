@@ -145,7 +145,7 @@ public interface LoginFormsProvider extends Provider {
 
     /**
      * Used when authenticationSession was already removed for this browser session and hence we don't have any
-     * authenticationSession or user data. Would just repeat previous info/error page after language is changed
+     * authenticationSession or customer data. Would just repeat previous info/error page after language is changed
      */
     LoginFormsProvider setDetachedAuthSession();
 

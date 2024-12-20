@@ -75,7 +75,7 @@ public class UserCredentialModel implements CredentialInput
     }
 
     public static PasswordUserCredentialModel password(String password, boolean adminRequest) {
-        // It uses PasswordUserCredentialModel for backwards compatibility. Some UserStorage providers can check for that type
+        // It uses PasswordCustomerCredentialModel for backwards compatibility. Some UserStorage providers can check for that type
         return new PasswordUserCredentialModel("", PasswordCredentialModel.TYPE, password, adminRequest);
     }
 

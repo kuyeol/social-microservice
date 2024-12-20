@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Configuration of the User Profile for one realm.
+ * Configuration of the Customer Profile for one realm.
  *
  * @author Vlastimil Elias <velias@redhat.com>
  *

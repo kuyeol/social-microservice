@@ -62,7 +62,7 @@ public interface ConfigurableAuthenticatorFactory extends ConfiguredProvider {
 
     /**
      *
-     * Does this authenticator have required actions that can set if the user does not have
+     * Does this authenticator have required actions that can set if the customer does not have
      * this authenticator set up?
      *
      *

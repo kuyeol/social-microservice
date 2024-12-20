@@ -20,10 +20,10 @@ import org.hibernate.annotations.Nationalized;
  * @version $Revision: 1 $
  */
 @NamedQueries({
-        @NamedQuery(name="deleteUserAttributesByRealm", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId)"),
-        @NamedQuery(name="deleteUserAttributesByNameAndUser", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name"),
-        @NamedQuery(name="deleteUserAttributesByNameAndUserOtherThan", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name and attr.id <> :attrId"),
-        @NamedQuery(name="deleteUserAttributesByRealmAndLink", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
+        @NamedQuery(name="deleteUserAttributesByRealm", query="delete from  UserAttributeEntity attr where attr.customer IN (select u from UserEntity u where u.realmId=:realmId)"),
+        @NamedQuery(name="deleteUserAttributesByNameAndUser", query="delete from  UserAttributeEntity attr where attr.customer.id = :userId and attr.name = :name"),
+        @NamedQuery(name="deleteUserAttributesByNameAndUserOtherThan", query="delete from  UserAttributeEntity attr where attr.customer.id = :userId and attr.name = :name and attr.id <> :attrId"),
+        @NamedQuery(name="deleteUserAttributesByRealmAndLink", query="delete from  UserAttributeEntity attr where attr.customer IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
 })
 @Table(name="USER_ATTRIBUTE")
 @Entity
@@ -70,7 +70,7 @@ public class UserAttributeEntity {
 
     public String getValue() {
         if (value != null && longValue != null) {
-            throw new IllegalStateException(String.format("User with id %s should not have set both `value` and `longValue` for attribute %s.", user.getId(), name));
+            throw new IllegalStateException(String.format("Customer with id %s should not have set both `value` and `longValue` for attribute %s.", user.getId(), name));
         }
         return value != null ? value : longValue;
     }

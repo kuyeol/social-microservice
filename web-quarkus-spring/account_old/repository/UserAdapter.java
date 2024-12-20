@@ -138,7 +138,7 @@ public class UserAdapter implements UserModel, JpaModel<UserEntity> {
         }
 
         if (customAttributesToRemove.isEmpty()) {
-            // make sure root user attributes are set to null
+            // make sure root customer attributes are set to null
             if (UserModel.FIRST_NAME.equals(name)) {
                 setFirstName(null);
             } else if (UserModel.LAST_NAME.equals(name)) {
@@ -154,7 +154,7 @@ public class UserAdapter implements UserModel, JpaModel<UserEntity> {
         query.setParameter("name", name);
         query.setParameter("userId", user.getId());
         query.executeUpdate();
-        // KEYCLOAK-3494 : Also remove attributes from local user entity
+        // KEYCLOAK-3494 : Also remove attributes from local customer entity
         user.getAttributes().removeAll(customAttributesToRemove);
     }
 
@@ -207,7 +207,7 @@ public class UserAdapter implements UserModel, JpaModel<UserEntity> {
 
 
     /**
-     * Obtains the aliases of required actions associated with the user.
+     * Obtains the aliases of required actions associated with the customer.
      *
      * @return a non-null {@link Stream} of required action aliases.
      */
@@ -348,7 +348,7 @@ public class UserAdapter implements UserModel, JpaModel<UserEntity> {
 
     protected TypedQuery<UserRoleMappingEntity> getUserRoleMappingEntityTypedQuery(RoleModel role) {
         TypedQuery<UserRoleMappingEntity> query = em.createNamedQuery("userHasRole", UserRoleMappingEntity.class);
-        query.setParameter("user", getEntity());
+        query.setParameter("customer", getEntity());
         query.setParameter("roleId", role.getId());
         return query;
     }

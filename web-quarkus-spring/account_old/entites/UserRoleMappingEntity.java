@@ -35,15 +35,15 @@ import java.io.Serializable;
  * @version $Revision: 1 $
  */
 @NamedQueries({
-        @NamedQuery(name="usersInRole", query="select u from UserRoleMappingEntity m, UserEntity u where m.roleId=:roleId and u=m.user order by u.username"),
-        @NamedQuery(name="userHasRole", query="select m from UserRoleMappingEntity m where m.user = :user and m.roleId = :roleId"),
-        @NamedQuery(name="userRoleMappings", query="select m from UserRoleMappingEntity m where m.user = :user"),
-        @NamedQuery(name="userRoleMappingIds", query="select m.roleId from UserRoleMappingEntity m where m.user = :user"),
-        @NamedQuery(name="deleteUserRoleMappingsByRealm", query="delete from  UserRoleMappingEntity mapping where mapping.user IN (select u from UserEntity u where u.realmId=:realmId)"),
-        @NamedQuery(name="deleteUserRoleMappingsByRealmAndLink", query="delete from  UserRoleMappingEntity mapping where mapping.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)"),
+        @NamedQuery(name="usersInRole", query="select u from UserRoleMappingEntity m, UserEntity u where m.roleId=:roleId and u=m.customer order by u.username"),
+        @NamedQuery(name="userHasRole", query="select m from UserRoleMappingEntity m where m.customer = :customer and m.roleId = :roleId"),
+        @NamedQuery(name="userRoleMappings", query="select m from UserRoleMappingEntity m where m.customer = :customer"),
+        @NamedQuery(name="userRoleMappingIds", query="select m.roleId from UserRoleMappingEntity m where m.customer = :customer"),
+        @NamedQuery(name="deleteUserRoleMappingsByRealm", query="delete from  UserRoleMappingEntity mapping where mapping.customer IN (select u from UserEntity u where u.realmId=:realmId)"),
+        @NamedQuery(name="deleteUserRoleMappingsByRealmAndLink", query="delete from  UserRoleMappingEntity mapping where mapping.customer IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)"),
         @NamedQuery(name="deleteUserRoleMappingsByRole", query="delete from UserRoleMappingEntity m where m.roleId = :roleId"),
-        @NamedQuery(name="deleteUserRoleMappingsByUser", query="delete from UserRoleMappingEntity m where m.user = :user"),
-        @NamedQuery(name="grantRoleToAllUsers", query="insert into UserRoleMappingEntity (roleId, user) select :roleId, user from UserEntity user where user.realmId = :realmId")
+        @NamedQuery(name="deleteUserRoleMappingsByUser", query="delete from UserRoleMappingEntity m where m.customer = :customer"),
+        @NamedQuery(name="grantRoleToAllUsers", query="insert into UserRoleMappingEntity (roleId, customer) select :roleId, customer from UserEntity customer where customer.realmId = :realmId")
 
 })
 @Table(name="USER_ROLE_MAPPING")

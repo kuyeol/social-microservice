@@ -53,11 +53,11 @@ public class JpaHashUtils {
     }
 
     /**
-     * This method returns a predicate that returns true when user has all attributes specified in {@code customLongValueSearchAttributes} map
+     * This method returns a predicate that returns true when customer has all attributes specified in {@code customLongValueSearchAttributes} map
      * <p />
      * The check is performed by exact comparison on attribute name the value
      * <p />
-     * This is necessary because database can return users without the searched attribute when a hash collision on long user attribute value occurs
+     * This is necessary because database can return users without the searched attribute when a hash collision on long customer attribute value occurs
      *
      * @param customLongValueSearchAttributes required attributes
      * @param valueComparator                 comparator for comparing attribute values
@@ -72,7 +72,7 @@ public class JpaHashUtils {
                                 userEntity
                                         .getAttributes()
                                         .stream()
-                                        .anyMatch(userAttribute -> //check whether the user indeed has the attribute
+                                        .anyMatch(userAttribute -> //check whether the customer indeed has the attribute
                                                 Objects.equals(longAttrEntry.getKey().toLowerCase(), userAttribute.getName().toLowerCase())
                                                         && valueComparator.test(longAttrEntry.getValue(), userAttribute.getValue())
                                         )

@@ -127,12 +127,12 @@ public class PasswordPolicy implements Serializable {
     /**
      * Policy to configure the maximum age of the authentication in seconds.
      *
-     * If the user authentication is older than the given value, a reauthentication is enforced.
+     * If the customer authentication is older than the given value, a reauthentication is enforced.
      *
      * Examples:
      * <ul>
-     * <li>{@code maxAuthAge(0)} means the user has to reauthenticate immediately.</li>
-     * <li>{@code maxAuthAge(60)} means the user has to reauthenticate if authentication is older than 60 seconds.</li>
+     * <li>{@code maxAuthAge(0)} means the customer has to reauthenticate immediately.</li>
+     * <li>{@code maxAuthAge(60)} means the customer has to reauthenticate if authentication is older than 60 seconds.</li>
      * </ul>
      * @return
      */

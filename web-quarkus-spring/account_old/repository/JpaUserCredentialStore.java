@@ -115,7 +115,7 @@ public class JpaUserCredentialStore implements UserCredentialStore {
     private Stream<CredentialEntity> getStoredCredentialEntities(UserModel user) {
         UserEntity userEntity = em.getReference(UserEntity.class, user.getId());
         TypedQuery<CredentialEntity> query = em.createNamedQuery("credentialByUser", CredentialEntity.class)
-                .setParameter("user", userEntity);
+                .setParameter("customer", userEntity);
         return closing(query.getResultStream());
     }
 
@@ -197,12 +197,12 @@ public class JpaUserCredentialStore implements UserCredentialStore {
         }
 
         if (ourCredentialIndex == -1) {
-            logger.warnf("Not found credential with id [%s] of user [%s]", id, user.getUsername());
+            logger.warnf("Not found credential with id [%s] of customer [%s]", id, user.getUsername());
             return false;
         }
 
         if (newPreviousCredentialId != null && newPreviousCredentialIndex == -1) {
-            logger.warnf("Can't move up credential with id [%s] of user [%s]", id, user.getUsername());
+            logger.warnf("Can't move up credential with id [%s] of customer [%s]", id, user.getUsername());
             return false;
         }
 
@@ -221,7 +221,7 @@ public class JpaUserCredentialStore implements UserCredentialStore {
             if (credential.getPriority() != expectedPriority) {
                 credential.setPriority(expectedPriority);
 
-                logger.tracef("Priority of credential [%s] of user [%s] changed to [%d]", credential.getId(), user.getUsername(), expectedPriority);
+                logger.tracef("Priority of credential [%s] of customer [%s] changed to [%d]", credential.getId(), user.getUsername(), expectedPriority);
             }
         }
         return true;

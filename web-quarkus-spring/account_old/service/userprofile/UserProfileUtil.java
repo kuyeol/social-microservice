@@ -14,7 +14,7 @@ public class UserProfileUtil {
 
     private static final Logger logger = Logger.getLogger(UserProfileUtil.class);
 
-    public static final String USER_METADATA_GROUP = "user-metadata";
+    public static final String USER_METADATA_GROUP = "customer-metadata";
 
 
 

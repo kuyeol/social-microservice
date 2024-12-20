@@ -58,9 +58,9 @@ public class UserResource {
       for (ValidationException.Error error : pve.getErrors()) {
         // some messages are managed directly as before
         switch (error.getMessage()) {
-          //case Messages.MISSING_USERNAME -> throw ErrorResponse.error( "User name is missing", Status.BAD_REQUEST );
-          //case Messages.USERNAME_EXISTS -> throw ErrorResponse.exists( "User exists with same username" );
-          //case Messages.EMAIL_EXISTS -> throw ErrorResponse.exists( "User exists with same email" );
+          //case Messages.MISSING_USERNAME -> throw ErrorResponse.error( "Customer name is missing", Status.BAD_REQUEST );
+          //case Messages.USERNAME_EXISTS -> throw ErrorResponse.exists( "Customer exists with same username" );
+          //case Messages.EMAIL_EXISTS -> throw ErrorResponse.exists( "Customer exists with same email" );
           case "ERROR" -> throw ErrorResponse.error("dddd", Status.BAD_REQUEST);
         }
         errors.add(new ErrorRepresentation(error.getAttribute(), error.getMessage(), error.getMessageParameters()));
@@ -106,31 +106,31 @@ public class UserResource {
 
   @Path("logout")
   @POST
-  @Operation(summary = "Remove all user sessions associated with the user Also send notification to all clients that have an admin URL to invalidate the sessions for the particular user.")
+  @Operation(summary = "Remove all customer sessions associated with the customer Also send notification to all clients that have an admin URL to invalidate the sessions for the particular customer.")
   @APIResponse(responseCode = "204", description = "No Content")
   public void logout() {
 //
 //    session.sessions()
-//           .getUserSessionsStream( user )
+//           .getUserSessionsStream( customer )
 //           .collect( Collectors.toList() );
 
   }
 
 
   /**
-   * Delete the user
+   * Delete the customer
    */
 
 
 //  /**
-//   * Set up a new password for the user.
+//   * Set up a new password for the customer.
 //   *
 //   * @param cred The representation must contain a rawPassword with the plain-text password
 //   */
 //  @Path("reset-password")
 //  @PUT
 //  @Consumes(MediaType.APPLICATION_JSON)
-//  @Operation(summary = "Set up a new password for the user.")
+//  @Operation(summary = "Set up a new password for the customer.")
 //  public void resetPassword(
 //      @Parameter(description = "The representation must contain a rawPassword with the plain-text password") CredentialRepresentation cred )
 //  {
@@ -144,14 +144,14 @@ public class UserResource {
 //    }
 //
 //    try {
-//      user.credentialManager()
-//          .updateCredential( UserCredentialModel.password( cred.getValue(), false ) );
+//      customer.credentialManager()
+//          .updateCredential( CustomerCredentialModel.password( cred.getValue(), false ) );
 //    } catch ( IllegalStateException ise ) {
 //      throw new BadRequestException( "Resetting to N old passwords is not allowed." );
 //    } catch ( ReadOnlyException mre ) {
 //      throw new BadRequestException( "Can't reset password as account is read only" );
 //    } catch ( PasswordPolicyNotMetException e ) {
-//      logger.warn( "Password policy not met for user " + e.getUsername(), e );
+//      logger.warn( "Password policy not met for customer " + e.getCustomerName(), e );
 //      Properties messages = new Properties();
 //      messages.setProperty( "admin exception", e.getMessage() );
 //      throw new ErrorResponseException( e.getMessage(), MessageFormat.format( messages.getProperty( e.getMessage(), e.getMessage() ), e.getParameters() ),
@@ -160,17 +160,17 @@ public class UserResource {
 //      logger.error( e.getMessage(), e );
 //      throw ErrorResponse.error( e.getMessage(), Status.INTERNAL_SERVER_ERROR );
 //    } catch ( ModelException e ) {
-//      logger.warn( "Could not update user password.", e );
+//      logger.warn( "Could not update customer password.", e );
 //      Properties messages = new Properties();
 //      messages.setProperty( "admin exception", e.getMessage() );
 //      throw new ErrorResponseException( e.getMessage(), MessageFormat.format( messages.getProperty( e.getMessage(), e.getMessage() ), e.getParameters() ),
 //                                        Status.BAD_REQUEST );
 //    }
 //    if ( cred.isTemporary() != null && cred.isTemporary() ) {
-//      user.addRequiredAction( UserModel.RequiredAction.UPDATE_PASSWORD );
+//      customer.addRequiredAction( CustomerModel.RequiredAction.UPDATE_PASSWORD );
 //    } else {
 //      // Remove a potentially existing UPDATE_PASSWORD action when explicitly assigning a non-temporary password.
-//      user.removeRequiredAction( UserModel.RequiredAction.UPDATE_PASSWORD );
+//      customer.removeRequiredAction( CustomerModel.RequiredAction.UPDATE_PASSWORD );
 //    }
 //
 //  }
@@ -189,7 +189,7 @@ public class UserResource {
   @Path("credentials/{credentialId}")
   @DELETE
   @NoCache
-  @Operation(summary = "Remove a credential for a user")
+  @Operation(summary = "Remove a credential for a customer")
   public void removeCredential(final @PathParam("credentialId") String credentialId) {
 
     CredentialModel credential = user.credentialManager().getStoredCredentialById(credentialId);

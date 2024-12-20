@@ -37,14 +37,14 @@ public interface FormContext {
     AuthenticationExecutionModel getExecution();
 
     /**
-     * Current user attached to this flow.  It can return null if no user has been identified yet
+     * Current customer attached to this flow.  It can return null if no customer has been identified yet
      *
      * @return
      */
     UserModel getUser();
 
     /**
-     * Attach a specific user to this flow.
+     * Attach a specific customer to this flow.
      *
      * @param user
      */

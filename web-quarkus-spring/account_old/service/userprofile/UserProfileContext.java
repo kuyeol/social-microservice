@@ -15,27 +15,27 @@ import static org.account.service.userprofile.UserProfileConstants.ROLE_USER;
 public enum UserProfileContext {
 
     /**
-     * In this context, a user profile is managed by themselves during an authentication flow such as when updating the user profile.
+     * In this context, a customer profile is managed by themselves during an authentication flow such as when updating the customer profile.
      */
     UPDATE_PROFILE(false, true, true),
 
     /**
-     * In this context, a user profile is managed through the management interface such as the Admin API.
+     * In this context, a customer profile is managed through the management interface such as the Admin API.
      */
     USER_API(true, false, false),
 
     /**
-     * In this context, a user profile is managed by themselves through the account console.
+     * In this context, a customer profile is managed by themselves through the account console.
      */
     ACCOUNT(false, false, true),
 
     /**
-     * In this context, a user profile is managed by themselves when authenticating through a broker.
+     * In this context, a customer profile is managed by themselves when authenticating through a broker.
      */
     IDP_REVIEW(false, true, false),
 
     /**
-     * In this context, a user profile is managed by themselves when registering to a realm.
+     * In this context, a customer profile is managed by themselves when registering to a realm.
      */
     REGISTRATION(false, true, false),
 

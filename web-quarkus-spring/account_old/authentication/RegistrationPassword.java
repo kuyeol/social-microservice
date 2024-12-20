@@ -42,7 +42,7 @@ public class RegistrationPassword implements FormAction, FormActionFactory {
 
     @Override
     public String getHelpText() {
-        return "Validates that password matches password confirmation field.  It also will store password in user's credential store.";
+        return "Validates that password matches password confirmation field.  It also will store password in customer's credential store.";
     }
 
     @Override

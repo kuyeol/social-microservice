@@ -62,7 +62,7 @@ public class User {
 
     @Username
     @Column(nullable = false, unique = true)
-    private String username;
+    private String customerName;
 
     @Password
     @Column(nullable = false)
@@ -78,8 +78,8 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, List<String> roles) {
-      this.username = username;
+    public User(String customerName, String password, List<String> roles) {
+      this.customerName = customerName;
       this.password = password;
       this.roles = roles;
     }
@@ -92,11 +92,11 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return customerName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getPassword() {
@@ -132,8 +132,8 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class UserRepository implements PanacheRepository<User> {
-public Optional<User> findByUsername(String username) {
-return find("username", username).firstResultOptional();
+public Optional<User> findByUsername(String customerName) {
+return find("customerName", customerName).firstResultOptional();
 }
 }
 ```
@@ -147,20 +147,20 @@ Quarkus는 application.properties 또는 application.yml에서 보안 설정을 
 
 quarkus.datasource.db-kind=postgresql
 quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/your_database_name
-quarkus.datasource.username=your_username
+quarkus.datasource.customerName=your_username
 quarkus.datasource.password=your_password
 
 quarkus.hibernate-orm.dialect=org.hibernate.dialect.PostgreSQLDialect
 quarkus.hibernate-orm.sql-load-script=import.sql
 
 quarkus.security.jpa.enabled=true
-quarkus.security.jpa.authenticator.user-query=SELECT u FROM User u WHERE u.username=?1
+quarkus.security.jpa.authenticator.customer-query=SELECT u FROM User u WHERE u.customerName=?1
 quarkus.security.jpa.authenticator.hash-password=true
 Use code with caution.
 Properties
 quarkus.security.jpa.enabled=true: JPA 기반 인증을 활성화합니다.
 
-quarkus.security.jpa.authenticator.user-query: 사용자 정보를 조회하는 JPQL 쿼리를 지정합니다.
+quarkus.security.jpa.authenticator.customer-query: 사용자 정보를 조회하는 JPQL 쿼리를 지정합니다.
 
 quarkus.security.jpa.authenticator.hash-password=true: 비밀번호를 해시하여 저장합니다.
 ```
@@ -170,7 +170,7 @@ import.sql 파일을 사용하여 초기 데이터를 추가할 수 있습니다
 -- import.sql
 
 -- 초기 사용자 생성
-INSERT INTO users (id, username, password) VALUES (1,'user1', '{bcrypt}$2a$10$g12e7a89B703Vj1G2qU6j.1q3v0l8r117o5eG3Z9rR6q1r18z02q');
+INSERT INTO users (id, customerName, password) VALUES (1,'user1', '{bcrypt}$2a$10$g12e7a89B703Vj1G2qU6j.1q3v0l8r117o5eG3Z9rR6q1r18z02q');
 INSERT INTO user_roles (user_id, role) VALUES (1, 'USER');
 Use code with caution.
 SQL
@@ -201,11 +201,11 @@ SecurityIdentity securityIdentity;
 @POST
 @Path("/signup")
 @Transactional
-public Response signup(@QueryParam("username") String username, @QueryParam("password") String password) {
+public Response signup(@QueryParam("customerName") String customerName, @QueryParam("password") String password) {
 // 비밀번호 암호화
 String encodedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
-User user = new User(username,encodedPassword,List.of("USER"));
-userRepository.persist(user);
+User customer = new User(customerName,encodedPassword,List.of("USER"));
+userRepository.persist(customer);
 return Response.ok().build();
 }
 @GET
@@ -292,7 +292,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String customerName;
 
     @Column(nullable = false)
     private String password;
@@ -306,8 +306,8 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, List<String> roles) {
-        this.username = username;
+    public User(String customerName, String password, List<String> roles) {
+        this.customerName = customerName;
         this.password = password;
         this.roles = roles;
     }
@@ -320,11 +320,11 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return customerName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getPassword() {
@@ -360,15 +360,15 @@ public class UserRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<User> findByUsername(String username) {
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-        query.setParameter("username", username);
+    public Optional<User> findByUsername(String customerName) {
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.customerName = :customerName", User.class);
+        query.setParameter("customerName", customerName);
         List<User> result = query.getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
-    public void save(User user) {
-        em.persist(user);
+    public void save(User customer) {
+        em.persist(customer);
     }
 }
 Use code with caution.
@@ -420,13 +420,13 @@ public class CustomIdentityStore implements IdentityStore {
 
     @Override
     public CredentialValidationResult validate(UsernamePasswordCredential usernamePasswordCredential) {
-        String username = usernamePasswordCredential.getCaller();
+        String customerName = usernamePasswordCredential.getCaller();
         String password = usernamePasswordCredential.getPasswordAsString();
 
-        return userRepository.findByUsername(username).map(user -> {
-            if (passwordHash.verify(password.toCharArray(),user.getPassword())) {
-                Set<String> roles = user.getRoles().stream().collect(Collectors.toSet());
-                return new CredentialValidationResult(user.getUsername(), roles);
+        return userRepository.findByUsername(customerName).map(customer -> {
+            if (passwordHash.verify(password.toCharArray(),customer.getPassword())) {
+                Set<String> roles = customer.getRoles().stream().collect(Collectors.toSet());
+                return new CredentialValidationResult(customer.getUsername(), roles);
             } else {
                 return CredentialValidationResult.INVALID_RESULT;
             }
@@ -497,11 +497,11 @@ UserRepository userRepository;
 @POST
 @Path("/signup")
 @Transactional
-public Response signup(@QueryParam("username") String username, @QueryParam("password") String password) {
+public Response signup(@QueryParam("customerName") String customerName, @QueryParam("password") String password) {
 // 비밀번호 암호화
 String hashedPassword = passwordHash.generate(password.toCharArray());
-User user = new User(username, hashedPassword, List.of("USER"));
-userRepository.save(user);
+User customer = new User(customerName, hashedPassword, List.of("USER"));
+userRepository.save(customer);
 return Response.ok().build();
 }
 
@@ -570,7 +570,7 @@ import redis.clients.jedis.JedisClientConfig;
 public class ConnectBasicExample {
 public void run() {
 JedisClientConfig config = DefaultJedisClientConfig.builder()
-.user("default")
+.customer("default")
 .password("*******")
 .build();
 

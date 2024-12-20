@@ -53,7 +53,7 @@ public class ProviderConfigProperty {
     public static final String CLIENT_LIST_TYPE="ClientList";
 
     /**
-     * Possibility to select from user attributes defined in the user-profile, but also still have an option to configure custom value
+     * Possibility to select from customer attributes defined in the customer-profile, but also still have an option to configure custom value
      */
     public static final String USER_PROFILE_ATTRIBUTE_LIST_TYPE="UserProfileAttributeList";
     public static final String PASSWORD="Password";

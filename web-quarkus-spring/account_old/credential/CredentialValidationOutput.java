@@ -29,8 +29,8 @@ import java.util.Map;
  */
 public class CredentialValidationOutput {
 
-    private final UserModel authenticatedUser; // authenticated user.
-    private final Status authStatus;           // status whether user is authenticated or more steps needed
+    private final UserModel authenticatedUser; // authenticated customer.
+    private final Status authStatus;           // status whether customer is authenticated or more steps needed
     private final Map<String, String> state;   // Additional state related to authentication. It can contain data to be sent back to client or data about used credentials.
 
     public CredentialValidationOutput(UserModel authenticatedUser, Status authStatus, Map<String, String> state) {
@@ -71,24 +71,24 @@ public class CredentialValidationOutput {
     public enum Status {
 
         /**
-         * User was successfully authenticated. The {@link #getAuthenticatedUser()} must return authenticated user when this is used
+         * Customer was successfully authenticated. The {@link #getAuthenticatedUser()} must return authenticated customer when this is used
          */
         AUTHENTICATED,
 
         /**
-         * Federation provider failed to authenticate user. This is typically used when user storage provider recognizes the user, but credentials
-         * are incorrect, so federation provider can mark whole authentication as not successful without eventual fallback to other user storage provider
+         * Federation provider failed to authenticate customer. This is typically used when customer storage provider recognizes the customer, but credentials
+         * are incorrect, so federation provider can mark whole authentication as not successful without eventual fallback to other customer storage provider
          */
         FAILED,
 
         /**
-         * Federation provider was not able to recognize the user. It is possible that credential was valid, but fereration provider was not able to lookup the user in it's storage.
-         * Fallback to other user storage provider in the chain might be possible
+         * Federation provider was not able to recognize the customer. It is possible that credential was valid, but fereration provider was not able to lookup the customer in it's storage.
+         * Fallback to other customer storage provider in the chain might be possible
          */
         FALLBACK,
 
         /**
-         * Federation provider did not fully authenticate user. It may be needed to ask user for further challenge to then re-try authentication with same federation provider
+         * Federation provider did not fully authenticate customer. It may be needed to ask customer for further challenge to then re-try authentication with same federation provider
          */
         CONTINUE,
     }

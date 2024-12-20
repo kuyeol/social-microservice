@@ -35,7 +35,7 @@ public class RepresentationToModel {
             for ( CredentialRepresentation cred : user.getCredentials()) {
                 try {
                     if ((cred.getCredentialData() == null || cred.getSecretData() == null) && cred.getValue() == null) {
-                        logger.warnf("Using deprecated 'credentials' format in JSON representation for user '%s'. It will be removed in future versions", user.getUsername());
+                        logger.warnf("Using deprecated 'credentials' format in JSON representation for customer '%s'. It will be removed in future versions", user.getUsername());
 
                         if ( PasswordCredentialModel.TYPE.equals( cred.getType()) || PasswordCredentialModel.PASSWORD_HISTORY.equals( cred.getType())) {
                             PasswordCredentialData credentialData = new PasswordCredentialData( cred.hashCode() , cred.getType());
@@ -59,7 +59,7 @@ public class RepresentationToModel {
 
     // Roles
 
-    //public static UserModel createUser(KeycloakSession session,  UserRepresentation userRep) {
+    //public static CustomerModel createUser(KeycloakSession session,  UserRepresentation userRep) {
     //    return session.getProvider( DatastoreProvider.class).getExportImportManager().createUser( userRep);
     //}
     //

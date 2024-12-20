@@ -31,31 +31,31 @@ public interface UserRegistrationProvider {
     /**
      * All storage providers that implement this interface will be looped through.
      * If this method returns null, then the next storage provider's addUser() method will be called.
-     * If no storage providers handle the add, then the user will be created in local storage.
+     * If no storage providers handle the add, then the customer will be created in local storage.
      *
      * Returning null is useful when you want optional support for adding users.  For example,
      * our LDAP provider can enable and disable the ability to add users.
      *
      * @param realm a reference to the realm
-     * @param username a username the created user will be assigned
-     * @return a model of created user
+     * @param username a username the created customer will be assigned
+     * @return a model of created customer
      */
     UserModel addUser( String username);
 
     /**
-     * Called if user originated from this provider.
+     * Called if customer originated from this provider.
      *
      *
-     * If a local user is linked to this provider, this method will be called before
+     * If a local customer is linked to this provider, this method will be called before
      * local storage's removeUser() method is invoked.
 
-     * If you are using an import strategy, and this is a local user linked to this provider,
+     * If you are using an import strategy, and this is a local customer linked to this provider,
      * this method will be called before local storage's removeUser() method is invoked.  Also,
-     * you DO NOT need to remove the imported user.  The runtime will handle this for you.
+     * you DO NOT need to remove the imported customer.  The runtime will handle this for you.
      *
      * @param realm a reference to the realm
-     * @param user a reference to the user that is removed
-     * @return true if the user was removed, false otherwise
+     * @param user a reference to the customer that is removed
+     * @return true if the customer was removed, false otherwise
      */
     boolean removeUser( UserModel user);
 

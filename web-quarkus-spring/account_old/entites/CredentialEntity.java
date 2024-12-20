@@ -18,9 +18,9 @@ import jakarta.persistence.Table;
  * @version $Revision: 1 $
  */
 @NamedQueries({
-        @NamedQuery(name="credentialByUser", query="select cred from CredentialEntity cred where cred.user = :user order by cred.priority"),
-        @NamedQuery(name="deleteCredentialsByRealm", query="delete from CredentialEntity cred where cred.user IN (select u from UserEntity u where u.realmId=:realmId)"),
-        @NamedQuery(name="deleteCredentialsByRealmAndLink", query="delete from CredentialEntity cred where cred.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
+        @NamedQuery(name="credentialByUser", query="select cred from CredentialEntity cred where cred.customer = :customer order by cred.priority"),
+        @NamedQuery(name="deleteCredentialsByRealm", query="delete from CredentialEntity cred where cred.customer IN (select u from UserEntity u where u.realmId=:realmId)"),
+        @NamedQuery(name="deleteCredentialsByRealmAndLink", query="delete from CredentialEntity cred where cred.customer IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
 
 })
 @Table(name="CREDENTIAL")

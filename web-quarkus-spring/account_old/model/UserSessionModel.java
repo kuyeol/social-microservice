@@ -37,7 +37,7 @@ import java.util.Objects;
 public interface UserSessionModel {
 
     /**
-     * Represents the corresponding online/offline user session.
+     * Represents the corresponding online/offline customer session.
      */
     String CORRESPONDING_SESSION_ID = "correspondingSessionId";
 
@@ -68,7 +68,7 @@ public interface UserSessionModel {
     int getLastSessionRefresh();
 
     /**
-     * Set the last session refresh timestamp for the user session.
+     * Set the last session refresh timestamp for the customer session.
      * If the timestamp is smaller or equal than the current timestamp, the operation is ignored.
      */
     void setLastSessionRefresh(int seconds);
@@ -92,7 +92,7 @@ public interface UserSessionModel {
     State getState();
     void setState(State state);
 
-    // Will completely restart whole state of user session. It will just keep same ID.
+    // Will completely restart whole state of customer session. It will just keep same ID.
     void restartSession( UserModel user, String loginUsername, String ipAddress, String authMethod, boolean rememberMe, String brokerSessionId, String brokerUserId);
 
     @ProtoTypeId(65536) // see org.keycloak.Marshalling
@@ -130,7 +130,7 @@ public interface UserSessionModel {
     }
 
     /**
-     * Flag used when creating user session
+     * Flag used when creating customer session
      */
     enum SessionPersistenceState {
 

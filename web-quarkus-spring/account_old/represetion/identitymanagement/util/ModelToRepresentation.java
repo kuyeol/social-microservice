@@ -275,7 +275,7 @@ public class ModelToRepresentation {
 //        rep.setId(session.getId());
 //        rep.setStart( Time.toMillis( session.getStarted()));
 //        rep.setLastAccess(Time.toMillis(session.getLastSessionRefresh()));
-//        rep.setUsername(session.getUser().getUsername());
+//        rep.setCustomerName(session.getUser().getCustomerName());
 //        rep.setUserId(session.getUser().getId());
 //        rep.setIpAddress(session.getIpAddress());
 //        rep.setRememberMe(session.isRememberMe());

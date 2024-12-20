@@ -66,10 +66,10 @@ public class UsersResource
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  @Operation(summary = "Create a new user Username must be unique.")
+  @Operation(summary = "Create a new customer Username must be unique.")
   public Response createUser( final UserRepresentation rep )
   {
-    // first check if user has manage rights
+    // first check if customer has manage rights
 
     String username = rep.getUsername();
 
@@ -94,9 +94,9 @@ public class UsersResource
 
       // Exception Process Entry Point
     } catch ( ModelDuplicateException e ) {
-      throw ErrorResponse.exists( "User exists with same username or email" );
+      throw ErrorResponse.exists( "Customer exists with same username or email" );
     } catch ( PasswordPolicyNotMetException e ) {
-      logger.warn( "Password policy not met for user " + e.getUsername(), e );
+      logger.warn( "Password policy not met for customer " + e.getUsername(), e );
 
       throw new ErrorResponseException( e.getMessage(), MessageFormat.format( e.getMessage(), e.getMessage(), e.getParameters() ),
                                         Response.Status.BAD_REQUEST );
@@ -104,14 +104,14 @@ public class UsersResource
       logger.error( e.getMessage(), e );
       throw ErrorResponse.error( e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR );
     } catch ( ModelException me ) {
-      logger.warn( "Could not create user", me );
-      throw ErrorResponse.error( "Could not create user", Response.Status.BAD_REQUEST );
+      logger.warn( "Could not create customer", me );
+      throw ErrorResponse.error( "Could not create customer", Response.Status.BAD_REQUEST );
     }
   }
 
 
-  @Path("{user-id}")
-  public UserResource user( final @PathParam("user-id") String id )
+  @Path("{customer-id}")
+  public UserResource user( final @PathParam("customer-id") String id )
   {
 
     UserModel user = null;
@@ -119,7 +119,7 @@ public class UsersResource
     if ( user == null ) {
       // we do this to make sure somebody can't phish ids
       if ( id==null ) {
-        throw new NotFoundException( "User not found" );
+        throw new NotFoundException( "Customer not found" );
       } else {
         throw new ForbiddenException();
       }
@@ -137,20 +137,20 @@ public class UsersResource
     //}
 
 
-  //private Stream< UserRepresentation > toRepresentation( UserPermissionEvaluator usersEvaluator, Boolean briefRepresentation, Stream< UserModel > userModels )
+  //private Stream< UserRepresentation > toRepresentation( UserPermissionEvaluator usersEvaluator, Boolean briefRepresentation, Stream< CustomerModel > userModels )
   //{
   //
   //  boolean briefRepresentationB = briefRepresentation != null && briefRepresentation;
   //  boolean canViewGlobal        = usersEvaluator.canView();
   //
-  //  usersEvaluator.grantIfNoPermission( session.getAttribute( UserModel.GROUPS ) != null );
-  //  return userModels.filter( user -> canViewGlobal || usersEvaluator.canView( user ) )
-  //                   .map( user ->
+  //  usersEvaluator.grantIfNoPermission( session.getAttribute( CustomerModel.GROUPS ) != null );
+  //  return userModels.filter( customer -> canViewGlobal || usersEvaluator.canView( customer ) )
+  //                   .map( customer ->
   //                           {
   //                             UserRepresentation userRep = briefRepresentationB
-  //                                                          ? ModelToRepresentation.toBriefRepresentation( user )
-  //                                                          : ModelToRepresentation.toRepresentation( session, user );
-  //                             userRep.setAccess( usersEvaluator.getAccess( user ) );
+  //                                                          ? ModelToRepresentation.toBriefRepresentation( customer )
+  //                                                          : ModelToRepresentation.toRepresentation( session, customer );
+  //                             userRep.setAccess( usersEvaluator.getAccess( customer ) );
   //                             return userRep;
   //                           } );
   //}

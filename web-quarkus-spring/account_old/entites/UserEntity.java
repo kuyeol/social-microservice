@@ -81,7 +81,7 @@ public class UserEntity {
   protected String realmId;
 
 
-  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "user")
+  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "customer")
   @Fetch(FetchMode.SELECT)
   @BatchSize(size = 20)
   protected Collection<CredentialEntity> credentials = new LinkedList<>();
@@ -96,7 +96,7 @@ public class UserEntity {
   @Column(name = "NOT_BEFORE")
   protected int notBefore;
 
-  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = false, mappedBy = "user")
+  @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = false, mappedBy = "customer")
   @Fetch(FetchMode.SELECT)
   @BatchSize(size = 20)
   protected Collection<UserAttributeEntity> attributes = new LinkedList<>();
