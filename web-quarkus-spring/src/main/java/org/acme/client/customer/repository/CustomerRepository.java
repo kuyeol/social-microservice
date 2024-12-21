@@ -21,21 +21,18 @@ import org.acme.core.security.hash.Argon2PasswordHashProvider;
 import org.acme.core.spi.DefaultRepository;
 import org.acme.core.utils.ModelUtils;
 
-
 @ApplicationScoped
 public class CustomerRepository implements DefaultRepository<Customer> {
 
     @Inject
     EntityManager em;
 
-
     @Override
     @Transactional
     public UserModel findByName(String name) {
 
-
         TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-            .setParameter("name", name);
+                .setParameter("name", name);
         query.getResultStream().toList();
         List<Customer> rs = query.getResultList();
 
@@ -56,7 +53,6 @@ public class CustomerRepository implements DefaultRepository<Customer> {
             user.setCredentials(cred);
         }
 
-
         return new UserRepresentation(user);
 
     }
@@ -66,14 +62,11 @@ public class CustomerRepository implements DefaultRepository<Customer> {
         return Stream.empty();
     }
 
-
     @Transactional
     public List<Customer> findByN(String name) {
 
-
         TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-            .setParameter("name", name);
-
+                .setParameter("name", name);
 
         System.out.println(query.getResultStream().toList());
         return query.getResultStream().toList();
@@ -82,13 +75,10 @@ public class CustomerRepository implements DefaultRepository<Customer> {
 
     }
 
-
     public boolean findAll(String name) {
-
 
         return true;
     }
-
 
     public void close() {
 
@@ -98,58 +88,31 @@ public class CustomerRepository implements DefaultRepository<Customer> {
     @Transactional
     public void add(Customer customer) {
 
-        String version = "1.3";
-        String type = "id";
-        int hashLength = 32;
-        int memory = 1024;
-        int iterations = 5;
-        int parallelism = 1;
-        em.persist(customer);
-
-        Semaphore cpuCoreSemaphore = new Semaphore(11);
-
-
-        Argon2PasswordHashProvider provider = new Argon2PasswordHashProvider(
-            version,
-            type,
-            hashLength,
-            memory ,
-            iterations,
-            parallelism,
-            cpuCoreSemaphore
-        );
-
         String passw = "mySecurePassword123";
         PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
 
         CredentialRepresentation credR = new CredentialRepresentation();
 
-
         credR.setSecretData(encodedPassword.getSecretData());
         credR.setCredentialData(encodedPassword.getCredentialData());
+        
         Collection<Credential> cred = new ArrayList<Credential>();
 
-
-Credential credential = new Credential();
-credential.setUser(customer);
-credential.setSecretData(encodedPassword.getSecretData());
-credential.setCredentialData(credR.getCredentialData());
+        Credential credential = new Credential();
+        credential.setUser(customer);
+        credential.setSecretData(encodedPassword.getSecretData());
+        credential.setCredentialData(credR.getCredentialData());
 
         customer.setCredentials(credential.getUser().getCredentials());
 
         System.out.println(credential.getUser().getCredentials());
 
-
-
         CredentialModel model = new CredentialModel();
         model.setCredentialData(credR.getCredentialData());
         model.setSecretData(credR.getSecretData());
-      createCredential(model,customer.getId());
-
-
+        createCredential(model, customer.getId());
 
     }
-
 
     void createCredential(CredentialModel cred, String id) {
 
@@ -164,16 +127,11 @@ credential.setCredentialData(credR.getCredentialData());
         entity.setUser(customerRef);
         em.persist(entity);
 
-
     }
-
 
     @Override
     public boolean remove(Customer customer) {
         return false;
     }
 
-
 }
-
-

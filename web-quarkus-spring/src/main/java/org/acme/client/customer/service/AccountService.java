@@ -1,6 +1,5 @@
 package org.acme.client.customer;
 
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.concurrent.Semaphore;
@@ -18,26 +17,39 @@ import org.acme.core.utils.PasswordSecretData;
 
 import static com.arjuna.ats.jdbc.TransactionalDriver.password;
 
-
 @ApplicationScoped
 public class AccountService {
 
+    static String version = "1.3";
+    static String type = "id";
+    static int hashLength = 32;
+    static int memory = 1024;
+    static int iterations = 5;
+    static int parallelism = 1;
+    static Semaphore cpuCoreSemaphore = new Semaphore(1);
+    
+    private static final Argon2PasswordHashProvider provider = new Argon2PasswordHashProvider(
+            version,
+            type,
+            hashLength,
+            memory,
+            iterations,
+            parallelism,
+            cpuCoreSemaphore);
 
-   @Inject
-CustomerCredentialStore userCredentialStore;
+    @Inject
+    CustomerCredentialStore userCredentialStore;
 
-   @Inject
-   CredentialRepository credentialRepository;
-@Inject
-CustomerRepository customerRepository;
+    @Inject
+    CredentialRepository credentialRepository;
+    @Inject
+    CustomerRepository customerRepository;
 
+    public UserRepredentation addCustomer() {
 
-public UserRepredentation addCustomer(){
-
- if (customerRepository.findByName(form.getUsername()) !=null) {
+        if (customerRepository.findByName(form.getUsername()) != null) {
 
             String msg = "이미 등록 된 유저 입니다";
-
 
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(msg).build();
 
@@ -52,13 +64,9 @@ public UserRepredentation addCustomer(){
             return Response.ok(form.getUsername() + " 님의 회원등록 ").build();
         }
 
-}
-
-
-  
+    }
 
     public Response finduser(@QueryParam("username") String username) {
-
 
         UserModel us = customerRepository.findByName(username);
 
@@ -66,95 +74,76 @@ public UserRepredentation addCustomer(){
 
     }
 
-
-public Customer registerCustomer(CustomerModel customer){
-
+    public Customer registerCustomer(CustomerModel custom) {
 
         Customer customer = new Customer();
-        
+
         customer.setCustomerName(form.getUsername());
         customer.setEmail(form.getUsername());
 
         customerRepository.add(customer);
 
-    return null;
-}
-
-
-
-
+        return null;
+    }
 
     public void testMethod() {
         String alg = "";
 
-        //setPasswordPolicy("hashAlgorithm(" + Argon2PasswordHashProviderFactory.ID + ")");
-        //String username = "testArgon2";
-        //createUser(username);
+        // setPasswordPolicy("hashAlgorithm(" + Argon2PasswordHashProviderFactory.ID +
+        // ")");
+        // String username = "testArgon2";
+        // createUser(username);
         //
-        //PasswordCredentialModel credential = PasswordCredentialModel.createFromCredentialModel(fetchCredentials(username));
-        //PasswordCredentialData data = credential.getPasswordCredentialData();
+        // PasswordCredentialModel credential =
+        // PasswordCredentialModel.createFromCredentialModel(fetchCredentials(username));
+        // PasswordCredentialData data = credential.getPasswordCredentialData();
         //
-        //Assert.assertEquals("argon2", data.getAlgorithm());
-        //Assert.assertEquals(5, data.getHashIterations());
-        //Assert.assertEquals("1.3", data.getAdditionalParameters().getFirst("version"));
-        //Assert.assertEquals("id", data.getAdditionalParameters().getFirst("type"));
-        //Assert.assertEquals("32", data.getAdditionalParameters().getFirst("hashLength"));
-        //Assert.assertEquals("7168", data.getAdditionalParameters().getFirst("memory"));
-        //Assert.assertEquals("1", data.getAdditionalParameters().getFirst("parallelism"));
+        // Assert.assertEquals("argon2", data.getAlgorithm());
+        // Assert.assertEquals(5, data.getHashIterations());
+        // Assert.assertEquals("1.3",
+        // data.getAdditionalParameters().getFirst("version"));
+        // Assert.assertEquals("id", data.getAdditionalParameters().getFirst("type"));
+        // Assert.assertEquals("32",
+        // data.getAdditionalParameters().getFirst("hashLength"));
+        // Assert.assertEquals("7168",
+        // data.getAdditionalParameters().getFirst("memory"));
+        // Assert.assertEquals("1",
+        // data.getAdditionalParameters().getFirst("parallelism"));
         //
-        //loginPage.open();
-        //loginPage.login("testArgon2", "invalid");
-        //loginPage.assertCurrent();
-        //Assert.assertEquals("Invalid username or password.", loginPage.getInputError());
-        //int hashIterations = 27500;
+        // loginPage.open();
+        // loginPage.login("testArgon2", "invalid");
+        // loginPage.assertCurrent();
+        // Assert.assertEquals("Invalid username or password.",
+        // loginPage.getInputError());
+        // int hashIterations = 27500;
         //
         //
-        //PasswordCredentialData credentialData = new PasswordCredentialData();
-        //PasswordSecretData secretData;
+        // PasswordCredentialData credentialData = new PasswordCredentialData();
+        // PasswordSecretData secretData;
         //
         //
 
-        //  createFromValues(algorithm, salt, hashIterations, null, encodedPassword)
+        // createFromValues(algorithm, salt, hashIterations, null, encodedPassword)
         Customer customer = new Customer();
 
-
-
-        String version = "1.3";
-        String type = "id";
-        int hashLength = 32;
-        int memory = 1024;
-        int iterations = 5;
-        int parallelism = 1;
-
-        Semaphore cpuCoreSemaphore = new Semaphore(11);
-
-
-        Argon2PasswordHashProvider provider = new Argon2PasswordHashProvider(
-            version,
-            type,
-            hashLength,
-            memory ,
-            iterations,
-            parallelism,
-            cpuCoreSemaphore
-        );
-
+     
 
         String passw = "mySecurePassword123";
         PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
         PasswordCredentialModel encodedPass = provider.encodedCredential(passw, 15);
 
         System.out.println("Encoded: " + encodedPassword);
-String dd= String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().keySet());
-String dd1= String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().entrySet());
-String aa= String.valueOf(encodedPassword.getPasswordSecretData().getValue());
-byte[] aa2= encodedPassword.getPasswordSecretData().getSalt();
-        // Verify the password[hashLength=[32], memory=[131072], type=[id], version=[1.3], parallelism=[1]]
-        System.out.println("keySet : "+dd);
-        System.out.println("entrySet : "+dd1);
-        System.out.println("SecretData_Value : "+aa);
+        String dd = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().keySet());
+        String dd1 = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().entrySet());
+        String aa = String.valueOf(encodedPassword.getPasswordSecretData().getValue());
+        byte[] aa2 = encodedPassword.getPasswordSecretData().getSalt();
+        // Verify the password[hashLength=[32], memory=[131072], type=[id],
+        // version=[1.3], parallelism=[1]]
+        System.out.println("keySet : " + dd);
+        System.out.println("entrySet : " + dd1);
+        System.out.println("SecretData_Value : " + aa);
         System.out.print("SecretData_salt : ");
-        for(byte s:aa2){
+        for (byte s : aa2) {
             System.out.print(s);
         }
 
@@ -167,8 +156,13 @@ byte[] aa2= encodedPassword.getPasswordSecretData().getSalt();
         System.out.println("Password valid: " + isValid2);
 
 
+
+
+
+
         customerRepository.add(customer);
     }
+
 
 
     public boolean updateCredential(CustomerModel user, CredentialInput input) {
@@ -176,9 +170,7 @@ byte[] aa2= encodedPassword.getPasswordSecretData().getSalt();
         return false;
     }
 
-
     public CustomerModel validate(CustomerModel local) {
-
 
         return null;
     }
@@ -187,4 +179,9 @@ byte[] aa2= encodedPassword.getPasswordSecretData().getSalt();
         return userName == null ? null : userName.toLowerCase();
     }
 
+
+
+
+
+    
 }
