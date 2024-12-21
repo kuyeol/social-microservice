@@ -11,6 +11,10 @@ import org.acme.core.model.FormData;
 public class CustomerForm implements FormData {
 
 
+
+
+
+
     private static final int MIN = 8;
     private static final int ID_MAX = 24;
     private static final int PASS_MAX = 16;

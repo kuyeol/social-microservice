@@ -18,9 +18,10 @@ import jakarta.persistence.Table;
 
     @NamedQuery(name = "credentialByUser", query = "select cred from Credential cred where cred.customer = :customer " +
         "order by cred.priority"),
-
     @NamedQuery(name = "deleteCredentialsByRealm", query =
-        "delete from Credential cred where cred.customer IN (select u from" + " Customer u where u.id=:Id)")})
+        "delete from Credential cred where cred.customer IN (select u from" + " Customer u where u.id=:Id)")
+        })
+
 public class Credential {
 
 
@@ -30,7 +31,7 @@ public class Credential {
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name="customer_ID")
     protected Customer customer;
 
 
