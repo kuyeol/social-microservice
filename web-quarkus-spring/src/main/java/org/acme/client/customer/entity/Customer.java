@@ -44,10 +44,13 @@ public class Customer {
     private String address;
 
     private Long createdTimestamp;
+
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy= "customer")
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 20)
     protected Collection<Credential> credentials = new LinkedList<>();
+
+
     public Customer() {
        this.id = ModelUtils.generateId();
         this.createdTimestamp = System.currentTimeMillis();
@@ -98,6 +101,19 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
+    public Collection<Credential> getCredentials() {
+        if (credentials == null) {
+            credentials = new LinkedList<>();
+        }
+        return credentials;
+    }
+
+    public void setCredentials(Collection<Credential> credentials) {
+        this.credentials = credentials;
+    }
+
 
     @Override
     public boolean equals(Object o) {

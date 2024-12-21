@@ -1,4 +1,4 @@
-package org.acme.core.spi;
+package org.acme.core.utils;
 
 
 

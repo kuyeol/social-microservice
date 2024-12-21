@@ -2,36 +2,47 @@ package org.acme.client.customer;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
-import java.util.Map;
+import jakarta.inject.Inject;
+import java.util.concurrent.Semaphore;
 import org.acme.client.customer.entity.Customer;
 import org.acme.client.customer.model.CustomerCredentialModel;
 import org.acme.client.customer.model.CustomerModel;
 import org.acme.client.customer.model.PasswordCustomerCredentialModel;
-import org.acme.client.customer.repository.CustomerDefaultRepository;
+import org.acme.client.customer.repository.CredentialRepository;
+import org.acme.client.customer.repository.CustomerRepository;
 import org.acme.core.model.PasswordCredentialModel;
-import org.acme.core.security.hash.Argon2Parameters;
-import org.acme.core.security.hash.Argon2PasswordHashProviderFactory;
+import org.acme.core.security.hash.Argon2PasswordHashProvider;
 import org.acme.core.security.hash.CredentialInput;
 import org.acme.core.utils.PasswordCredentialData;
 import org.acme.core.utils.PasswordSecretData;
-import  org.acme.core.security.hash.Argon2Parameters;
+
+import static com.arjuna.ats.jdbc.TransactionalDriver.password;
 
 
 @ApplicationScoped
 public class AccountService {
-    private PasswordCredentialModel passwordCredentialModel;
-    private final CustomerCredentialStore userCredentialStore;
-    private final CustomerDefaultRepository customerRepository;
-    private static Argon2Parameters argon2Parameters;
 
-    public AccountService(CustomerCredentialStore userCredentialStore, CustomerDefaultRepository customerRepository,
-        Map<String, String> userPasswords) {
-        this.userCredentialStore = userCredentialStore;
-        this.customerRepository = customerRepository;
-        this.userPasswords = userPasswords;
-    }
+//    @Inject
+//  PasswordCredentialModel passwordCredentialModel;
+//
+//    @Inject
+//CustomerCredentialStore userCredentialStore;
+//
+//    @Inject
+//    CredentialRepository credentialRepository;
 
-    private static PasswordCredentialModel credentialModel;
+
+ private final    CustomerRepository customerRepository;
+
+public AccountService(CustomerRepository customerRepository) {
+    this.customerRepository = customerRepository;
+}
+
+
+
+
+
+
 
 
     public void testMethod() {
@@ -64,42 +75,73 @@ public class AccountService {
         //
         //
 
-      //  createFromValues(algorithm, salt, hashIterations, null, encodedPassword)
+        //  createFromValues(algorithm, salt, hashIterations, null, encodedPassword)
         Customer customer = new Customer();
 
 
-        PasswordCustomerCredentialModel pass = new PasswordCustomerCredentialModel("", "", "", false);
 
-        CustomerCredentialModel cred = new CustomerCredentialModel();
+        String version = "1.3";
+        String type = "id";
+        int hashLength = 32;
+        int memory = 1024;
+        int iterations = 5;
+        int parallelism = 1;
+
+        Semaphore cpuCoreSemaphore = new Semaphore(11);
+
+
+        Argon2PasswordHashProvider provider = new Argon2PasswordHashProvider(
+            version,
+            type,
+            hashLength,
+            memory ,
+            iterations,
+            parallelism,
+            cpuCoreSemaphore
+        );
+
+
+        String passw = "mySecurePassword123";
+        PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
+        PasswordCredentialModel encodedPass = provider.encodedCredential(passw, 15);
+
+        System.out.println("Encoded: " + encodedPassword);
+String dd= String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().keySet());
+String dd1= String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().entrySet());
+String aa= String.valueOf(encodedPassword.getPasswordSecretData().getValue());
+byte[] aa2= encodedPassword.getPasswordSecretData().getSalt();
+        // Verify the password[hashLength=[32], memory=[131072], type=[id], version=[1.3], parallelism=[1]]
+        System.out.println("keySet : "+dd);
+        System.out.println("entrySet : "+dd1);
+        System.out.println("SecretData_Value : "+aa);
+        System.out.print("SecretData_salt : ");
+        for(byte s:aa2){
+            System.out.print(s);
+        }
+
+        System.out.println();
+
+        boolean isValid = provider.verify(passw, encodedPassword);
+        boolean isValid2 = provider.verify(passw, encodedPass);
+
+        System.out.println("Password valid: " + isValid);
+        System.out.println("Password valid: " + isValid2);
 
 
         customerRepository.add(customer);
     }
 
-    protected final Map<String, String> userPasswords;
-
 
     public boolean updateCredential(CustomerModel user, CredentialInput input) {
 
-        if (!(input instanceof CustomerCredentialModel)) {
-            return false;
-        }
-        if (input.getType().equals(PasswordCredentialModel.TYPE)) {
-            userPasswords.put(translateUserName(user.getCustomerName()), input.getChallengeResponse());
-            return true;
-
-        } else {
-            return false;
-
-
-        }
+        return false;
     }
 
 
     public CustomerModel validate(CustomerModel local) {
-        final boolean userExists = userPasswords.containsKey(translateUserName(local.getCustomerName()));
 
-        return userExists ? local : null;
+
+        return null;
     }
 
     private static String translateUserName(String userName) {

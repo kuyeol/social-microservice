@@ -1,7 +1,7 @@
 package org.acme.client.customer.service;
 
 import java.util.List;
-import org.acme.core.spi.Validator;
+import org.acme.core.utils.Validator;
 
 public class AccountValidator extends Validator {
 

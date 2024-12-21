@@ -1,6 +1,11 @@
 package org.acme.core.security.hash;
 
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 import org.acme.core.model.PasswordCredentialModel;
 import org.acme.core.utils.Base64;
 import org.acme.core.utils.MultivaluedHashMap;
@@ -9,16 +14,10 @@ import org.acme.core.utils.PasswordSecretData;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.jboss.logging.Logger;
 
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-
-
-
-import static org.acme.core.security.hash.Argon2PasswordHashProviderFactory.*;
+import static org.acme.core.security.hash.Argon2PasswordHashProviderFactory.MEMORY_KEY;
+import static org.acme.core.security.hash.Argon2PasswordHashProviderFactory.PARALLELISM_KEY;
+import static org.acme.core.security.hash.Argon2PasswordHashProviderFactory.TYPE_KEY;
+import static org.acme.core.security.hash.Argon2PasswordHashProviderFactory.VERSION_KEY;
 
 public class Argon2PasswordHashProvider implements PasswordHashProvider {
 
@@ -31,7 +30,8 @@ public class Argon2PasswordHashProvider implements PasswordHashProvider {
     private final int parallelism;
     private final Semaphore cpuCoreSemaphore;
 
-    public Argon2PasswordHashProvider(String version, String type, int hashLength, int memory, int iterations, int parallelism, Semaphore cpuCoreSemaphore) {
+    public Argon2PasswordHashProvider(String version, String type, int hashLength, int memory, int iterations,
+        int parallelism, Semaphore cpuCoreSemaphore) {
         this.version = version;
         this.type = type;
         this.hashLength = hashLength;
@@ -46,11 +46,11 @@ public class Argon2PasswordHashProvider implements PasswordHashProvider {
         PasswordCredentialData data = credential.getPasswordCredentialData();
 
         return iterations == data.getHashIterations() &&
-                checkCredData(TYPE_KEY, type, data) &&
-                checkCredData(VERSION_KEY, version, data) &&
-                checkCredData(Argon2PasswordHashProviderFactory.HASH_LENGTH_KEY, hashLength, data) &&
-                checkCredData(MEMORY_KEY, memory, data) &&
-                checkCredData(PARALLELISM_KEY, parallelism, data);
+            checkCredData(TYPE_KEY, type, data) &&
+            checkCredData(VERSION_KEY, version, data) &&
+            checkCredData(Argon2PasswordHashProviderFactory.HASH_LENGTH_KEY, hashLength, data) &&
+            checkCredData(MEMORY_KEY, memory, data) &&
+            checkCredData(PARALLELISM_KEY, parallelism, data);
     }
 
     /**
@@ -74,11 +74,13 @@ public class Argon2PasswordHashProvider implements PasswordHashProvider {
         Map<String, List<String>> additionalParameters = new HashMap<>();
         additionalParameters.put(VERSION_KEY, Collections.singletonList(version));
         additionalParameters.put(TYPE_KEY, Collections.singletonList(type));
-        additionalParameters.put(Argon2PasswordHashProviderFactory.HASH_LENGTH_KEY, Collections.singletonList(Integer.toString(hashLength)));
+        additionalParameters.put(Argon2PasswordHashProviderFactory.HASH_LENGTH_KEY,
+            Collections.singletonList(Integer.toString(hashLength)));
         additionalParameters.put(MEMORY_KEY, Collections.singletonList(Integer.toString(memory)));
         additionalParameters.put(PARALLELISM_KEY, Collections.singletonList(Integer.toString(parallelism)));
 
-        return PasswordCredentialModel.createFromValues(Argon2PasswordHashProviderFactory.ID, salt, iterations, additionalParameters, encoded);
+        return PasswordCredentialModel.createFromValues(Argon2PasswordHashProviderFactory.ID, salt, iterations,
+            additionalParameters, encoded);
     }
 
     @Override
@@ -94,11 +96,13 @@ public class Argon2PasswordHashProvider implements PasswordHashProvider {
         int memory = Integer.parseInt(parameters.getFirst(MEMORY_KEY));
         int iterations = data.getHashIterations();
 
-        String encoded = encode(rawPassword, secretData.getSalt(), version, type, hashLength, parallelism, memory, iterations);
+        String encoded =
+            encode(rawPassword, secretData.getSalt(), version, type, hashLength, parallelism, memory, iterations);
         return encoded.equals(secretData.getValue());
     }
 
-    private String encode(String rawPassword, byte[] salt, String version, String type, int hashLength, int parallelism, int memory, int iterations) {
+    private String encode(String rawPassword, byte[] salt, String version, String type, int hashLength, int parallelism,
+        int memory, int iterations) {
         try {
             try {
                 cpuCoreSemaphore.acquire();
@@ -106,7 +110,8 @@ public class Argon2PasswordHashProvider implements PasswordHashProvider {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException(e);
             }
-            org.bouncycastle.crypto.params.Argon2Parameters parameters = new org.bouncycastle.crypto.params.Argon2Parameters.Builder(Argon2Parameters.getTypeValue(type))
+            org.bouncycastle.crypto.params.Argon2Parameters parameters =
+                new org.bouncycastle.crypto.params.Argon2Parameters.Builder(Argon2Parameters.getTypeValue(type))
                     .withVersion(Argon2Parameters.getVersionValue(version))
                     .withSalt(salt)
                     .withParallelism(parallelism)

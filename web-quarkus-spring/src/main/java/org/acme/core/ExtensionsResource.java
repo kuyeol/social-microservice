@@ -3,6 +3,7 @@ package org.acme.core;
 
 import io.vertx.core.json.JsonObject;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -14,22 +15,28 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.acme.client.customer.AccountService;
 import org.acme.client.customer.CustomerForm;
-import org.acme.client.customer.repository.CustomerDefaultRepository;
+import org.acme.client.customer.model.UserModel;
+import org.acme.client.customer.repository.CredentialRepository;
 import org.acme.client.customer.entity.Customer;
+import org.acme.client.customer.repository.CustomerRepository;
 
 @ApplicationScoped
 @Path("/user")
 public class ExtensionsResource {
 
     private AccountService accountService;
-    private CustomerDefaultRepository customerRepository;
+@Inject
+CustomerRepository customerRepository;
 
-    public ExtensionsResource(CustomerDefaultRepository customerRepository, AccountService accountService) {
+
+    public ExtensionsResource(CustomerRepository customerRepository, AccountService accountService) {
         this.customerRepository = customerRepository;
         this.accountService = accountService;
     }
@@ -38,6 +45,7 @@ public class ExtensionsResource {
     @Path("/acc")
     @Produces(MediaType.APPLICATION_JSON)
     public void acount() {
+
         accountService.testMethod();
     }
 
@@ -48,7 +56,7 @@ public class ExtensionsResource {
     public Response makeUser(final CustomerForm form) {
 
 
-        if (customerRepository.findByName(form.getUsername()).isPresent()) {
+        if (customerRepository.findByName(form.getUsername()) !=null) {
 
             String msg = "이미 등록 된 유저 입니다";
 
@@ -74,10 +82,10 @@ public class ExtensionsResource {
     @Path("/{username}")
     public Response finduser(@QueryParam("username") String username) {
 
-        Optional<Customer> u = customerRepository.findByName(username);
 
+        UserModel us = customerRepository.findByName(username);
 
-        return Response.ok(u).build();
+        return Response.ok(us).build();
 
     }
 
