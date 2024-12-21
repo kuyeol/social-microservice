@@ -101,8 +101,11 @@ public class CustomerRepository implements DefaultRepository<Customer> {
         Credential credential = new Credential();
         credential.setUser(customer);
         credential.setSecretData(encodedPassword.getSecretData());
-        credential.setCredentialData(credR.getCredentialData());
-
+        
+   // credential.setCredentialData(credR.getCredentialData());
+        
+        credential.setCredentialData(encodedPassword.getCredentialData());
+          
         customer.setCredentials(credential.getUser().getCredentials());
 
         System.out.println(credential.getUser().getCredentials());
