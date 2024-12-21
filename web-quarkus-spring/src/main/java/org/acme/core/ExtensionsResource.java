@@ -31,63 +31,10 @@ import org.acme.client.customer.repository.CustomerRepository;
 @Path("/user")
 public class ExtensionsResource {
 
-    private AccountService accountService;
-@Inject
-CustomerRepository customerRepository;
 
 
-    public ExtensionsResource(CustomerRepository customerRepository, AccountService accountService) {
-        this.customerRepository = customerRepository;
-        this.accountService = accountService;
-    }
-
-    @POST
-    @Path("/acc")
-    @Produces(MediaType.APPLICATION_JSON)
-    public void acount() {
-
-        accountService.testMethod();
-    }
 
 
-    @POST
-    @Path("/hello")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response makeUser(final CustomerForm form) {
-
-
-        if (customerRepository.findByName(form.getUsername()) !=null) {
-
-            String msg = "이미 등록 된 유저 입니다";
-
-
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(errorResponse(msg)).build();
-
-        } else if (form.getUsername().isEmpty() && form.getPassword().isEmpty()) {
-
-            return Response.serverError().entity(errorResponse(form.getMessage())).build();
-
-        } else {
-
-            registerUser(form);
-
-            return Response.ok(successResponse(form.getUsername() + " 님의 회원등록 ")).build();
-        }
-
-
-    }
-
-
-    @GET
-    @Path("/{username}")
-    public Response finduser(@QueryParam("username") String username) {
-
-
-        UserModel us = customerRepository.findByName(username);
-
-        return Response.ok(us).build();
-
-    }
 
     public JsonObject errorResponse(String message) {
         JsonObject json = new JsonObject();
@@ -107,17 +54,6 @@ CustomerRepository customerRepository;
         json.put("status", 200);
         json.put("message", message + " 요청이 성공 하였습니다");
         return json;
-    }
-
-
-    private void registerUser(CustomerForm form) {
-
-        Customer customer = new Customer();
-        customer.setCustomerName(form.getUsername());
-
-        customer.setEmail(form.getUsername());
-
-        customerRepository.add(customer);
     }
 
 

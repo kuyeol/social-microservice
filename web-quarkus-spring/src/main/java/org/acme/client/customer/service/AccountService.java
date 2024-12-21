@@ -22,24 +22,63 @@ import static com.arjuna.ats.jdbc.TransactionalDriver.password;
 @ApplicationScoped
 public class AccountService {
 
-//    @Inject
-//  PasswordCredentialModel passwordCredentialModel;
-//
-//    @Inject
-//CustomerCredentialStore userCredentialStore;
-//
-//    @Inject
-//    CredentialRepository credentialRepository;
+
+   @Inject
+CustomerCredentialStore userCredentialStore;
+
+   @Inject
+   CredentialRepository credentialRepository;
+@Inject
+CustomerRepository customerRepository;
 
 
- private final    CustomerRepository customerRepository;
+public UserRepredentation addCustomer(){
 
-public AccountService(CustomerRepository customerRepository) {
-    this.customerRepository = customerRepository;
+ if (customerRepository.findByName(form.getUsername()) !=null) {
+
+            String msg = "이미 등록 된 유저 입니다";
+
+
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(msg).build();
+
+        } else if (form.getUsername().isEmpty() && form.getPassword().isEmpty()) {
+
+            return Response.serverError().entity(form.getMessage()).build();
+
+        } else {
+
+            registerUser(form);
+
+            return Response.ok(form.getUsername() + " 님의 회원등록 ").build();
+        }
+
 }
 
 
+  
 
+    public Response finduser(@QueryParam("username") String username) {
+
+
+        UserModel us = customerRepository.findByName(username);
+
+        return Response.ok(us).build();
+
+    }
+
+
+public Customer registerCustomer(CustomerModel customer){
+
+
+        Customer customer = new Customer();
+        
+        customer.setCustomerName(form.getUsername());
+        customer.setEmail(form.getUsername());
+
+        customerRepository.add(customer);
+
+    return null;
+}
 
 
 
