@@ -1,0 +1,12 @@
+modules = ["java-graalvm22.3", "web", "postgresql-16"]
+
+[nix]
+channel = "stable-24_05"
+
+[[ports]]
+localPort = 5005
+
+[[ports]]
+localPort = 8080
+externalPort = 5000
+exposeLocalhost = true
