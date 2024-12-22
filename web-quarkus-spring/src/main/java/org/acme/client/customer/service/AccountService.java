@@ -1,90 +1,121 @@
-package org.acme.client.customer;
+package org.acme.client.customer.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import java.util.concurrent.Semaphore;
+import jakarta.transaction.Transactional;
+import org.acme.client.customer.entity.Credential;
 import org.acme.client.customer.entity.Customer;
-import org.acme.client.customer.model.CustomerCredentialModel;
+import org.acme.client.customer.model.CredentialRepresentation;
 import org.acme.client.customer.model.CustomerModel;
-import org.acme.client.customer.model.PasswordCustomerCredentialModel;
+import org.acme.client.customer.model.UserModel;
+import org.acme.client.customer.model.UserRepresentation;
 import org.acme.client.customer.repository.CredentialRepository;
 import org.acme.client.customer.repository.CustomerRepository;
+import org.acme.core.model.CredentialModel;
 import org.acme.core.model.PasswordCredentialModel;
 import org.acme.core.security.hash.Argon2PasswordHashProvider;
 import org.acme.core.security.hash.CredentialInput;
-import org.acme.core.utils.PasswordCredentialData;
-import org.acme.core.utils.PasswordSecretData;
-
-import static com.arjuna.ats.jdbc.TransactionalDriver.password;
+import org.acme.core.utils.ModelUtils;
 
 @ApplicationScoped
 public class AccountService {
 
-    static String version = "1.3";
-    static String type = "id";
-    static int hashLength = 32;
-    static int memory = 1024;
-    static int iterations = 5;
-    static int parallelism = 1;
-    static Semaphore cpuCoreSemaphore = new Semaphore(1);
-    
-    private static final Argon2PasswordHashProvider provider = new Argon2PasswordHashProvider(
-            version,
-            type,
-            hashLength,
-            memory,
-            iterations,
-            parallelism,
-            cpuCoreSemaphore);
-
-    @Inject
-    CustomerCredentialStore userCredentialStore;
 
     @Inject
     CredentialRepository credentialRepository;
     @Inject
     CustomerRepository customerRepository;
 
-    public UserRepredentation addCustomer() {
 
-        if (customerRepository.findByName(form.getUsername()) != null) {
-
-            String msg = "이미 등록 된 유저 입니다";
-
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(msg).build();
-
-        } else if (form.getUsername().isEmpty() && form.getPassword().isEmpty()) {
-
-            return Response.serverError().entity(form.getMessage()).build();
-
-        } else {
-
-            registerUser(form);
-
-            return Response.ok(form.getUsername() + " 님의 회원등록 ").build();
-        }
+    public AccountService() {
 
     }
 
-    public Response finduser(@QueryParam("username") String username) {
 
-        UserModel us = customerRepository.findByName(username);
+    @Transactional
+    public void add(Customer customer) {
 
-        return Response.ok(us).build();
+        String passw = "mySecurePassword123";
+
+
+        ArgonConfig argonConfig = new ArgonConfig();
+        Credential credential = new Credential();
+
+        Argon2PasswordHashProvider AP = argonConfig.getProvider();
+
+
+        PasswordCredentialModel encodedPassword = AP.encodedCredential(passw, 5);
+        CredentialRepresentation credR = new CredentialRepresentation();
+
+        credR.setSecretData(encodedPassword.getSecretData());
+        credR.setCredentialData(encodedPassword.getCredentialData());
+
+
+        credential.setUser(customer);
+        credential.setSecretData(encodedPassword.getSecretData());
+
+        credential.setCredentialData(credR.getCredentialData());
+
+        credential.setCredentialData(encodedPassword.getCredentialData());
+
+        customer.setCredentials(credential.getUser().getCredentials());
+
+        System.out.println(credential.getUser().getCredentials());
+
+        CredentialModel model = new CredentialModel();
+        model.setCredentialData(credR.getCredentialData());
+        model.setSecretData(credR.getSecretData());
+        createCredential(model, customer.getId());
 
     }
 
-    public Customer registerCustomer(CustomerModel custom) {
 
-        Customer customer = new Customer();
+    public UserRepresentation findId(String name) {
 
-        customer.setCustomerName(form.getUsername());
-        customer.setEmail(form.getUsername());
 
-        customerRepository.add(customer);
+        UserModel model = customerRepository.findByName(name);
 
-        return null;
+        System.out.println(model);
+
+        UserRepresentation rep = new UserRepresentation();
+        rep.setId(model.getId());
+        rep.setUsername(model.getUsername());
+
+        return rep;
     }
+
+
+    void createCredential(CredentialModel cred, String id) {
+
+        Credential entity = new Credential();
+
+        String credid = ModelUtils.generateId();
+        entity.setId(credid);
+        entity.setCreatedDate(cred.getCreatedDate());
+        entity.setSecretData(cred.getSecretData());
+        entity.setCredentialData(cred.getCredentialData());
+
+        Customer customerRef = new Customer();
+        customerRef.setId(id);
+
+        entity.setUser(customerRef);
+        credentialRepository.add(entity);
+
+    }
+
+
+    public UserRepresentation findUser(UserModel model) {
+
+
+        UserRepresentation rep = new UserRepresentation();
+        UserModel find = customerRepository.findByName(model.getUsername());
+        rep.setUsername(find.getUsername());
+
+        return rep;
+
+
+    }
+
 
     public void testMethod() {
         String alg = "";
@@ -126,43 +157,37 @@ public class AccountService {
         // createFromValues(algorithm, salt, hashIterations, null, encodedPassword)
         Customer customer = new Customer();
 
-     
 
-        String passw = "mySecurePassword123";
-        PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
-        PasswordCredentialModel encodedPass = provider.encodedCredential(passw, 15);
-
-        System.out.println("Encoded: " + encodedPassword);
-        String dd = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().keySet());
-        String dd1 = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().entrySet());
-        String aa = String.valueOf(encodedPassword.getPasswordSecretData().getValue());
-        byte[] aa2 = encodedPassword.getPasswordSecretData().getSalt();
-        // Verify the password[hashLength=[32], memory=[131072], type=[id],
-        // version=[1.3], parallelism=[1]]
-        System.out.println("keySet : " + dd);
-        System.out.println("entrySet : " + dd1);
-        System.out.println("SecretData_Value : " + aa);
-        System.out.print("SecretData_salt : ");
-        for (byte s : aa2) {
-            System.out.print(s);
-        }
-
-        System.out.println();
-
-        boolean isValid = provider.verify(passw, encodedPassword);
-        boolean isValid2 = provider.verify(passw, encodedPass);
-
-        System.out.println("Password valid: " + isValid);
-        System.out.println("Password valid: " + isValid2);
-
-
-
-
-
+        //String passw = "mySecurePassword123";
+        //PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
+        //PasswordCredentialModel encodedPass = provider.encodedCredential(passw, 15);
+        //
+        //System.out.println("Encoded: " + encodedPassword);
+        //String dd = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().keySet());
+        //String dd1 = String.valueOf(encodedPassword.getPasswordCredentialData().getAdditionalParameters().entrySet());
+        //String aa = String.valueOf(encodedPassword.getPasswordSecretData().getValue());
+        //byte[] aa2 = encodedPassword.getPasswordSecretData().getSalt();
+        //// Verify the password[hashLength=[32], memory=[131072], type=[id],
+        //// version=[1.3], parallelism=[1]]
+        //System.out.println("keySet : " + dd);
+        //System.out.println("entrySet : " + dd1);
+        //System.out.println("SecretData_Value : " + aa);
+        //System.out.print("SecretData_salt : ");
+        //for (byte s : aa2) {
+        //    System.out.print(s);
+        //}
+        //
+        //System.out.println();
+        //
+        //boolean isValid = provider.verify(passw, encodedPassword);
+        //boolean isValid2 = provider.verify(passw, encodedPass);
+        //
+        //System.out.println("Password valid: " + isValid);
+        //System.out.println("Password valid: " + isValid2);
+        //
 
         customerRepository.add(customer);
     }
-
 
 
     public boolean updateCredential(CustomerModel user, CredentialInput input) {
@@ -180,8 +205,4 @@ public class AccountService {
     }
 
 
-
-
-
-    
 }

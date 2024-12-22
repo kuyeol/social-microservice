@@ -5,21 +5,12 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.stream.Stream;
-import org.acme.client.customer.entity.Credential;
 import org.acme.client.customer.entity.Customer;
-import org.acme.client.customer.model.CredentialRepresentation;
 import org.acme.client.customer.model.UserModel;
 import org.acme.client.customer.model.UserRepresentation;
-import org.acme.core.model.CredentialModel;
-import org.acme.core.model.PasswordCredentialModel;
-import org.acme.core.security.hash.Argon2PasswordHashProvider;
 import org.acme.core.spi.DefaultRepository;
-import org.acme.core.utils.ModelUtils;
 
 @ApplicationScoped
 public class CustomerRepository implements DefaultRepository<Customer> {
@@ -31,49 +22,52 @@ public class CustomerRepository implements DefaultRepository<Customer> {
     @Transactional
     public UserModel findByName(String name) {
 
+
         TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-                .setParameter("name", name);
-        query.getResultStream().toList();
-        List<Customer> rs = query.getResultList();
+            .setParameter("name", name);
+        query.getResultStream();
 
-        UserRepresentation user = new UserRepresentation();
-        List<CredentialRepresentation> cred = new ArrayList<>();
 
-        cred.add(new CredentialRepresentation());
-
-        if (rs.isEmpty()) {
+        if (query.getSingleResult() != null) {
             return null;
         }
 
-        for (Customer customer : rs) {
-            user.setUsername(customer.getCustomerName());
-            user.setEmail(customer.getEmail());
-            user.setId(customer.getId());
-            user.setCreatedTimestamp(customer.getCreatedTimestamp());
-            user.setCredentials(cred);
-        }
+        Customer rs = query.getSingleResult();
 
-        return new UserRepresentation(user);
+        UserModel user = new UserRepresentation();
+
+
+        user.setUsername(rs.getCustomerName());
+        user.setEmail(rs.getEmail());
+        user.setCreatedTimestamp(rs.getCreatedTimestamp());
+        System.out.println(user);
+
+        return user;
 
     }
+
 
     @Override
     public Stream<Customer> findAll() {
         return Stream.empty();
     }
 
+    @Override
+    public void add(Customer a) {
+
+    }
+
     @Transactional
-    public List<Customer> findByN(String name) {
+    public List<Customer> findListByName(String name) {
 
         TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-                .setParameter("name", name);
+            .setParameter("name", name);
 
         System.out.println(query.getResultStream().toList());
         return query.getResultStream().toList();
 
-        // return Optional.ofNullable(em.getReference(Customer.class, name));
-
     }
+
 
     public boolean findAll(String name) {
 
@@ -84,53 +78,6 @@ public class CustomerRepository implements DefaultRepository<Customer> {
 
     }
 
-    @Override
-    @Transactional
-    public void add(Customer customer) {
-
-        String passw = "mySecurePassword123";
-        PasswordCredentialModel encodedPassword = provider.encodedCredential(passw, 5);
-
-        CredentialRepresentation credR = new CredentialRepresentation();
-
-        credR.setSecretData(encodedPassword.getSecretData());
-        credR.setCredentialData(encodedPassword.getCredentialData());
-        
-        Collection<Credential> cred = new ArrayList<Credential>();
-
-        Credential credential = new Credential();
-        credential.setUser(customer);
-        credential.setSecretData(encodedPassword.getSecretData());
-        
-   // credential.setCredentialData(credR.getCredentialData());
-        
-        credential.setCredentialData(encodedPassword.getCredentialData());
-          
-        customer.setCredentials(credential.getUser().getCredentials());
-
-        System.out.println(credential.getUser().getCredentials());
-
-        CredentialModel model = new CredentialModel();
-        model.setCredentialData(credR.getCredentialData());
-        model.setSecretData(credR.getSecretData());
-        createCredential(model, customer.getId());
-
-    }
-
-    void createCredential(CredentialModel cred, String id) {
-
-        Credential entity = new Credential();
-
-        String credid = ModelUtils.generateId();
-        entity.setId(credid);
-        entity.setCreatedDate(cred.getCreatedDate());
-        entity.setSecretData(cred.getSecretData());
-        entity.setCredentialData(cred.getCredentialData());
-        Customer customerRef = em.getReference(Customer.class, id);
-        entity.setUser(customerRef);
-        em.persist(entity);
-
-    }
 
     @Override
     public boolean remove(Customer customer) {
