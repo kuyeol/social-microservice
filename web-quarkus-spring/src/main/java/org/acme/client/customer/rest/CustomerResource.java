@@ -8,8 +8,8 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
 import org.acme.client.customer.CustomerForm;
 import org.acme.client.customer.entity.Customer;
 import org.acme.client.customer.model.UserModel;
@@ -42,6 +42,8 @@ public class CustomerResource {
     public String hello() {
         return "hello";
     }
+
+    
 
 
     @Path("register")
