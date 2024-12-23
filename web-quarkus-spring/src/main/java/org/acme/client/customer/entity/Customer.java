@@ -64,8 +64,6 @@ public class Customer {
         createdTimestamp = timestamp;
     }
 
-
-
     public String getCustomerName() {
         return customerName;
     }
@@ -81,8 +79,6 @@ public class Customer {
     public void setId(String id) {
         this.id = id;
     }
-
-
 
 
     public String getEmail() {

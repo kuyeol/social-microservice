@@ -8,9 +8,7 @@ import org.acme.core.model.Model;
 public interface UserModel extends Model {
 
 
-    String USERNAME = "username";
-    String FIRST_NAME = "firstName";
-    String LAST_NAME = "lastName";
+    String CUSTOMERNAME = "customerName";
     String EMAIL = "email";
     String EMAIL_VERIFIED = "emailVerified";
     String LOCALE = "locale";
@@ -21,10 +19,10 @@ public interface UserModel extends Model {
     String getId();
 
 
-    String getUsername();
+    String getCustomerName();
 
 
-    void setUsername(String username);
+    void setCustomerName(String name);
 
     void setEmail(String email);
 

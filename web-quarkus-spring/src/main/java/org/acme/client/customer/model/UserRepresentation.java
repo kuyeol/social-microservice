@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class UserRepresentation extends AbstractUserRepresentation implements UserModel {
 
 
-    private String username;
+    private String customerName;
     private String id;
     private long timestamp;
     protected List<CredentialRepresentation> credentials;
@@ -22,9 +22,8 @@ public class UserRepresentation extends AbstractUserRepresentation implements Us
 
     public UserRepresentation(UserRepresentation rep) {
         this.id = rep.getId();
-        this.username = rep.getUsername();
-        this.firstName = rep.getFirstName();
-        this.lastName = rep.getLastName();
+        this.customerName = rep.getCustomerName();
+        
         this.email = rep.getEmail();
         this.emailVerified = rep.isEmailVerified();
         this.attributes = rep.getAttributes();

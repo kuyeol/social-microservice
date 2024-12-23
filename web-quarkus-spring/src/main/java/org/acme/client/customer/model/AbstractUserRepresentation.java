@@ -29,19 +29,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public abstract class AbstractUserRepresentation {
 
-    public static String USERNAME = "username";
-    public static String FIRST_NAME = "firstName";
-    public static String LAST_NAME = "lastName";
+    public static String CUSTOMERNAME = "customername";
     public static String EMAIL = "email";
     public static String LOCALE = "locale";
 
-    protected String id;
-    protected String username;
-    protected String firstName;
-    protected String lastName;
-    protected String email;
-    protected Boolean emailVerified;
 
+
+    protected String id;
+    protected String customerName;
+    protected String email; 
+    protected Boolean emailVerified;
     protected Map<String, List<String>> attributes;
 
 
@@ -52,22 +49,6 @@ public abstract class AbstractUserRepresentation {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -86,12 +67,12 @@ public abstract class AbstractUserRepresentation {
         this.emailVerified = emailVerified;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCustomerName(String name) {
+        this.customerName = name;
     }
 
     /**
@@ -112,21 +93,16 @@ public abstract class AbstractUserRepresentation {
     public Map<String, List<String>> getRawAttributes() {
         Map<String, List<String>> attrs = new HashMap<>(Optional.ofNullable(attributes).orElse(new HashMap<>()));
 
-        if (username != null)
-            attrs.put(USERNAME, Collections.singletonList(getUsername()));
+        if (customerName != null)
+            attrs.put(CUSTOMERNAME, Collections.singletonList(getCustomerName()));
         else
-            attrs.remove(USERNAME);
+            attrs.remove(CUSTOMERNAME);
 
         if (email != null)
             attrs.put(EMAIL, Collections.singletonList(getEmail()));
         else
             attrs.remove(EMAIL);
 
-        if (lastName != null)
-            attrs.put(LAST_NAME, Collections.singletonList(getLastName()));
-
-        if (firstName != null)
-            attrs.put(FIRST_NAME, Collections.singletonList(getFirstName()));
 
         return attrs;
     }
