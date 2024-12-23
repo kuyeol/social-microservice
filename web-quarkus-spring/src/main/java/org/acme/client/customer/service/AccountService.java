@@ -2,14 +2,13 @@ package org.acme.client.customer.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import java.util.List;
 import org.acme.client.customer.entity.Credential;
 import org.acme.client.customer.entity.Customer;
 import org.acme.client.customer.model.CredentialRepresentation;
 import org.acme.client.customer.model.CustomerModel;
 import org.acme.client.customer.model.UserModel;
 import org.acme.client.customer.model.UserRepresentation;
-import org.acme.client.customer.repository.CredentialRepository;
 import org.acme.client.customer.repository.CustomerRepository;
 import org.acme.core.model.CredentialModel;
 import org.acme.core.model.PasswordCredentialModel;
@@ -18,26 +17,26 @@ import org.acme.core.security.hash.CredentialInput;
 import org.acme.core.utils.ModelUtils;
 
 @ApplicationScoped
-public class AccountService {
+public class AccountService implements CustomerService {
 
 
-    @Inject
-    CredentialRepository credentialRepository;
     @Inject
     CustomerRepository customerRepository;
 
 
     public AccountService() {
-
     }
 
 
-    @Transactional
-    public void add(Customer customer) {
+    public UserModel add(Customer customer) {
 
         String passw = "mySecurePassword123";
 
+        customerRepository.findAll();
+        System.out.println(customerRepository.findAll());
 
+
+        customerRepository.add(customer);
         ArgonConfig argonConfig = new ArgonConfig();
         Credential credential = new Credential();
 
@@ -67,21 +66,22 @@ public class AccountService {
         model.setSecretData(credR.getSecretData());
         createCredential(model, customer.getId());
 
+
+        UserModel userModel = new UserRepresentation();
+
+        userModel.setUsername(customer.getCustomerName());
+
+
+        return userModel;
+
     }
 
 
-    public UserRepresentation findId(String name) {
+    public List<Customer> testService(String name) {
+
+        return customerRepository.findListByName(name);
 
 
-        UserModel model = customerRepository.findByName(name);
-
-        System.out.println(model);
-
-        UserRepresentation rep = new UserRepresentation();
-        rep.setId(model.getId());
-        rep.setUsername(model.getUsername());
-
-        return rep;
     }
 
 
@@ -99,21 +99,37 @@ public class AccountService {
         customerRef.setId(id);
 
         entity.setUser(customerRef);
-        credentialRepository.add(entity);
+
 
     }
 
 
-    public UserRepresentation findUser(UserModel model) {
+    public UserRepresentation findUser(String name) {
+        UserModel model = customerRepository.findByName(name);
 
+
+        return toModel(model);
+
+
+    }
+
+    UserRepresentation toModel(UserModel entity) {
+
+
+        if (entity == null) {
+            return null;
+        }else{
 
         UserRepresentation rep = new UserRepresentation();
-        UserModel find = customerRepository.findByName(model.getUsername());
-        rep.setUsername(find.getUsername());
+        rep.setId(entity.getId());
+        rep.setUsername(entity.getUsername());
+
+        // Backwards compatibility - users from previous version still have "salt" in the DB filled.
+        // We migrate it to new secretData format on-the-fly
+
 
         return rep;
-
-
+        }
     }
 
 
@@ -205,4 +221,18 @@ public class AccountService {
     }
 
 
+    @Override
+    public boolean login(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean register(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean logout() {
+        return false;
+    }
 }

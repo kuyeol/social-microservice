@@ -13,57 +13,79 @@ import org.acme.client.customer.model.UserRepresentation;
 import org.acme.core.spi.DefaultRepository;
 
 @ApplicationScoped
-public class CustomerRepository implements DefaultRepository<Customer> {
+public class CustomerRepository extends CustomerLookup<Customer> implements DefaultRepository<Customer> {
 
     @Inject
     EntityManager em;
+
+
+    public CustomerRepository() {
+
+    }
 
     @Override
     @Transactional
     public UserModel findByName(String name) {
 
+        TypedQuery<Customer> query = searchForName(name);
 
-        TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-            .setParameter("name", name);
-        query.getResultStream();
+        if (query.getResultList().isEmpty()) {
 
-
-        if (query.getSingleResult() != null) {
-            return null;
+            UserRepresentation nullRep = new UserRepresentation();
+            nullRep.setId("");
+            nullRep.setUsername("");
+            return nullRep;
         }
 
-        Customer rs = query.getSingleResult();
 
-        UserModel user = new UserRepresentation();
+        UserRepresentation rep = new UserRepresentation();
+        rep.setUsername(query.getResultList().get(0).getCustomerName());
+        rep.setId(query.getResultList().get(0).getId());
+        System.out.println(rep.getUsername() + "repo");
+
+        return rep;
+
+    }
 
 
-        user.setUsername(rs.getCustomerName());
-        user.setEmail(rs.getEmail());
-        user.setCreatedTimestamp(rs.getCreatedTimestamp());
-        System.out.println(user);
+    @Transactional
+    public Customer findByNam(String name) {
 
-        return user;
+
+        TypedQuery<Customer> query = searchForName(name);
+
+
+        return query.getResultStream().findFirst().orElse(null);
 
     }
 
 
     @Override
     public Stream<Customer> findAll() {
+
+
         return Stream.empty();
     }
 
     @Override
-    public void add(Customer a) {
+    @Transactional
+    public void add(Customer customer) {
+
+        Customer entity = new Customer();
+        entity.setCustomerName(customer.getCustomerName());
+        entity.setEmail(customer.getEmail());
+        entity.setCreatedTimestamp(customer.getCreatedTimestamp());
+
+
+        em.persist(customer);
 
     }
 
     @Transactional
     public List<Customer> findListByName(String name) {
 
-        TypedQuery<Customer> query = em.createNamedQuery("findByName", Customer.class)
-            .setParameter("name", name);
+        TypedQuery<Customer> query = searchForName(name);
 
-        System.out.println(query.getResultStream().toList());
         return query.getResultStream().toList();
 
     }
@@ -79,9 +101,21 @@ public class CustomerRepository implements DefaultRepository<Customer> {
     }
 
 
+    private Customer entityContext(String id) {
+
+        Customer customer = em.getReference(Customer.class, id);
+        return em.contains(customer) ? customer : null;
+    }
+
+
     @Override
     public boolean remove(Customer customer) {
         return false;
     }
 
+
+    @Override
+    protected Class<Customer> getEntityClass(Class<Customer> customerClass) {
+        return customerClass;
+    }
 }

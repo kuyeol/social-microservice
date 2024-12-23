@@ -1,7 +1,6 @@
 package org.acme.client.customer.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.time.Instant;
@@ -16,9 +15,11 @@ import org.acme.core.spi.DefaultRepository;
 public class CredentialRepository implements DefaultRepository<Credential> {
 
 
-    @Inject
-    EntityManager em;
+    protected final EntityManager em;
 
+    public CredentialRepository(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public UserModel findByName(String name) {

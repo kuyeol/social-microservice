@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 import org.acme.core.model.Model;
 
 public interface UserModel extends Model {
+
+
     String USERNAME = "username";
     String FIRST_NAME = "firstName";
     String LAST_NAME = "lastName";
