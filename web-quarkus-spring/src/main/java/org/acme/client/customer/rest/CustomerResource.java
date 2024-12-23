@@ -9,9 +9,14 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+<<<<<<< HEAD
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
+=======
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
+>>>>>>> 5e4fac4bd1657060671cee835d2d1271d5873eaf
 import org.acme.client.customer.CustomerForm;
 import org.acme.client.customer.entity.Customer;
 import org.acme.client.customer.model.UserModel;
@@ -41,6 +46,8 @@ public class CustomerResource {
 
         return "<h1>" + "Home" + "</h1>";
     }
+
+    
 
 
     @GET
