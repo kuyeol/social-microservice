@@ -42,7 +42,8 @@ quarkus-security-jpa: JPA 기반 인증
 Use code with caution.
 Xml
 1.2. 엔티티 클래스 (User):
-```
+
+```java
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
