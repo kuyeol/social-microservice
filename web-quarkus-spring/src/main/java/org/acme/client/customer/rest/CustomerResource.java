@@ -17,8 +17,9 @@ import java.net.URI;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
-import org.acme.client.customer.CustomerForm;
+
 import org.acme.client.customer.entity.Customer;
+import org.acme.client.customer.model.CustomerForm;
 import org.acme.client.customer.model.UserModel;
 import org.acme.client.customer.model.UserRepresentation;
 import org.acme.client.customer.repository.CustomerRepository;

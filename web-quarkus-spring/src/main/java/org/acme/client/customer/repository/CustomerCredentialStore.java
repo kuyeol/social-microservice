@@ -1,4 +1,4 @@
-package org.acme.client.customer;
+package org.acme.client.customer.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.stream.Stream;

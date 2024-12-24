@@ -1,4 +1,4 @@
-package org.acme.client.customer;
+package org.acme.client.customer.model;
 
 import io.vertx.core.json.JsonObject;
 import java.util.HashMap;
