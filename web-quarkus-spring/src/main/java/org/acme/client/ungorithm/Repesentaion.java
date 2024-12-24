@@ -8,7 +8,7 @@ public class Repesentaion {
 
     private String username;
 
-    private String age;
+
 
     public Long getTimestamp() {
         return timestamp;

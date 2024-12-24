@@ -26,7 +26,10 @@ public class JpaEntity extends Repesentaion {
     @Access(AccessType.PROPERTY)
     private String id;
     private String password;
-    private String value;
+
+
+
+
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,7 +42,7 @@ public class JpaEntity extends Repesentaion {
         return properties;
     }
 
-   public void addProperty(String name, String value) {
+    public void addProperty(String name, String value) {
         UserProperties property = new UserProperties();
         property.setPropertyName(name);
         property.setPropertyValue(value);

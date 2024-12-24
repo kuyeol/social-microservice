@@ -45,10 +45,7 @@ public class Dao {
             String id = ModelUtils.generateId();
             entity.setId(id);
 
-            Map<String, String> map = new HashMap<>();
-
-            map.put("id", "adfdsf");
-            map.put("ids", "adfasdfdsafsad");
+            Map<String, String> map = new HashMap<String,String>();
 
             for (Map.Entry<String, String> entry : map.entrySet()) {
 
@@ -69,8 +66,7 @@ public class Dao {
             em.flush();
 
             // 저장된 엔티티의 정보를 포함하여 반환
-            Repesentaion result = new Repesentaion();
-            result.setUsername(entity.getUsername());
+            Repesentaion result = entity;
 
             return result;
 
@@ -107,15 +103,7 @@ public class Dao {
         return new Repesentaion();
     }
 
-    @Transactional
-    public Repesentaion create2(Collection<UCredential> credential) {
 
-
-        em.persist(credential);
-
-        return new Repesentaion();
-
-    }
 
 
 }

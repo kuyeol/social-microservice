@@ -2,7 +2,6 @@ package org.acme.client.ungorithm;
 
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -19,13 +18,14 @@ public class JpaResource {
 
 
     @POST
-@Produces(MediaType.APPLICATION_JSON)
-    public Response create(JpaEntity entity) {
+    @Path("{a}/{b}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(JpaEntity entity, @PathParam("a") String a, @PathParam("b") String b) {
 
 
-             Repesentaion R = new Repesentaion();
 
-             dao.create(entity);
+        entity.addProperty(a, b);
+        Repesentaion R = dao.create(entity);
 
 
         return Response.ok(R).build();
@@ -40,6 +40,7 @@ public class JpaResource {
         Repesentaion RE = dao.find(name);
 
         if (RE == null) {
+
             Repesentaion ree = new Repesentaion();
 
             return Response.ok(ree).build();
@@ -50,12 +51,13 @@ public class JpaResource {
         }
     }
 
+
     @GET
     @Path("/1/{entity1}")
     public Response read2(@PathParam("entity1") Long name) {
 
 
-       // UserProperties RE = dao.findProp(name);
+        // UserProperties RE = dao.findProp(name);
         UserProperties RE1 = dao.findProp(name);
         if (RE1 == null) {
 
@@ -67,8 +69,6 @@ public class JpaResource {
             return Response.ok(RE1).build();
         }
     }
-
-
 
 
 }
