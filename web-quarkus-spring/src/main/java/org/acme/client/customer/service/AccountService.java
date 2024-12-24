@@ -69,7 +69,7 @@ public class AccountService implements CustomerService {
 
         UserModel userModel = new UserRepresentation();
 
-        userModel.setUsername(customer.getCustomerName());
+        userModel.setCustomerName(customer.getCustomerName());
 
 
         return userModel;
@@ -122,7 +122,7 @@ public class AccountService implements CustomerService {
 
         UserRepresentation rep = new UserRepresentation();
         rep.setId(entity.getId());
-        rep.setUsername(entity.getUsername());
+        rep.setCustomerName(entity.getCustomerName());
 
         // Backwards compatibility - users from previous version still have "salt" in the DB filled.
         // We migrate it to new secretData format on-the-fly

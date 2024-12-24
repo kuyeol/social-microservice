@@ -33,16 +33,14 @@ public class CustomerRepository extends CustomerLookup<Customer> implements Defa
 
             UserRepresentation nullRep = new UserRepresentation();
             nullRep.setId("");
-            nullRep.setUsername("");
+            nullRep.setCustomerName("");
             return nullRep;
         }
 
 
         UserRepresentation rep = new UserRepresentation();
-        rep.setUsername(query.getResultList().get(0).getCustomerName());
+        rep.setCustomerName(query.getResultList().get(0).getCustomerName());
         rep.setId(query.getResultList().get(0).getId());
-        System.out.println(rep.getUsername() + "repo");
-
         return rep;
 
     }

@@ -56,7 +56,7 @@ public class CustomerResource {
     public Response hello11(@QueryParam("name") String name) {
         UserRepresentation rep = accountService.findUser(name);
 
-        if (rep.getUsername() == null) {
+        if (rep.getCustomerName() == null) {
 
             String msg = "유저를 찾을수 없습니다";
             //리디렉트 페이지
@@ -91,9 +91,9 @@ public class CustomerResource {
     public Response register(UserRepresentation user) {
 
         Customer customer = new Customer();
-        customer.setCustomerName(user.getFirstName());
+        customer.setCustomerName(user.getCustomerName());
         customer.setEmail(user.getEmail());
-        customer.setCustomerName(user.getLastName());
+
 
         accountService.add(customer);
 
@@ -129,7 +129,7 @@ public class CustomerResource {
 
     public Response finduser(@QueryParam("username") String username) {
         UserModel userModel = new UserRepresentation();
-        userModel.setUsername(username);
+        userModel.setCustomerName(username);
 
 
         return Response.ok().build();
