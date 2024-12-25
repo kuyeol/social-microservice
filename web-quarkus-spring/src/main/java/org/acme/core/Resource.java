@@ -19,7 +19,7 @@ import org.acme.core.security.jwt.RedisSessionManager;
 import org.acme.client.customer.entity.Customer;
 import org.jboss.resteasy.reactive.RestQuery;
 
-@Path("/")
+@Path("/hello")
 public class Resource {
 
 
@@ -29,6 +29,13 @@ public class Resource {
 
     @Inject
     EventBus bus;
+
+
+    @GET
+    public String hello(){
+        return "Hello from Quarkus REST";
+    }
+
 
 
     @POST

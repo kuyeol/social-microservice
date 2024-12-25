@@ -1,6 +1,113 @@
 
 
 
+# Stream list Mapping A to B
+
+A construct
+
+```java
+class A 
+{
+ 	String x;
+ 	String y;
+ 	string z;
+ 
+ 	public A( String px, String py, String pz) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+		this.z=pz; 
+ 	}
+    
+}
+```
+B construct
+B[] = A[]-z= x+y
+
+```java
+class B 
+{
+ 	String x;
+ 	String y;
+ 	
+ 
+ 	public B( String px, String py) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+ 	}
+    
+}
+```
+
+List Mapping A -> B
+
+[//]: # ()
+[//]: # (> A class List initialize)
+
+[//]: # ()
+[//]: # (```java)
+
+[//]: # (ArrayList<A> listA = new ArrayList<>&#40;&#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> listA new instant add)
+
+[//]: # (```java)
+
+[//]: # (listA.add&#40;new A&#40;"xValue","yValue","zValue"&#41;&#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> print Stream list)
+
+[//]: # (```java)
+
+[//]: # (listA.stream&#40;&#41;.forEach&#40; &#40;a&#41; -> { )
+
+[//]: # (                                	System.out.println&#40; a.x+ a.y +a.z&#41;; )
+
+[//]: # (                                })
+
+[//]: # (						&#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> new B intance And mappedBy Reference listA)
+
+[//]: # (```java)
+
+[//]: # (Stream<B> listB = listA.stream&#40;&#41;.map&#40; &#40;a&#41; -> new B&#40;a.x,a.y&#41; &#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> print listB)
+
+[//]: # ()
+[//]: # (```java)
+
+[//]: # (listB.stream&#40;&#41;)
+
+[//]: # (	 .forEach&#40; &#40;b&#41; -> { )
+
+[//]: # (     					System.out.print&#40;b.x + b.y &#41;; )
+
+[//]: # (                      } )
+
+[//]: # (              &#41;;)
+
+[//]: # (```)
+
+
+
+
+
+
 
 
 # Stream list Mapping A to B
@@ -99,77 +206,9 @@ listB.stream()
 
 
 
-# Generic Pattern Ex
-
-
-> 패턴 추상화 
-
-```JAVA
-
-public interface Entity{
-
-}
-
-
-public interface <Dao T extends Entity>{
-
-}
 
 
 
-public abstract class AbstractDao<T extends Entity> implements Dao<T>{
-
-}
-
-```
-
-> 추상화 -> 구체화 
-
-
-```java
-
-
-public class UserEntity implements Entity{
-
-}
-
-
-public interface UserDao extends Dao<UserEntity>{
-
-}
-
-
-public class JpaUserDao extends AbstractDao<UserEntity> imlements UserDao{
-
-}
-
-
-```
-
-
-> API 호출
-
-
-
-```java
-
-@Transactional
-public class UserService{
-
-private final UserDao uDao;
-
-
-// Implements Methods..
-
-
-
-
-
-}
-
-
-
-```
 
 
 
@@ -181,13 +220,13 @@ private final UserDao uDao;
 
 ```java
 // 1. 기본 Entity 인터페이스
-public interface BaseEntity {
+public interface EntityModel {
     Long getId();
     void setId(Long id);
 }
 
 // 2. 기본 DAO 인터페이스
-public interface BaseDao<T extends BaseEntity> {
+public interface DaoModel<T extends EntityModel> {
     T findById(Long id);
     List<T> findAll();
     void save(T entity);
@@ -197,7 +236,7 @@ public interface BaseDao<T extends BaseEntity> {
 
 // 3. 추상 DAO 구현체
 @Repository
-public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
+public abstract class AbstractDao<T extends EntityModel> implements DaoModel<T> {
     
     @PersistenceContext
     protected EntityManager em;
@@ -241,7 +280,7 @@ public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
 // 4. 구체적인 Entity 구현
 @Entity
 @Table(name = "users")
-public class User implements BaseEntity {
+public class UserEntity implements EntityModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -261,14 +300,14 @@ public class User implements BaseEntity {
 }
 
 // 5. 구체적인 DAO 인터페이스
-public interface UserDao extends BaseDao<User> {
+public interface UserDaoModel extends DaoModel<UserEntity> {
     List<User> findByName(String name);
     Optional<User> findByEmail(String email);
 }
 
 // 6. 구체적인 DAO 구현체
 @Repository
-public class UserDaoImpl extends AbstractDao<User> implements UserDao {
+public class JpaUserDao extends AbstractDao<UserEntity> implements UserDaoModel {
     
     public UserDaoImpl() {
         super(User.class);
