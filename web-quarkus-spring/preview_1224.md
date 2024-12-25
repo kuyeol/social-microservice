@@ -42,40 +42,66 @@ class B
 
 List Mapping A -> B
 
+[//]: # ()
+[//]: # (> A class List initialize)
 
-> A class List initialize
+[//]: # ()
+[//]: # (```java)
 
-```java
-ArrayList<A> listA = new ArrayList<>();
-```
+[//]: # (ArrayList<A> listA = new ArrayList<>&#40;&#41;;)
 
-> listA new instant add
-```java
-listA.add(new A("xValue","yValue","zValue"));
-```
+[//]: # (```)
 
-> print Stream list
-```java
-listA.stream().forEach( (a) -> { 
-                                	System.out.println( a.x+ a.y +a.z); 
-                                }
-						);
-```
+[//]: # ()
+[//]: # (> listA new instant add)
 
-> new B intance And mappedBy Reference listA
-```java
-Stream<B> listB = listA.stream().map( (a) -> new B(a.x,a.y) );
-```
+[//]: # (```java)
 
-> print listB
+[//]: # (listA.add&#40;new A&#40;"xValue","yValue","zValue"&#41;&#41;;)
 
-```java
-listB.stream()
-	 .forEach( (b) -> { 
-     					System.out.print(b.x + b.y ); 
-                      } 
-              );
-```
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> print Stream list)
+
+[//]: # (```java)
+
+[//]: # (listA.stream&#40;&#41;.forEach&#40; &#40;a&#41; -> { )
+
+[//]: # (                                	System.out.println&#40; a.x+ a.y +a.z&#41;; )
+
+[//]: # (                                })
+
+[//]: # (						&#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> new B intance And mappedBy Reference listA)
+
+[//]: # (```java)
+
+[//]: # (Stream<B> listB = listA.stream&#40;&#41;.map&#40; &#40;a&#41; -> new B&#40;a.x,a.y&#41; &#41;;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (> print listB)
+
+[//]: # ()
+[//]: # (```java)
+
+[//]: # (listB.stream&#40;&#41;)
+
+[//]: # (	 .forEach&#40; &#40;b&#41; -> { )
+
+[//]: # (     					System.out.print&#40;b.x + b.y &#41;; )
+
+[//]: # (                      } )
+
+[//]: # (              &#41;;)
+
+[//]: # (```)
 
 
 
@@ -97,77 +123,9 @@ listB.stream()
 
 
 
-# Generic Pattern Ex
-
-
-> 패턴 추상화 
-
-```JAVA
-
-public interface JpaModel{
-
-}
-
-
-public interface <Dao T extends JpaModel>{
-
-}
 
 
 
-public abstract class AbstractDao<T extends JpaModel> implements Dao<T>{
-
-}
-
-```
-
-> 추상화 -> 구체화 
-
-
-```java
-
-
-public class UserEntity implements JpaModel{
-
-}
-
-
-public interface UserDao extends Dao<UserEntity>{
-
-}
-
-
-public class JpaUserDao extends AbstractDao<UserEntity> imlements UserDao{
-
-}
-
-
-```
-
-
-> API 호출
-
-
-
-```java
-
-@Transactional
-public class UserService{
-
-private final UserDao uDao;
-
-
-// Implements Methods..
-
-
-
-
-
-}
-
-
-
-```
 
 
 
