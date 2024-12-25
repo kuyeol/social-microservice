@@ -33,7 +33,7 @@ public class Resource {
 
     @GET
     public String hello(){
-        return "hello";
+        return "Hello from Quarkus REST";
     }
 
 
