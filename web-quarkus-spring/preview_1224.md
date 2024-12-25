@@ -104,18 +104,18 @@ listB.stream()
 
 ```JAVA
 
-public interface Entity{
+public interface JpaModel{
 
 }
 
 
-public interface <Dao T extends Entity>{
+public interface <Dao T extends JpaModel>{
 
 }
 
 
 
-public abstract class AbstractDao<T extends Entity> implements Dao<T>{
+public abstract class AbstractDao<T extends JpaModel> implements Dao<T>{
 
 }
 
@@ -127,7 +127,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T>{
 ```java
 
 
-public class UserEntity implements Entity{
+public class UserEntity implements JpaModel{
 
 }
 
@@ -179,13 +179,13 @@ private final UserDao uDao;
 
 ```java
 // 1. 기본 Entity 인터페이스
-public interface BaseEntity {
+public interface EntityModel {
     Long getId();
     void setId(Long id);
 }
 
 // 2. 기본 DAO 인터페이스
-public interface BaseDao<T extends BaseEntity> {
+public interface DaoModel<T extends EntityModel> {
     T findById(Long id);
     List<T> findAll();
     void save(T entity);
@@ -195,7 +195,7 @@ public interface BaseDao<T extends BaseEntity> {
 
 // 3. 추상 DAO 구현체
 @Repository
-public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
+public abstract class AbstractDao<T extends EntityModel> implements DaoModel<T> {
     
     @PersistenceContext
     protected EntityManager em;
@@ -239,7 +239,7 @@ public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
 // 4. 구체적인 Entity 구현
 @Entity
 @Table(name = "users")
-public class User implements BaseEntity {
+public class UserEntity implements EntityModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -259,14 +259,14 @@ public class User implements BaseEntity {
 }
 
 // 5. 구체적인 DAO 인터페이스
-public interface UserDao extends BaseDao<User> {
+public interface UserDaoModel extends DaoModel<UserEntity> {
     List<User> findByName(String name);
     Optional<User> findByEmail(String email);
 }
 
 // 6. 구체적인 DAO 구현체
 @Repository
-public class UserDaoImpl extends AbstractDao<User> implements UserDao {
+public class JpaUserDao extends AbstractDao<UserEntity> implements UserDaoModel {
     
     public UserDaoImpl() {
         super(User.class);
