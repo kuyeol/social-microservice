@@ -8,14 +8,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import org.acme.client.customer.entity.Credential;
-import org.acme.client.customer.entity.Customer;
-import org.acme.client.ungorithm.JpaEntity;
+import org.acme.core.utils.ModelUtils;
 
-@Table(name = "UCREDENTIAL")
+@Table(name = "TestCredential")
 @Entity
 //@NamedQueries({
 //
@@ -25,21 +21,18 @@ import org.acme.client.ungorithm.JpaEntity;
 //        "delete from Credential cred where cred.customer IN (select u from" + " Customer u where u.id=:Id)")
 //        })
 
-public class UCredential {
+public class TestCredential {
 
 
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    private String id;
+    private String id = ModelUtils.generateId();
 
 
-
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="JpaEntity_ID")
-    protected JpaEntity jpa;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "JpaEntity_ID")
+    private JpaEntity jpa;
 
     @Column(name = "TYPE")
     protected String type;
@@ -123,11 +116,11 @@ public class UCredential {
         if (o == null) {
             return false;
         }
-        if (!(o instanceof UCredential)) {
+        if (!(o instanceof TestCredential)) {
             return false;
         }
 
-        UCredential that = (UCredential) o;
+        TestCredential that = (TestCredential) o;
 
         if (!id.equals(that.getId())) {
             return false;

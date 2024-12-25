@@ -22,13 +22,26 @@ public class JpaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(JpaEntity entity, @PathParam("a") String a, @PathParam("b") String b) {
 
-
-
-        entity.addProperty(a, b);
+        entity.addAttributes(a, b);
         Repesentaion R = dao.create(entity);
 
 
         return Response.ok(R).build();
+    }
+
+
+    @POST
+    @Path("{pass}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPass(JpaEntity entity, @PathParam("pass") String x) {
+
+        dao.findByName(entity.getId());
+
+        PasswordStore passwordStore = new PasswordStore(entity);
+        passwordStore.createCredential(x, x);
+        entity.setCredentials(passwordStore.getJpaEntity().getCredentials());
+        dao.save(entity);
+        return Response.ok().build();
     }
 
 
@@ -37,7 +50,7 @@ public class JpaResource {
     public Response read(@PathParam("entity") String name) {
 
 
-        Repesentaion RE = dao.find(name);
+        Repesentaion RE = dao.findByName(name);
 
         if (RE == null) {
 
@@ -54,11 +67,11 @@ public class JpaResource {
 
     @GET
     @Path("/1/{entity1}")
-    public Response read2(@PathParam("entity1") Long name) {
+    public Response read2(@PathParam("entity1") String name) {
 
 
         // UserProperties RE = dao.findProp(name);
-        UserProperties RE1 = dao.findProp(name);
+        UserAttributes RE1 = dao.findProp(name);
         if (RE1 == null) {
 
 

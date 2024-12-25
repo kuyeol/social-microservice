@@ -8,8 +8,6 @@ public class Repesentaion {
 
     private String username;
 
-
-
     public Long getTimestamp() {
         return timestamp;
     }

@@ -1,4 +1,133 @@
 
+// TODO: 엔터티 생설 
+
+```java
+package org.keycloak.models.jpa.entities;
+
+import org.hibernate.annotations.Nationalized;
+
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+import org.keycloak.storage.jpa.JpaHashUtils;
+
+/**
+* @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
+* @version $Revision: 1 $
+  */
+  @NamedQueries({
+  @NamedQuery(name="deleteUserAttributesByRealm", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId)"),
+  @NamedQuery(name="deleteUserAttributesByNameAndUser", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name"),
+  @NamedQuery(name="deleteUserAttributesByNameAndUserOtherThan", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name and attr.id <> :attrId"),
+  @NamedQuery(name="deleteUserAttributesByRealmAndLink", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
+  })
+  @Table(name="USER_ATTRIBUTE")
+  @Entity
+  public class UserAttributeEntity {
+
+  @Id
+  @Column(name="ID", length = 36)
+  @Access(AccessType.PROPERTY) // we do this because relationships often fetch id, but not entity.  This avoids an extra SQL
+  protected String id;
+
+  @ManyToOne(fetch= FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  protected UserEntity user;
+
+  @Column(name = "NAME")
+  protected String name;
+  @Nationalized
+  @Column(name = "VALUE")
+  protected String value;
+
+  @Column(name = "LONG_VALUE_HASH")
+  private byte[] longValueHash;
+  @Column(name = "LONG_VALUE_HASH_LOWER_CASE")
+  private byte[] longValueHashLowerCase;
+  @Nationalized
+  @Column(name = "LONG_VALUE")
+  private String longValue;
+
+  public String getId() {
+  return id;
+  }
+
+  public void setId(String id) {
+  this.id = id;
+  }
+
+  public String getName() {
+  return name;
+  }
+
+  public void setName(String name) {
+  this.name = name;
+  }
+
+  public String getValue() {
+  if (value != null && longValue != null) {
+  throw new IllegalStateException(String.format("User with id %s should not have set both `value` and `longValue` for attribute %s.", user.getId(), name));
+  }
+  return value != null ? value : longValue;
+  }
+
+  public void setValue(String value) {
+  if (value == null) {
+  this.value = null;
+  this.longValue = null;
+  this.longValueHash = null;
+  this.longValueHashLowerCase = null;
+  } else if (value.length() > 255) {
+  this.value = null;
+  this.longValue = value;
+  this.longValueHash = JpaHashUtils.hashForAttributeValue(value);
+  this.longValueHashLowerCase = JpaHashUtils.hashForAttributeValueLowerCase(value);
+  } else {
+  this.value = value;
+  this.longValue = null;
+  this.longValueHash = null;
+  this.longValueHashLowerCase = null;
+  }
+  }
+
+  public UserEntity getUser() {
+  return user;
+  }
+
+  public void setUser(UserEntity user) {
+  this.user = user;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+  if (this == o) return true;
+  if (o == null) return false;
+  if (!(o instanceof UserAttributeEntity)) return false;
+
+       UserAttributeEntity that = (UserAttributeEntity) o;
+
+       if (!id.equals(that.getId())) return false;
+
+       return true;
+  }
+
+  @Override
+  public int hashCode() {
+  return id.hashCode();
+  }
+
+
+}
+
+```
 
 
 # Stream list Mapping A to B
@@ -6,13 +135,13 @@
 A construct
 
 ```java
-class A 
-{
- 	String x;
- 	String y;
- 	string z;
+
+public class A {
+    public	String x;
+    public	String y;
+    public	String z;
  
- 	public A( String px, String py, String pz) 
+ 	public A(String px, String py, String pz) 
     {
  		this.x=px;
  		this.y=py;
@@ -20,15 +149,11 @@ class A
  	}
     
 }
-```
-B construct
-B[] = A[]-z= x+y
 
-```java
-class B 
-{
- 	String x;
- 	String y;
+
+public class B {
+ 	public String x;
+    public String y;
  	
  
  	public B( String px, String py) 
@@ -38,160 +163,20 @@ class B
  	}
     
 }
-```
-
-List Mapping A -> B
-
-[//]: # ()
-[//]: # (> A class List initialize)
-
-[//]: # ()
-[//]: # (```java)
-
-[//]: # (ArrayList<A> listA = new ArrayList<>&#40;&#41;;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (> listA new instant add)
-
-[//]: # (```java)
-
-[//]: # (listA.add&#40;new A&#40;"xValue","yValue","zValue"&#41;&#41;;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (> print Stream list)
-
-[//]: # (```java)
-
-[//]: # (listA.stream&#40;&#41;.forEach&#40; &#40;a&#41; -> { )
-
-[//]: # (                                	System.out.println&#40; a.x+ a.y +a.z&#41;; )
-
-[//]: # (                                })
-
-[//]: # (						&#41;;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (> new B intance And mappedBy Reference listA)
-
-[//]: # (```java)
-
-[//]: # (Stream<B> listB = listA.stream&#40;&#41;.map&#40; &#40;a&#41; -> new B&#40;a.x,a.y&#41; &#41;;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (> print listB)
-
-[//]: # ()
-[//]: # (```java)
-
-[//]: # (listB.stream&#40;&#41;)
-
-[//]: # (	 .forEach&#40; &#40;b&#41; -> { )
-
-[//]: # (     					System.out.print&#40;b.x + b.y &#41;; )
-
-[//]: # (                      } )
-
-[//]: # (              &#41;;)
-
-[//]: # (```)
 
 
-
-
-
-
-
-
-# Stream list Mapping A to B
-
-A construct
-
-```java
-class A 
-{
- 	String x;
- 	String y;
- 	string z;
- 
- 	public A( String px, String py, String pz) 
-    {
- 		this.x=px;
- 		this.y=py;
-		this.z=pz; 
- 	}
-    
-}
-```
-B construct
-B[] = A[]-z= x+y
-
-```java
-class B 
-{
- 	String x;
- 	String y;
- 	
- 
- 	public B( String px, String py) 
-    {
- 		this.x=px;
- 		this.y=py;
- 	}
-    
-}
-```
-
-List Mapping A -> B
-
-
-> A class List initialize
-
-```java
 ArrayList<A> listA = new ArrayList<>();
+//listA.add(new A("xValue" , "yValue" , "zValue") );
+//listA.stream().forEach( (a) -> { System.out.println( a.x+ a.y +a.z); } );
 
-```
-
-> listA new instant add
-```java
-
-listA.add(new A("xValue","yValue","zValue"));
-
-```
-
-> print Stream list
-
-> 
-```java
-
-listA.stream().forEach( (a) -> { 
-                                	System.out.println( a.x+ a.y +a.z); 
-                                }
-						);
-
-```
-
-> new B intance And mappedBy Reference listA
-```java
 Stream<B> listB = listA.stream().map( (a) -> new B(a.x,a.y) );
+
+//listB.stream().forEach( (b) -> {  System.out.print(b.x + b.y ); });
+
+
 ```
 
-> print listB
 
-```java
-listB.stream()
-	 .forEach( (b) -> { 
-     					System.out.print(b.x + b.y ); 
-                      } 
-              );
-```
 ## todo: 1225 plan
 
 # rename
@@ -203,14 +188,6 @@ listB.stream()
 
 # repository -> Dao 
     - class name fixed and theory
-
-
-
-
-
-
-
-
 
 
 
@@ -331,6 +308,19 @@ public class JpaUserDao extends AbstractDao<UserEntity> implements UserDaoModel 
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<UserEntity> findByEmail2(String email) {
+        return Optional.ofNullable(
+            em.createQuery("select u from UserEntity u where u.email = :email", UserEntity.class)
+                .setParameter("email", email)
+                .getSingleResultOrNull()
+        );
+    }
+    
+    
+    
+    
 }
 
 // 7. 서비스 계층에서 사용
