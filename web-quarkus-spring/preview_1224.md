@@ -2,6 +2,89 @@
 
 
 
+
+# Stream list Mapping A to B
+
+A construct
+
+```java
+class A 
+{
+ 	String x;
+ 	String y;
+ 	string z;
+ 
+ 	public A( String px, String py, String pz) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+		this.z=pz; 
+ 	}
+    
+}
+```
+B construct
+B[] = A[]-z= x+y
+
+```java
+class B 
+{
+ 	String x;
+ 	String y;
+ 	
+ 
+ 	public B( String px, String py) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+ 	}
+    
+}
+```
+
+List Mapping A -> B
+
+
+> A class List initialize
+
+```java
+ArrayList<A> listA = new ArrayList<>();
+
+```
+
+> listA new instant add
+```java
+
+listA.add(new A("xValue","yValue","zValue"));
+
+```
+
+> print Stream list
+
+> 
+```java
+
+listA.stream().forEach( (a) -> { 
+                                	System.out.println( a.x+ a.y +a.z); 
+                                }
+						);
+
+```
+
+> new B intance And mappedBy Reference listA
+```java
+Stream<B> listB = listA.stream().map( (a) -> new B(a.x,a.y) );
+```
+
+> print listB
+
+```java
+listB.stream()
+	 .forEach( (b) -> { 
+     					System.out.print(b.x + b.y ); 
+                      } 
+              );
+```
 ## todo: 1225 plan
 
 # rename
