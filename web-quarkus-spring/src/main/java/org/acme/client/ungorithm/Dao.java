@@ -63,7 +63,7 @@ public class Dao {
             //userProperties.setPropertyValue(entity.address);
 
             // em.persist(userProperties);
-            em.flush();
+
 
             // 저장된 엔티티의 정보를 포함하여 반환
             Repesentaion result = entity;
