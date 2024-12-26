@@ -29,10 +29,8 @@ public class TestCredential {
     @Access(AccessType.PROPERTY)
     private String id = ModelUtils.generateId();
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "JpaEntity_ID")
-    @Column(name = "jpa_id")
+    @JoinColumn(name = "JPAENTITY_ID")
     private JpaEntity jpa;
 
     @Column(name = "TYPE")
