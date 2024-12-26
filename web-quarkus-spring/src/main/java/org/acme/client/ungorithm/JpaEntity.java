@@ -70,14 +70,14 @@ public class JpaEntity extends Repesentaion {
     }
 
 
-    public Collection<TestCredential> getCredentials() {
+   private Collection<TestCredential> getCredentials() {
         if (credentials == null) {
             credentials = new LinkedList<>();
         }
         return credentials;
     }
 
-    public void setCredentials(Collection<TestCredential> cred) {
+   public void setCredentials(Collection<TestCredential> cred) {
         this.credentials = cred;
     }
 

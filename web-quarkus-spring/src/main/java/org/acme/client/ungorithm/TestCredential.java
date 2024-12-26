@@ -53,8 +53,8 @@ public class TestCredential {
         return jpa;
     }
 
-    public void setJpaEntity(JpaEntity jpaEntity) {
-        this.jpa = jpaEntity;
+    public void setJpaEntity(JpaEntity jpa) {
+        this.jpa = jpa;
     }
 
     public String getId() {

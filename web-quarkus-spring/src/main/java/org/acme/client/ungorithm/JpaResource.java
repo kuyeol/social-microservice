@@ -2,13 +2,19 @@ package org.acme.client.ungorithm;
 
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("ungorithm")
 public class JpaResource {
@@ -16,10 +22,20 @@ public class JpaResource {
     @Inject
     Dao dao;
 
+    @POST
+    @Path("{record}")
+    @Produces(APPLICATION_JSON)
+    public Response createRecord( @Valid JpaEntityRep entityRep, @PathParam("record") String x) {
+      JpaEntity J =  entityRep.jpaEntity();
+        dao.create(J);
+
+        return Response.ok(J).build();
+    }
+
 
     @POST
     @Path("{a}/{b}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
     public Response create(JpaEntity entity, @PathParam("a") String a, @PathParam("b") String b) {
 
         entity.addAttributes(a, b);
@@ -32,14 +48,23 @@ public class JpaResource {
 
     @POST
     @Path("{pass}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createPass(JpaEntity entity, @PathParam("pass") String x) {
+    @Produces(APPLICATION_JSON)
+    public Response createPass(@RequestBody(
+        name = "entity",
+        required = true,
+        content = @Content(
+            mediaType = APPLICATION_JSON,
+            schema = @Schema(implementation = JpaEntity.class),
+            examples = @ExampleObject(name = "fightRequest", value = Examples.create_Entity)
+        )
+    ) @Valid JpaEntity entity, @PathParam("pass") String x) {
 
         dao.findByName(entity.getId());
 
         PasswordStore passwordStore = new PasswordStore(entity);
         passwordStore.createCredential(x, x);
-        entity.setCredentials(passwordStore.getJpaEntity().getCredentials());
+        entity.setCredentials(passwordStore.getCredentials());
+
         dao.save(entity);
         return Response.ok().build();
     }

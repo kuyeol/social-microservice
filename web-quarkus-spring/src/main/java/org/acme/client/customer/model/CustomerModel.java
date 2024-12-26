@@ -27,7 +27,7 @@ public interface CustomerModel {
      * Sets username for this customer.
      * No default method here to allow Abstract subclasses where the username is provided in a different manner
      *
-     * @param customername customername string
+     * @param name customername string
      */
 
     void setCustomerName(String name);

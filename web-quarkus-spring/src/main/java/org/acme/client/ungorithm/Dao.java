@@ -28,13 +28,13 @@ public class Dao {
     }
 
 
-    public Repesentaion passwordCreate(String password ) {
+    public Repesentaion passwordCreate(String password) {
 
 
         return new Repesentaion();
     }
 
-    public Repesentaion save(JpaEntity entity){
+    public Repesentaion save(JpaEntity entity) {
         return em.merge(entity);
     }
 
@@ -49,6 +49,7 @@ public class Dao {
             userProperties.setUser(entity);
             userProperties.setAttributeName("testKey");
             userProperties.setAttributeValue("TestValue");
+            PasswordStore ps = new PasswordStore(entity);
 
             em.persist(entity);
 

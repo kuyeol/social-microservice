@@ -7,18 +7,23 @@ public class PasswordStore {
 
     private final JpaEntity jpaEntity;
 
+
+
+    private Collection<TestCredential> credentials = new LinkedList<>();
+
+
     public PasswordStore(JpaEntity jpaEntity) {
         this.jpaEntity = jpaEntity;
     }
 
-
     public JpaEntity getJpaEntity() {
-
-
         return jpaEntity;
     }
 
-    private Collection<TestCredential> credentials = new LinkedList<>();
+    public Collection<TestCredential> getCredentials() {
+        return credentials;
+    }
+
 
     public void setCredentials(Collection<TestCredential> cred) {
         this.credentials = cred;
@@ -29,8 +34,6 @@ public class PasswordStore {
         if (jpaEntity == null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
-
-
         try {
 
             TestCredential credential = new TestCredential();
@@ -44,5 +47,6 @@ public class PasswordStore {
             throw new RuntimeException("Failed to create entity", e);
         }
     }
+
 
 }
