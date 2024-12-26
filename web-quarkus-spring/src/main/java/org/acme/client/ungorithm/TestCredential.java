@@ -32,6 +32,7 @@ public class TestCredential {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "JpaEntity_ID")
+    @Column(name = "jpa_id")
     private JpaEntity jpa;
 
     @Column(name = "TYPE")
