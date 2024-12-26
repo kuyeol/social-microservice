@@ -30,7 +30,7 @@ public class TestCredential {
     private String id = ModelUtils.generateId();
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "JpaEntity_ID")
     private JpaEntity jpa;
 
