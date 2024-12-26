@@ -47,7 +47,7 @@ public class TestCredential {
     protected String credentialData;
 
     @Column(name = "PRIORITY")
-    protected int priority;
+    private int priority;
 
     public JpaEntity getJpaEntity() {
         return jpa;
@@ -61,7 +61,7 @@ public class TestCredential {
         return id;
     }
 
-    public void setId(String id) {
+    private void setId(String id) {
         this.id = id;
     }
 
@@ -100,11 +100,11 @@ public class TestCredential {
         this.credentialData = credentialData;
     }
 
-    public int getPriority() {
+    private int getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    private void setPriority(int priority) {
         this.priority = priority;
     }
 
