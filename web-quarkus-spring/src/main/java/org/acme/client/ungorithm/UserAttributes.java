@@ -20,25 +20,25 @@ public class UserAttributes {
     @Id
     @Column(name="ID", length = 36)
     @Access(AccessType.PROPERTY)
-    private String Id = ModelUtils.generateId();
+    private String id = ModelUtils.generateId();
 
-    @Column(name = "Attributes_NAME")
+    @Column(name = "Attribute_NAME")
     private String attributeName;
 
-    @Column(name = "Attributes_VALUE")
+    @Column(name = "Attribute_VALUE")
     private String attributeValue;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "JpaEntity_ID")
+    @JoinColumn(name = "JPAENTITY_ID")
     private JpaEntity user;
 
     // Getters and Setters
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public String getAttributeName() {
