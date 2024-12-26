@@ -35,7 +35,7 @@ public class TestCredential {
     private JpaEntity jpa;
 
     @Column(name = "TYPE")
-    protected String type;
+    private String type;
 
     @Column(name = "CREATED_DATE")
     protected Long createdDate;
