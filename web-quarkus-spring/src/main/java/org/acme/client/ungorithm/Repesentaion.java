@@ -3,11 +3,17 @@ package org.acme.client.ungorithm;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class Repesentaion {
+public class Repesentaion implements JpaModel {
 
 
     private String username;
 
+
+
+    @Override
+  public  String JpaNname(){
+      return "hello";
+    }
     public Long getTimestamp() {
         return timestamp;
     }
