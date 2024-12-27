@@ -5,15 +5,14 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public class Repesentaion implements JpaModel {
 
-
     private String username;
 
 
-
     @Override
-  public  String JpaNname(){
-      return "hello";
+    public String JpaNname() {
+        return "hello";
     }
+
     public Long getTimestamp() {
         return timestamp;
     }
@@ -37,7 +36,6 @@ public class Repesentaion implements JpaModel {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 
 }

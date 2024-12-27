@@ -65,8 +65,6 @@ public class TestCredential {
     }
 
 
-
-
     public String getType() {
         return type;
     }

@@ -28,7 +28,7 @@ public class UserAttributes {
     @Column(name = "Attribute_VALUE")
     private String attributeValue;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "JPAENTITY_ID")
     private JpaEntity user;
 

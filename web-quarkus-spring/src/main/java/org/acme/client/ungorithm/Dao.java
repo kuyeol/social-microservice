@@ -27,17 +27,16 @@ public class Dao {
         return em.find(UserAttributes.class, name);
     }
 
-
+    @Transactional
     public Repesentaion passwordCreate(String password) {
-
 
         return new Repesentaion();
     }
-
+    @Transactional
     public Repesentaion save(JpaEntity entity) {
         return em.merge(entity);
     }
-
+    @Transactional
     public Repesentaion create(JpaEntity entity) {
 
         if (entity == null) {
@@ -49,7 +48,9 @@ public class Dao {
             userProperties.setUser(entity);
             userProperties.setAttributeName("testKey");
             userProperties.setAttributeValue("TestValue");
-            PasswordStore ps = new PasswordStore(entity);
+          TestCredential ts = new TestCredential();
+          ts.setJpaEntity(entity);
+
 
             em.persist(entity);
 
@@ -62,5 +63,8 @@ public class Dao {
 
     }
 
+    public void close(){
+        em.close();
+}
 
 }

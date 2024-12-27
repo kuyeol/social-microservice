@@ -29,7 +29,7 @@ public class PasswordStore {
         this.credentials = cred;
     }
 
-    public TestCredential createCredential(String data, String secret) {
+    public void createCredential(String data, String secret) {
 
         if (jpaEntity == null) {
             throw new IllegalArgumentException("Entity cannot be null");
@@ -40,8 +40,8 @@ public class PasswordStore {
             credential.setCredentialData(data);
             credential.setSecretData(secret);
             credential.setJpaEntity(jpaEntity);
+            credential.setCreatedDate(System.currentTimeMillis());
             credentials.add(credential);
-            return credential;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to create entity", e);
