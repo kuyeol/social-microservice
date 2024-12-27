@@ -9,7 +9,7 @@ public class Output implements JpaModel {
 
     @Override
     public String JpaNname() {
-        return "hello";
+        return "helloworld";
     }
 
 
