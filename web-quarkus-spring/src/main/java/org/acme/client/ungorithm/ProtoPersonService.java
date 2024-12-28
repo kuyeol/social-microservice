@@ -50,8 +50,8 @@ public class ProtoPersonService implements PersonsService {
     }
 
 
-    @Override
-    @Blocking
+
+
     public Uni<Person> sayHello(Person request ) {
 
         String name = request.getUsername();
