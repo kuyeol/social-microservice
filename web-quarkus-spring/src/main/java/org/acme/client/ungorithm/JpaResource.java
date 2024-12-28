@@ -1,6 +1,9 @@
 package org.acme.client.ungorithm;
 
 
+import io.grpc.Metadata;
+import io.quarkus.grpc.GrpcClient;
+import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
@@ -12,6 +15,8 @@ import jakarta.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.acme.client.Person;
+import org.acme.client.PersonsService;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -21,21 +26,40 @@ public class JpaResource {
     @Inject
     Dao dao;
 
+    @GrpcClient("proto")
+    PersonsService proto;
+
+
+    @POST
+    @Path("name")
+    public Uni<Response> hello(Metadata metadata) {
+
+
+
+
+        //return Uni.createFrom().item(Response.ok("Hello " + name).build());
+
+        return Uni.createFrom().emitter(emitter -> {
+            emitter.complete(Response.ok(metadata).build());
+        });
+
+    }
+
     @POST
     @Path("{record}")
     @Produces(APPLICATION_JSON)
     public Response createRecord(@Valid JpaEntity rep, @PathParam("record") String x) {
 
 
-JpaEntityRep rr=JpaEntityRep.from(rep);
+        JpaEntityRep rr = JpaEntityRep.from(rep);
 
-JpaEntity entity = new JpaEntity();
-entity.setUsername(x);
+        JpaEntity entity = new JpaEntity();
+        entity.setUsername(x);
 
 
         dao.create(entity);
 
-        return Response.ok( rr).build();
+        return Response.ok(rr).build();
     }
 
     @POST
@@ -47,7 +71,6 @@ entity.setUsername(x);
 
 
         Map<String, List<String>> map = new HashMap<>();
-
 
 
         for (Map.Entry<String, List<String>> t : map.entrySet()) {

@@ -9,6 +9,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
@@ -17,7 +18,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import java.util.Objects;
 import org.acme.core.security.jwt.RedisSessionManager;
 import org.acme.client.customer.entity.Customer;
-import org.jboss.resteasy.reactive.RestQuery;
+
 
 @Path("/hello")
 public class Resource {
@@ -98,7 +99,7 @@ public class Resource {
 
     @GET
     @Path("/hello")
-    public Uni<String> helldo(@RestQuery String name) {
+    public Uni<String> helldo(@QueryParam("name") String name) {
         return bus.<String>request("greetings", name).onItem().transform(Message::body);
     }
 

@@ -1,10 +1,12 @@
 package org.acme.client.ungorithm;
 
 
+import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.acme.client.PersonsService;
 
 @ApplicationScoped
 @Transactional
@@ -14,6 +16,8 @@ public class Dao {
     @Inject
     EntityManager em;
 
+    @GrpcClient
+    PersonsService proto;
 
     @Transactional
     public Repesentaion findByName(String name) {
@@ -32,10 +36,19 @@ public class Dao {
 
         return new Repesentaion();
     }
+
     @Transactional
     public Repesentaion save(JpaEntity entity) {
         return em.merge(entity);
     }
+
+    @Transactional
+    public void protoAdd(JpaEntity entity) {
+
+        em.persist(entity);
+    }
+
+
     @Transactional
     public Repesentaion create(JpaEntity entity) {
 
@@ -48,8 +61,8 @@ public class Dao {
             userProperties.setUser(entity);
             userProperties.setAttributeName("testKey");
             userProperties.setAttributeValue("TestValue");
-          TestCredential ts = new TestCredential();
-          ts.setJpaEntity(entity);
+            TestCredential ts = new TestCredential();
+            ts.setJpaEntity(entity);
 
 
             em.persist(entity);
@@ -63,8 +76,8 @@ public class Dao {
 
     }
 
-    public void close(){
+    public void close() {
         em.close();
-}
+    }
 
 }
