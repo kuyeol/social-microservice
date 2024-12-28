@@ -23,6 +23,11 @@ public class ProtoPersonService implements PersonsService {
 
     @Override
     public Uni<Persons> findByName(StringValue request) {
+
+
+
+
+        SecurityManager sm = System.getSecurityManager();
         return null;
     }
 
