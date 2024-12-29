@@ -25,9 +25,6 @@ public class ProtoPersonService implements PersonsService {
     public Uni<Persons> findByName(StringValue request) {
 
 
-
-
-        SecurityManager sm = System.getSecurityManager();
         return null;
     }
 
