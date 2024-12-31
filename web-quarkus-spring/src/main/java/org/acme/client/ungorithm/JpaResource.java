@@ -1,22 +1,24 @@
 package org.acme.client.ungorithm;
 
 
-import io.grpc.Metadata;
 import io.quarkus.grpc.GrpcClient;
+import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.acme.client.Person;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.acme.client.PersonsService;
+import org.acme.client.ungorithm.dto.UserDto;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -32,16 +34,23 @@ public class JpaResource {
 
     @POST
     @Path("name")
-    public Uni<Response> hello(Metadata metadata) {
+    @Blocking
+    public Uni<Response> hello(Repesentaion dto) {
+        JpaEntity entity = new JpaEntity();
+        entity.setUsername(dto.getUsername());
 
 
 
+        dao.create(entity);
 
         //return Uni.createFrom().item(Response.ok("Hello " + name).build());
 
-        return Uni.createFrom().emitter(emitter -> {
-            emitter.complete(Response.ok(metadata).build());
-        });
+
+        return Uni.createFrom()
+                  .emitter(emitter -> {
+                      emitter.complete(Response.ok(dto)
+                                               .build());
+                  });
 
     }
 
@@ -54,66 +63,56 @@ public class JpaResource {
         JpaEntityRep rr = JpaEntityRep.from(rep);
 
         JpaEntity entity = new JpaEntity();
-        entity.setUsername(x);
+        entity.setUsername(rep.getUsername());
 
 
         dao.create(entity);
 
-        return Response.ok(rr).build();
+        return Response.ok(rr)
+                       .build();
     }
 
     @POST
     @Path("{a}/{b}")
     @Produces(APPLICATION_JSON)
-    public Response create(@Valid Repesentaion rep, @PathParam("a") String a, @PathParam("b") String b) {
+    public Response create(@Valid UserDto rep, @PathParam("a") String a, @PathParam("b") String b) {
 
         JpaEntity entity = new JpaEntity();
 
+        entity.setUsername(rep.repesentaion()
+                              .getUsername());
+        entity.getCredentials();
 
-        Map<String, List<String>> map = new HashMap<>();
-
-
-        for (Map.Entry<String, List<String>> t : map.entrySet()) {
-
-
-            entity.setInputOne(t.getKey());
-            System.out.println(t.getKey().equals("username") ? t.getValue() : "false");
-
-        }
+        Collection<TestCredential> testCredential = new LinkedList<>();
 
 
-        PasswordStore ps = new PasswordStore(entity);
+        dao.create(entity);
 
-        entity.addAttributes(a, b);
-
-        ps.createCredential(a, b);
-
-        entity.setCredentials(ps.getCredentials());
-
-
-        Repesentaion R = dao.create(entity);
-
-        return Response.ok(R).build();
+        return Response.ok(entity)
+                       .build();
     }
 
-    //
-    //@POST
-    //@Path("{a}/{b}")
-    //@Produces(APPLICATION_JSON)
-    //public Response create(@Valid JpaEntity entity, @PathParam("a") String a, @PathParam("b") String b) {
-    //
-    //
-    //    PasswordStore ps = new PasswordStore(entity);
-    //
-    //    entity.addAttributes(a, b);
-    //    ps.createCredential(a, b);
-    //
-    //    entity.setCredentials(ps.getCredentials());
-    //
-    //    Repesentaion R = dao.create(entity);
-    //
-    //    return Response.ok(R).build();
-    //}
+
+    @DELETE
+    @Path("remove")
+    @Produces(APPLICATION_JSON)
+    public Response remove(@QueryParam("id") String id) {
+
+
+        if (dao.remove(id).isPresent()) {
+
+            return Response.ok("dddddd")
+                           .build();
+        } else {
+            JsonObject jo = new JsonObject(id);
+            jo.getInstant(id);
+            jo.fieldNames();
+
+            return Response.serverError()
+                           .build();
+        }
+
+    }
 
 
     @POST
@@ -149,7 +148,8 @@ public class JpaResource {
 
         Repesentaion R = dao.create(entity);
 
-        return Response.ok(R).build();
+        return Response.ok(R)
+                       .build();
     }
 
 
@@ -164,11 +164,13 @@ public class JpaResource {
 
             Repesentaion ree = new Repesentaion();
 
-            return Response.ok(ree).build();
+            return Response.ok(ree)
+                           .build();
         } else {
 
 
-            return Response.ok(RE).build();
+            return Response.ok(RE)
+                           .build();
         }
     }
 
@@ -183,11 +185,13 @@ public class JpaResource {
         if (RE1 == null) {
 
 
-            return Response.ok("ddd").build();
+            return Response.ok("ddd")
+                           .build();
         } else {
 
 
-            return Response.ok(RE1).build();
+            return Response.ok(RE1)
+                           .build();
         }
     }
 

@@ -5,12 +5,15 @@ import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import org.acme.client.PersonsService;
+import org.acme.client.ungorithm.jpa.PersistAndFlush;
 
 @ApplicationScoped
 @Transactional
-public class Dao {
+public class Dao extends PersistAndFlush<JpaEntity> {
 
 
     @Inject
@@ -18,6 +21,12 @@ public class Dao {
 
     @GrpcClient
     PersonsService proto;
+
+
+    @Transactional
+    public JpaEntity reference(String id) {
+        return em.getReference(JpaEntity.class, id);
+    }
 
     @Transactional
     public Repesentaion findByName(String name) {
@@ -52,20 +61,29 @@ public class Dao {
     @Transactional
     public Repesentaion create(JpaEntity entity) {
 
-        if (entity == null) {
+        JpaEntity ref = em.getReference(JpaEntity.class, entity.getId());
+
+        if (findByName(entity.getUsername()) != null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
+
         try {
 
+
+            persistAndFlush(entity);
+
+
             UserAttributes userProperties = new UserAttributes();
-            userProperties.setUser(entity);
-            userProperties.setAttributeName("testKey");
-            userProperties.setAttributeValue("TestValue");
-            TestCredential ts = new TestCredential();
-            ts.setJpaEntity(entity);
+            TestCredential ts             = new TestCredential();
 
 
-            em.persist(entity);
+            userProperties.setUser(ref);
+            ts.setUser(ref);
+
+
+            em.persist(userProperties);
+            em.persist(ts);
+
 
             return entity;
 
@@ -76,8 +94,57 @@ public class Dao {
 
     }
 
+
+    public Optional<Boolean> remove(String id) {
+
+
+
+        if (findID(id).isPresent()) {
+            JpaEntity entity = em.find(JpaEntity.class, id);
+
+            em.remove(entity);
+
+            return Optional.of(Boolean.TRUE);
+
+        } else {
+
+            return Optional.of(Boolean.FALSE);
+
+        }
+
+    }
+
+
     public void close() {
         em.close();
     }
+
+    @Transactional
+    public Optional<JpaEntity> findID(String id) {
+
+        return Optional.ofNullable(em.find(JpaEntity.class, id));
+
+    }
+
+    @Inject
+    EntityManagerFactory emf;
+
+
+    @Transactional
+    @Override
+    public void persistAndFlush(JpaEntity entity) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction()
+              .begin();
+            em.persist(entity);
+            em.flush();
+            em.getTransaction()
+              .commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

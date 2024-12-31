@@ -15,7 +15,6 @@ import jakarta.persistence.Table;
 @Table(name = "CREDENTIAL")
 @Entity
 @NamedQueries({
-
     @NamedQuery(name = "credentialByUser", query = "select cred from Credential cred where cred.customer = :customer " +
         "order by cred.priority"),
     @NamedQuery(name = "deleteCredentialsByRealm", query =

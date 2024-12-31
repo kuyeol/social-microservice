@@ -8,18 +8,21 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import org.acme.core.utils.ModelUtils;
-
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 @Table(name = "TestCredential")
 @Entity
-//@NamedQueries({
-//
-//    @NamedQuery(name = "credentialByUser", query = "select cred from Credential cred where cred.customer = :customer " +
-//        "order by cred.priority"),
-//    @NamedQuery(name = "deleteCredentialsByRealm", query =
-//        "delete from Credential cred where cred.customer IN (select u from" + " Customer u where u.id=:Id)")
-//        })
+@NamedQueries({
+    @NamedQuery(name = "testcredentialByUser", query = "select cred from TestCredential cred where cred.user = :user " +
+                                                   "order by cred.priority"),
+    @NamedQuery(name = "deletetestCredentialsByUser", query =
+        "delete from TestCredential cred where cred.user IN (select u from" + " JpaEntity u where u.id =:Id )")
+        })
 
 public class TestCredential {
 
@@ -31,29 +34,29 @@ public class TestCredential {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "JPAENTITY_ID")
-    private JpaEntity jpa;
+    protected JpaEntity user;
 
     @Column(name = "TYPE")
     private String type;
 
     @Column(name = "CREATED_DATE")
-    protected Long createdDate;
+    private Long createdDate;
 
     @Column(name = "SECRET_DATA")
-    protected String secretData;
+    private String secretData;
 
     @Column(name = "CREDENTIAL_DATA")
-    protected String credentialData;
+    private String credentialData;
 
     @Column(name = "PRIORITY")
     private int priority;
 
-    public JpaEntity getJpaEntity() {
-        return jpa;
+    public JpaEntity getUser() {
+        return this.user;
     }
 
-    public void setJpaEntity(JpaEntity jpa) {
-        this.jpa = jpa;
+    public void setUser(JpaEntity user) {
+        this.user = user;
     }
 
     public String getId() {
@@ -105,29 +108,5 @@ public class TestCredential {
         this.priority = priority;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof TestCredential)) {
-            return false;
-        }
 
-        TestCredential that = (TestCredential) o;
-
-        if (!id.equals(that.getId())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

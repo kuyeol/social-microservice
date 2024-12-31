@@ -39,7 +39,7 @@ public class PasswordStore {
             TestCredential credential = new TestCredential();
             credential.setCredentialData(data);
             credential.setSecretData(secret);
-            credential.setJpaEntity(jpaEntity);
+            credential.setUser(jpaEntity);
             credential.setCreatedDate(System.currentTimeMillis());
             credentials.add(credential);
 
