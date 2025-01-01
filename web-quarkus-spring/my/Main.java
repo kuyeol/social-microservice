@@ -1,3 +1,6 @@
+import fluent.AddNewProduct;
+import fluent.ProductsCommandHandler;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -11,6 +14,12 @@ public class Main {
         System.out.println(strTrim);
         System.out.println(afStr);
         System.out.println(st2.replaceAll(",", ""));
+
+
+        ProductsCommandHandler handler = new ProductsCommandHandler();
+        AddNewProduct command = new AddNewProduct();
+
+        handler.handle(command);
 
         System.out.println(bb);
         //
