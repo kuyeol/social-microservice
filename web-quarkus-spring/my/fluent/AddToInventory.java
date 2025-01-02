@@ -1,10 +1,8 @@
 package fluent;
 
-import java.util.UUID;
-
 public class AddToInventory extends AbstractCommand {
     @Override
-    public UUID getId() {
+    public String getId() {
         return null;
     }
 }

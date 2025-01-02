@@ -13,7 +13,7 @@ public class AddNewProduct  extends AbstractCommand{
 
 
     @Override
-    public UUID getId() {
+    public String getId() {
         return null;
     }
 }

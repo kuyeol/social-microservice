@@ -1,27 +1,30 @@
-import fluent.AddNewProduct;
-import fluent.ProductsCommandHandler;
+import fluent.TextHelper;
 
 public class Main {
+
+    public TextHelper textHelper;
+
+
+    public Main() {
+    }
+
+    String str = "asfjkl";
+    String tx  = textHelper.MeowPrepend(str);
+
 
     public static void main(String[] args) throws Exception {
 
 
-        String strTrim = "  dad   , dsf dd  ".trim()
-                                           .replaceAll(" ", "");
-        String  afStr = strTrim.substring(0,strTrim.lastIndexOf(','));
-       String st2=   strTrim.substring(strTrim.lastIndexOf(','));
-        boolean bb    = strTrim.equals(afStr);
-        System.out.println(strTrim);
-        System.out.println(afStr);
-        System.out.println(st2.replaceAll(",", ""));
+        Main       main       = new Main();
+        TextHelper textHelper = new TextHelper();
+        textHelper.multiStream();
+        String ss;
+
+        ss = main.tx;
+
+        System.out.println(ss);
 
 
-        ProductsCommandHandler handler = new ProductsCommandHandler();
-        AddNewProduct command = new AddNewProduct();
-
-        handler.handle(command);
-
-        System.out.println(bb);
         //
         //
         //    List<Integer> intlist = new ArrayList<>();
