@@ -30,7 +30,7 @@ public class JpaEntity extends Repesentaion implements AutoCloseable{
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    private final String id = ModelUtils.generateId();
+    private final String id;
 
 
     private String inputOne;
@@ -53,11 +53,10 @@ public class JpaEntity extends Repesentaion implements AutoCloseable{
     public JpaEntity() {
         super();
 
+        this.id =ModelUtils.generateId() ;
     }
 
-    public JpaEntity( String password, String value) {
 
-    }
 
     public String getId() {
         return id;

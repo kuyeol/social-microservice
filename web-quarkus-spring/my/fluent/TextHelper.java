@@ -80,19 +80,19 @@ public class TextHelper {
                                                 .by(Duration.ofSeconds(1)));
 
 
-        //Multi.createBy()
-        //     .concatenating()
-        //     .streams(prod)
-        //     .subscribe()
-        //     .with(System.out::println);
+        Multi.createBy()
+             .concatenating()
+             .streams(prod)
+             .subscribe()
+             .with(System.out::println);
 
 
 
-        //Uni<Tuple2<Response, Response>> responses = Uni.combine()
-        //                                               .all()
-        //                                               .unis(uniA, uniB)
-        //                                               .asTuple();
-        ////
+        Uni<Tuple2<Response, Response>> responses = Uni.combine()
+                                                       .all()
+                                                       .unis(uniA, uniB)
+                                                       .asTuple();
+        //
         //Uni.combine()
         //   .all()
         //   .unis(uniA, uniB)
@@ -104,32 +104,32 @@ public class TextHelper {
         //      // System.out.println("Response from B: " + tuple.getItem2());
         //     //  System.out.println("Response from 3: " + tuple.getItem3());
         //   });
-        //Uni.combine()
-        //   .all()
-        //   .unis(responses)
-        //   .with(tuple -> {
-        //     return   invokeHttpServiceA();
-        //
-        //   });
-        //
-        //Multi<Response> multi1A = invokeHttpServiceMA();
-        //multi1A.onCompletion();
-        //Multi<Response> multi1B = invokeHttpServiceMB();
-        //multi1B.onCompletion();
-        //Multi<Tuple2<Response, Response>> combined = Multi.createBy()
-        //                                                  .combining()
-        //                                                  .streams(multi1A, multi1B)
-        //                                                  .asTuple();
-        //Multi.createBy()
-        //     .combining()
-        //     .streams(multi1A, multi1B)
-        //     .using(list -> combineItems(list))
-        //     .subscribe()
-        //     .with(x -> {
-        //
-        //         System.out.println(combined);
-        //         // do something with the combined items
-        //     });
+        Uni.combine()
+           .all()
+           .unis(responses)
+           .with(tuple -> {
+             return   invokeHttpServiceA();
+
+           });
+
+        Multi<Response> multi1A = invokeHttpServiceMA();
+        multi1A.onCompletion();
+        Multi<Response> multi1B = invokeHttpServiceMB();
+        multi1B.onCompletion();
+        Multi<Tuple2<Response, Response>> combined = Multi.createBy()
+                                                          .combining()
+                                                          .streams(multi1A, multi1B)
+                                                          .asTuple();
+        Multi.createBy()
+             .combining()
+             .streams(multi1A, multi1B)
+             .using(list -> combineItems(list))
+             .subscribe()
+             .with(x -> {
+
+                 System.out.println(combined);
+                 // do something with the combined items
+             });
 
 
         AtomicInteger atomicInteger = new AtomicInteger();

@@ -25,6 +25,7 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
     @Transactional
     public JpaEntity reference(String id) {
+
         return em.getReference(JpaEntity.class, id);
     }
 
@@ -59,12 +60,79 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
 
     @Transactional
+    public TestCredential findCred(String id) {
+
+
+        String Q = TestCredential.FIND_PARENT_user;
+
+
+        JpaEntity jpaEntity;
+        jpaEntity = reference(id);
+
+        if (jpaEntity == null) {
+            throw new IllegalArgumentException("Entity cannot be null");
+        }
+
+        TestCredential cred;
+
+
+        try {
+            cred = em.createNamedQuery(Q, TestCredential.class)
+                     .setParameter("user", jpaEntity)
+                     .getSingleResult();
+
+            return toDTO(cred);
+
+        } catch (Exception e) {
+
+
+            return new TestCredential();
+        }
+
+
+    }
+
+
+    private static TestCredential toDTO(TestCredential entity) {
+        TestCredential typedQuery = new TestCredential();
+
+        typedQuery.setType(entity.getType() + "88");
+        typedQuery.setSecretData(entity.getSecretData()
+                                       .substring(0, 4) + "88");
+        typedQuery.setCredentialData(entity.getCredentialData() + "88");
+        return typedQuery;
+    }
+
+
+    @Transactional
+    public Optional<Boolean> update(String id) {
+
+
+        if (findID(id).isPresent()) {
+            JpaEntity entity = em.find(JpaEntity.class, id);
+
+            entity.setUsername("uodate");
+
+
+            em.persist(entity);
+            em.flush();
+            return Optional.of(Boolean.TRUE);
+
+        } else {
+
+            return Optional.of(Boolean.FALSE);
+
+        }
+
+    }
+
+    @Transactional
     public Repesentaion create(JpaEntity entity) {
 
         JpaEntity ref = em.getReference(JpaEntity.class, entity.getId());
 
-        if (findByName(entity.getUsername()) != null) {
-            throw new IllegalArgumentException("Entity cannot be null");
+        if (findByName(entity.getId()) != null) {
+            throw new IllegalArgumentException("Entity is Exist");
         }
 
         try {
@@ -96,7 +164,6 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
 
     public Optional<Boolean> remove(String id) {
-
 
 
         if (findID(id).isPresent()) {
@@ -144,7 +211,6 @@ public class Dao extends PersistAndFlush<JpaEntity> {
             e.printStackTrace();
         }
     }
-
 
 
 }

@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -38,7 +39,6 @@ public class JpaResource {
     public Uni<Response> hello(Repesentaion dto) {
         JpaEntity entity = new JpaEntity();
         entity.setUsername(dto.getUsername());
-
 
 
         dao.create(entity);
@@ -85,7 +85,6 @@ public class JpaResource {
 
         Collection<TestCredential> testCredential = new LinkedList<>();
 
-
         dao.create(entity);
 
         return Response.ok(entity)
@@ -93,13 +92,57 @@ public class JpaResource {
     }
 
 
+    @POST
+    @Path("findSecret")
+    @Produces(APPLICATION_JSON)
+    public Response findSecret(@QueryParam("id") String id) {
+
+        TestCredential testCredential;
+
+        if (dao.findCred(id) != null) {
+            testCredential = dao.findCred(id);
+
+            return Response.ok(testCredential)
+                           .build();
+
+
+        } else {
+
+            return Response.ok("testCredential")
+                           .build();
+        }
+    }
+
+    @PUT
+    @Path("update")
+    @Produces(APPLICATION_JSON)
+    public Response update(@QueryParam("id") String id) {
+
+        if (dao.update(id)
+               .isPresent()) {
+
+            return Response.ok("dddddd")
+                           .build();
+        } else {
+
+            JsonObject jo = new JsonObject(id);
+            jo.getInstant(id);
+            jo.fieldNames();
+
+            return Response.serverError()
+                           .build();
+        }
+
+    }
+
     @DELETE
     @Path("remove")
     @Produces(APPLICATION_JSON)
     public Response remove(@QueryParam("id") String id) {
 
 
-        if (dao.remove(id).isPresent()) {
+        if (dao.remove(id)
+               .isPresent()) {
 
             return Response.ok("dddddd")
                            .build();

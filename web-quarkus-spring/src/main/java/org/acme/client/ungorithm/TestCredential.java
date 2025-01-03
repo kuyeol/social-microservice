@@ -12,19 +12,20 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import org.acme.core.utils.ModelUtils;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
 @Table(name = "TestCredential")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "testcredentialByUser", query = "select cred from TestCredential cred where cred.user = :user " +
-                                                   "order by cred.priority"),
+
+    @NamedQuery(name = "testcredentialByUser", query = "select cred from TestCredential cred where cred.user = :user "),
     @NamedQuery(name = "deletetestCredentialsByUser", query =
-        "delete from TestCredential cred where cred.user IN (select u from" + " JpaEntity u where u.id =:Id )")
-        })
+        "delete from TestCredential cred where cred.user IN (select u from" + " JpaEntity u where u.id =:Id )")})
 
 public class TestCredential {
+
+
+    public static String FIND_PARENT      = "lockPersonQuery";
+    public static String FIND_PARENT_user = "testcredentialByUser";
 
 
     @Id
