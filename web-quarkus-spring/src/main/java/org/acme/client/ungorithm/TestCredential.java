@@ -21,7 +21,7 @@ import org.acme.core.utils.ModelUtils;
     @NamedQuery(name = "deletetestCredentialsByUser", query =
         "delete from TestCredential cred where cred.user IN (select u from" + " JpaEntity u where u.id =:Id )")})
 
-public class TestCredential {
+public class TestCredential implements JpaType {
 
 
     public static String FIND_PARENT      = "lockPersonQuery";
@@ -31,7 +31,7 @@ public class TestCredential {
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    private String id = ModelUtils.generateId();
+    private String id ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "JPAENTITY_ID")
@@ -51,6 +51,22 @@ public class TestCredential {
 
     @Column(name = "PRIORITY")
     private int priority;
+
+
+    public TestCredential() {
+        if(id == null) {
+            this.id=ModelUtils.generateId();
+        }
+
+    }
+
+    public TestCredential(TestCredential cred) {
+        this.id = cred.id;
+        this.user = cred.user;
+        this.type = cred.type;
+        this.createdDate = cred.createdDate;
+        this.secretData = cred.secretData;
+    }
 
     public JpaEntity getUser() {
         return this.user;

@@ -1,4 +1,6 @@
+import fluent.StreamConsumer;
 import fluent.TextHelper;
+import java.util.function.Consumer;
 
 public class Main {
 
@@ -15,14 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
 
-        Main       main       = new Main();
-        TextHelper textHelper = new TextHelper();
-        textHelper.multiStream();
-        String ss;
-
-        ss = main.tx;
-
-        System.out.println(ss);
+    StreamConsumer.run(con -> con.first("ss"));
 
 
         //

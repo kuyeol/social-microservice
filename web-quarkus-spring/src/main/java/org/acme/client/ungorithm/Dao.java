@@ -9,11 +9,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.acme.client.PersonsService;
-import org.acme.client.ungorithm.jpa.PersistAndFlush;
 
 @ApplicationScoped
 @Transactional
-public class Dao extends PersistAndFlush<JpaEntity> {
+public class Dao {
 
 
     @Inject
@@ -42,14 +41,17 @@ public class Dao extends PersistAndFlush<JpaEntity> {
     }
 
     @Transactional
-    public Repesentaion passwordCreate(String password) {
+    public static Repesentaion passwordCreate(Class<?> c, EntityManager em) {
+
+        em.getReference(c, "");
 
         return new Repesentaion();
     }
 
     @Transactional
-    public Repesentaion save(JpaEntity entity) {
-        return em.merge(entity);
+    public void save(JpaType entity) {
+
+        em.persist(entity);
     }
 
     @Transactional
@@ -60,45 +62,37 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
 
     @Transactional
-    public TestCredential findCred(String id) {
+    public synchronized TestCredential findCred(String id, JpaEntity entity) {
 
 
         String Q = TestCredential.FIND_PARENT_user;
 
-
-        JpaEntity jpaEntity;
-        jpaEntity = reference(id);
-
-        if (jpaEntity == null) {
+        if (reference(id) == null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
 
         TestCredential cred;
 
-
         try {
+
             cred = em.createNamedQuery(Q, TestCredential.class)
-                     .setParameter("user", jpaEntity)
+                     .setParameter("user", entity)
                      .getSingleResult();
 
-            return toDTO(cred);
 
         } catch (Exception e) {
-
 
             return new TestCredential();
         }
 
-
+        return new TestCredential(cred);
     }
 
 
     private static TestCredential toDTO(TestCredential entity) {
         TestCredential typedQuery = new TestCredential();
-
-        typedQuery.setType(entity.getType() + "88");
-        typedQuery.setSecretData(entity.getSecretData()
-                                       .substring(0, 4) + "88");
+        typedQuery.setType(entity.getType() + "testType");
+        typedQuery.setSecretData(entity.getSecretData() + "88");
         typedQuery.setCredentialData(entity.getCredentialData() + "88");
         return typedQuery;
     }
@@ -113,9 +107,9 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
             entity.setUsername("uodate");
 
-
             em.persist(entity);
             em.flush();
+
             return Optional.of(Boolean.TRUE);
 
         } else {
@@ -198,7 +192,6 @@ public class Dao extends PersistAndFlush<JpaEntity> {
 
 
     @Transactional
-    @Override
     public void persistAndFlush(JpaEntity entity) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction()

@@ -19,6 +19,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.LinkedList;
 import org.acme.client.PersonsService;
+import org.acme.client.ungorithm.dto.PasswordTransForm;
 import org.acme.client.ungorithm.dto.UserDto;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -55,24 +56,6 @@ public class JpaResource {
     }
 
     @POST
-    @Path("{record}")
-    @Produces(APPLICATION_JSON)
-    public Response createRecord(@Valid JpaEntity rep, @PathParam("record") String x) {
-
-
-        JpaEntityRep rr = JpaEntityRep.from(rep);
-
-        JpaEntity entity = new JpaEntity();
-        entity.setUsername(rep.getUsername());
-
-
-        dao.create(entity);
-
-        return Response.ok(rr)
-                       .build();
-    }
-
-    @POST
     @Path("{a}/{b}")
     @Produces(APPLICATION_JSON)
     public Response create(@Valid UserDto rep, @PathParam("a") String a, @PathParam("b") String b) {
@@ -98,14 +81,23 @@ public class JpaResource {
     public Response findSecret(@QueryParam("id") String id) {
 
         TestCredential testCredential;
+        JpaEntity      entity;
 
-        if (dao.findCred(id) != null) {
-            testCredential = dao.findCred(id);
 
-            return Response.ok(testCredential)
+        if (dao.reference(id) != null) {
+
+            entity         = dao.reference(id);
+            testCredential = dao.findCred(id, entity);
+
+            PasswordTransForm psf = new PasswordTransForm(testCredential);
+
+            testCredential = psf.input(testCredential);
+            dao.save(testCredential);
+
+
+
+            return Response.ok(psf.output(testCredential))
                            .build();
-
-
         } else {
 
             return Response.ok("testCredential")

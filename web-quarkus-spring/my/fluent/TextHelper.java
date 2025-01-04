@@ -87,11 +87,6 @@ public class TextHelper {
              .with(System.out::println);
 
 
-
-        Uni<Tuple2<Response, Response>> responses = Uni.combine()
-                                                       .all()
-                                                       .unis(uniA, uniB)
-                                                       .asTuple();
         //
         //Uni.combine()
         //   .all()
@@ -104,13 +99,6 @@ public class TextHelper {
         //      // System.out.println("Response from B: " + tuple.getItem2());
         //     //  System.out.println("Response from 3: " + tuple.getItem3());
         //   });
-        Uni.combine()
-           .all()
-           .unis(responses)
-           .with(tuple -> {
-             return   invokeHttpServiceA();
-
-           });
 
         Multi<Response> multi1A = invokeHttpServiceMA();
         multi1A.onCompletion();
