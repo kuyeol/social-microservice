@@ -1,7 +1,7 @@
 package org.acme.client.ungorithm;
 
 
-import io.quarkus.grpc.GrpcClient;
+
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
@@ -30,8 +30,7 @@ public class JpaResource {
     @Inject
     Dao dao;
 
-    @GrpcClient("proto")
-    PersonsService proto;
+    
 
 
     @POST
