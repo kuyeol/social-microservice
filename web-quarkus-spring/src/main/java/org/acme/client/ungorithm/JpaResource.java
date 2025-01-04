@@ -1,10 +1,8 @@
 package org.acme.client.ungorithm;
 
+import java.util.Collection;
+import java.util.LinkedList;
 
-
-import io.smallrye.common.annotation.Blocking;
-import io.smallrye.mutiny.Uni;
-import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
@@ -16,9 +14,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import java.util.Collection;
-import java.util.LinkedList;
+
+import io.smallrye.common.annotation.Blocking;
+import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonObject;
+
 import org.acme.client.ungorithm.dto.PasswordTransForm;
+import org.acme.client.ungorithm.dto.UserDto;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
