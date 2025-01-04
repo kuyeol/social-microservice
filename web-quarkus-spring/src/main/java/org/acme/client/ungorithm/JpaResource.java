@@ -29,8 +29,6 @@ public class JpaResource {
     Dao dao;
 
     
-
-
     @POST
     @Path("name")
     @Blocking
