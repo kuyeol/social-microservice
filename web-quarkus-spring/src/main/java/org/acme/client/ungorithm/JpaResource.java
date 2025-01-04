@@ -18,7 +18,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.LinkedList;
-
+import org.acme.client.ungorithm.dto.PasswordTransForm;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
