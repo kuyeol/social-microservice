@@ -1,7 +1,6 @@
 package org.acme.client.ungorithm;
 
 
-import io.quarkus.grpc.GrpcClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -18,9 +17,7 @@ public class Dao {
     @Inject
     EntityManager em;
 
-    @GrpcClient
-    PersonsService proto;
-
+    
 
     @Transactional
     public JpaEntity reference(String id) {
