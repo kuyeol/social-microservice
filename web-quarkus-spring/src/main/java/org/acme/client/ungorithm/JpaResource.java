@@ -18,9 +18,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.LinkedList;
-import org.acme.client.PersonsService;
-import org.acme.client.ungorithm.dto.PasswordTransForm;
-import org.acme.client.ungorithm.dto.UserDto;
+
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -130,7 +128,6 @@ public class JpaResource {
     @Path("remove")
     @Produces(APPLICATION_JSON)
     public Response remove(@QueryParam("id") String id) {
-
 
         if (dao.remove(id)
                .isPresent()) {
