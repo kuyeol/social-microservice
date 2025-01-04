@@ -7,7 +7,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
-import org.acme.client.PersonsService;
 
 @ApplicationScoped
 @Transactional
