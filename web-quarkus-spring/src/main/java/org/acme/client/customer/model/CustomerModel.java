@@ -25,15 +25,15 @@ public interface CustomerModel {
 
     /**
      * Sets username for this customer.
-     *
      * No default method here to allow Abstract subclasses where the username is provided in a different manner
      *
-     * @param username username string
+     * @param name customername string
      */
+
     void setCustomerName(String name);
 
     /**
-     * Get timestamp of customer creation. May be null for old users created before this feature introduction.
+     * Get timestamp of customer creation. Maybe null for old users created before this feature introduction.
      */
     Long getCreatedTimestamp();
 

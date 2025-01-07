@@ -1,4 +1,13 @@
 
+
+```
+eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIxc2dydHgwcVViTTMiLCJhdWQiOiJjaXJjbGV0LXdlYi11aSIsIm9yZ0RvbWFpbiI6InV5ZW9sIiwibmFtZSI6InppbW9wMTIiLCJpc3MiOiJodHRwczovL3V5ZW9sLmpldGJyYWlucy5zcGFjZSIsInBlcm1fdG9rZW4iOiI0YWNJU2c0UEcwY28iLCJwcmluY2lwYWxfdHlwZSI6IlVTRVIiLCJpYXQiOjE3MzUxODU0NTJ9.emAlp7ki8t0MpG1aWsnIEa-ghjQkfyij-NF4QAdtzGOhRamLrFMMJX5k-0j-e61NrvO0ilNqx7MZWL4jDwMD3uOXKuGo_R4-0Tpr2S24l7oN0Coi4_bZSY4Qt6ALOcr1U1ZwOsL2rf0ikUF0Qt3hxk8phHv7Q_1ElkuhsT_pRC0
+
+```
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0IjoicDBQWFAiLCJvcmdhbml6YXRpb24iOiIzeU9xNCIsInRva2VuIjoiM0s3QmwifQ.BljQ3LO6MivNrzPzmi_rC3_sJDz3B3fQPrEtKVGqRFA
+```
+
 1. Quarkus 버전
 
 1.1. 프로젝트 설정:
@@ -42,7 +51,8 @@ quarkus-security-jpa: JPA 기반 인증
 Use code with caution.
 Xml
 1.2. 엔티티 클래스 (User):
-```
+
+```java
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;

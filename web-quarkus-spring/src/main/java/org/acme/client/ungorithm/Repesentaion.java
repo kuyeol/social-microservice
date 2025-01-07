@@ -1,14 +1,19 @@
 package org.acme.client.ungorithm;
 
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 
 @MappedSuperclass
-public class Repesentaion {
-
+public class Repesentaion implements JpaModel {
 
     private String username;
 
-
+    
+    @Override
+    public String JpaNname() {
+        return "hello";
+    }
 
     public Long getTimestamp() {
         return timestamp;
@@ -33,7 +38,6 @@ public class Repesentaion {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 
 }

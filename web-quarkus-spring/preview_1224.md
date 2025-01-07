@@ -1,4 +1,184 @@
 
+// TODO: 엔터티 생설 
+
+```java
+package org.keycloak.models.jpa.entities;
+
+import org.hibernate.annotations.Nationalized;
+
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+import org.keycloak.storage.jpa.JpaHashUtils;
+
+/**
+* @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
+* @version $Revision: 1 $
+  */
+  @NamedQueries({
+  @NamedQuery(name="deleteUserAttributesByRealm", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId)"),
+  @NamedQuery(name="deleteUserAttributesByNameAndUser", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name"),
+  @NamedQuery(name="deleteUserAttributesByNameAndUserOtherThan", query="delete from  UserAttributeEntity attr where attr.user.id = :userId and attr.name = :name and attr.id <> :attrId"),
+  @NamedQuery(name="deleteUserAttributesByRealmAndLink", query="delete from  UserAttributeEntity attr where attr.user IN (select u from UserEntity u where u.realmId=:realmId and u.federationLink=:link)")
+  })
+  @Table(name="USER_ATTRIBUTE")
+  @Entity
+  public class UserAttributeEntity {
+
+  @Id
+  @Column(name="ID", length = 36)
+  @Access(AccessType.PROPERTY) // we do this because relationships often fetch id, but not entity.  This avoids an extra SQL
+  protected String id;
+
+  @ManyToOne(fetch= FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  protected UserEntity user;
+
+  @Column(name = "NAME")
+  protected String name;
+  @Nationalized
+  @Column(name = "VALUE")
+  protected String value;
+
+  @Column(name = "LONG_VALUE_HASH")
+  private byte[] longValueHash;
+  @Column(name = "LONG_VALUE_HASH_LOWER_CASE")
+  private byte[] longValueHashLowerCase;
+  @Nationalized
+  @Column(name = "LONG_VALUE")
+  private String longValue;
+
+  public String getId() {
+  return id;
+  }
+
+  public void setId(String id) {
+  this.id = id;
+  }
+
+  public String getName() {
+  return name;
+  }
+
+  public void setName(String name) {
+  this.name = name;
+  }
+
+  public String getValue() {
+  if (value != null && longValue != null) {
+  throw new IllegalStateException(String.format("User with id %s should not have set both `value` and `longValue` for attribute %s.", user.getId(), name));
+  }
+  return value != null ? value : longValue;
+  }
+
+  public void setValue(String value) {
+  if (value == null) {
+  this.value = null;
+  this.longValue = null;
+  this.longValueHash = null;
+  this.longValueHashLowerCase = null;
+  } else if (value.length() > 255) {
+  this.value = null;
+  this.longValue = value;
+  this.longValueHash = JpaHashUtils.hashForAttributeValue(value);
+  this.longValueHashLowerCase = JpaHashUtils.hashForAttributeValueLowerCase(value);
+  } else {
+  this.value = value;
+  this.longValue = null;
+  this.longValueHash = null;
+  this.longValueHashLowerCase = null;
+  }
+  }
+
+  public UserEntity getUser() {
+  return user;
+  }
+
+  public void setUser(UserEntity user) {
+  this.user = user;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+  if (this == o) return true;
+  if (o == null) return false;
+  if (!(o instanceof UserAttributeEntity)) return false;
+
+       UserAttributeEntity that = (UserAttributeEntity) o;
+
+       if (!id.equals(that.getId())) return false;
+
+       return true;
+  }
+
+  @Override
+  public int hashCode() {
+  return id.hashCode();
+  }
+
+
+}
+
+```
+
+
+# Stream list Mapping A to B
+
+A construct
+
+```java
+
+public class A {
+    public	String x;
+    public	String y;
+    public	String z;
+ 
+ 	public A(String px, String py, String pz) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+		this.z=pz; 
+ 	}
+    
+}
+
+
+public class B {
+ 	public String x;
+    public String y;
+ 	
+ 
+ 	public B( String px, String py) 
+    {
+ 		this.x=px;
+ 		this.y=py;
+ 	}
+    
+}
+
+
+ArrayList<A> listA = new ArrayList<>();
+//listA.add(new A("xValue" , "yValue" , "zValue") );
+//listA.stream().forEach( (a) -> { System.out.println( a.x+ a.y +a.z); } );
+
+Stream<B> listB = listA.stream().map( (a) -> new B(a.x,a.y) );
+
+//listB.stream().forEach( (b) -> {  System.out.print(b.x + b.y ); });
+
+
+```
+
+
+## todo: 1225 plan
+
 # rename
     - username to customername
     - remove first, last name
@@ -11,95 +191,19 @@
 
 
 
-# Generic Pattern Ex
-
-
-> 패턴 추상화 
-
-```JAVA
-
-public interface Entity{
-
-}
-
-
-public interface <Dao T extends Entity>{
-
-}
-
-
-
-public abstract class AbstractDao<T extends Entity> implements Dao<T>{
-
-}
-
-```
-
-> 추상화 -> 구체화 
-
-
-```java
-
-
-public class UserEntity implements Entity{
-
-}
-
-
-public interface UserDao extends Dao<UserEntity>{
-
-}
-
-
-public class JpaUserDao extends AbstractDao<UserEntity> imlements UserDao{
-
-}
-
-
-```
-
-
-> API 호출
-
-
-
-```java
-
-@Transactional
-public class UserService{
-
-private final UserDao uDao;
-
-
-// Implements Methods..
-
-
-
-
-
-}
-
-
-
-```
-
-
-
-
-
 
 
 제네릭을 사용한 DAO 패턴의 구현 예시를 보여드리겠습니다:
 
 ```java
 // 1. 기본 Entity 인터페이스
-public interface BaseEntity {
+public interface EntityModel {
     Long getId();
     void setId(Long id);
 }
 
 // 2. 기본 DAO 인터페이스
-public interface BaseDao<T extends BaseEntity> {
+public interface DaoModel<T extends EntityModel> {
     T findById(Long id);
     List<T> findAll();
     void save(T entity);
@@ -109,7 +213,7 @@ public interface BaseDao<T extends BaseEntity> {
 
 // 3. 추상 DAO 구현체
 @Repository
-public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
+public abstract class AbstractDao<T extends EntityModel> implements DaoModel<T> {
     
     @PersistenceContext
     protected EntityManager em;
@@ -153,7 +257,7 @@ public abstract class AbstractDao<T extends BaseEntity> implements BaseDao<T> {
 // 4. 구체적인 Entity 구현
 @Entity
 @Table(name = "users")
-public class User implements BaseEntity {
+public class UserEntity implements EntityModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -173,14 +277,14 @@ public class User implements BaseEntity {
 }
 
 // 5. 구체적인 DAO 인터페이스
-public interface UserDao extends BaseDao<User> {
+public interface UserDaoModel extends DaoModel<UserEntity> {
     List<User> findByName(String name);
     Optional<User> findByEmail(String email);
 }
 
 // 6. 구체적인 DAO 구현체
 @Repository
-public class UserDaoImpl extends AbstractDao<User> implements UserDao {
+public class JpaUserDao extends AbstractDao<UserEntity> implements UserDaoModel {
     
     public UserDaoImpl() {
         super(User.class);
@@ -204,6 +308,19 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<UserEntity> findByEmail2(String email) {
+        return Optional.ofNullable(
+            em.createQuery("select u from UserEntity u where u.email = :email", UserEntity.class)
+                .setParameter("email", email)
+                .getSingleResultOrNull()
+        );
+    }
+    
+    
+    
+    
 }
 
 // 7. 서비스 계층에서 사용

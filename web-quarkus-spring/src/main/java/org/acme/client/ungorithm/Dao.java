@@ -4,11 +4,9 @@ package org.acme.client.ungorithm;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import org.acme.core.utils.ModelUtils;
+import java.util.Optional;
 
 @ApplicationScoped
 @Transactional
@@ -18,57 +16,134 @@ public class Dao {
     @Inject
     EntityManager em;
 
+    
+
     @Transactional
-    public Repesentaion find(String name) {
+    public JpaEntity reference(String id) {
 
-
-        JpaEntity copy = em.find(JpaEntity.class, name);
-
-
-        return copy;
+        return em.getReference(JpaEntity.class, id);
     }
 
     @Transactional
-    public  UserProperties findProp(Long name) {
+    public Repesentaion findByName(String name) {
 
-
-        return em.find(UserProperties.class, name);
+        return em.find(JpaEntity.class, name);
     }
 
-    public Repesentaion create(JpaEntity entity) {
+    @Transactional
+    public UserAttributes findProp(String name) {
 
-        if (entity == null) {
+        return em.find(UserAttributes.class, name);
+    }
+
+    @Transactional
+    public static Repesentaion passwordCreate(Class<?> c, EntityManager em) {
+
+        em.getReference(c, "");
+
+        return new Repesentaion();
+    }
+
+    @Transactional
+    public void save(JpaType entity) {
+
+        em.persist(entity);
+    }
+
+    @Transactional
+    public void protoAdd(JpaEntity entity) {
+
+        em.persist(entity);
+    }
+
+
+    @Transactional
+    public synchronized TestCredential findCred(String id, JpaEntity entity) {
+
+
+        String Q = TestCredential.FIND_PARENT_user;
+
+        if (reference(id) == null) {
             throw new IllegalArgumentException("Entity cannot be null");
         }
+
+        TestCredential cred;
+
         try {
-            // ID 생성 및 설정
-            String id = ModelUtils.generateId();
-            entity.setId(id);
 
-            Map<String, String> map = new HashMap<String,String>();
-
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-
-                entity.addProperty(entry.getKey(), entry.getValue());
-            }
+            cred = em.createNamedQuery(Q, TestCredential.class)
+                     .setParameter("user", entity)
+                     .getSingleResult();
 
 
-            // 엔티티 저장
+        } catch (Exception e) {
+
+            return new TestCredential();
+        }
+
+        return new TestCredential(cred);
+    }
+
+
+    private static TestCredential toDTO(TestCredential entity) {
+        TestCredential typedQuery = new TestCredential();
+        typedQuery.setType(entity.getType() + "testType");
+        typedQuery.setSecretData(entity.getSecretData() + "88");
+        typedQuery.setCredentialData(entity.getCredentialData() + "88");
+        return typedQuery;
+    }
+
+
+    @Transactional
+    public Optional<Boolean> update(String id) {
+
+
+        if (findID(id).isPresent()) {
+            JpaEntity entity = em.find(JpaEntity.class, id);
+
+            entity.setUsername("uodate");
+
             em.persist(entity);
-
-            // 추가 속성 생성 및 설정
-            UserProperties userProperties = new UserProperties();
-            // userProperties.setUser(entity);
-            // userProperties.setPropertyName(entity.getTimestamp().toString());
-            //userProperties.setPropertyValue(entity.address);
-
-            // em.persist(userProperties);
             em.flush();
 
-            // 저장된 엔티티의 정보를 포함하여 반환
-            Repesentaion result = entity;
+            return Optional.of(Boolean.TRUE);
 
-            return result;
+        } else {
+
+            return Optional.of(Boolean.FALSE);
+
+        }
+
+    }
+
+    @Transactional
+    public Repesentaion create(JpaEntity entity) {
+
+        JpaEntity ref = em.getReference(JpaEntity.class, entity.getId());
+
+        if (findByName(entity.getId()) != null) {
+            throw new IllegalArgumentException("Entity is Exist");
+        }
+
+        try {
+
+
+            persistAndFlush(entity);
+
+
+            UserAttributes userProperties = new UserAttributes();
+            TestCredential ts             = new TestCredential();
+
+
+            userProperties.setUser(ref);
+            ts.setUser(ref);
+
+
+            em.persist(userProperties);
+            em.persist(ts);
+
+
+            return entity;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to create entity", e);
@@ -77,33 +152,54 @@ public class Dao {
 
     }
 
-    @Transactional
-    public Repesentaion create2(JpaEntity entity) {
-        // ID 생성 및 설정
-        String id = ModelUtils.generateId();
-        entity.setId(id);
 
-        // 기본 속성 추가
+    public Optional<Boolean> remove(String id) {
 
-        // 엔티티 저장
-        em.persist(entity);
 
-        // 추가 속성 생성 및 설정
-        UserProperties userProperties = new UserProperties();
-        userProperties.setUser(entity);
-        userProperties.setPropertyName("user");
-        userProperties.setPropertyValue("additional value");  // 값 설정 추가
+        if (findID(id).isPresent()) {
+            JpaEntity entity = em.find(JpaEntity.class, id);
 
-        // propertyId는 @GeneratedValue를 사용하도록 수정 권장
-        // userProperties.setPropertyId(3333L);  // 직접 ID 설정은 권장하지 않음
+            em.remove(entity);
 
-        em.persist(userProperties);
-        em.flush();
+            return Optional.of(Boolean.TRUE);
 
-        return new Repesentaion();
+        } else {
+
+            return Optional.of(Boolean.FALSE);
+
+        }
+
     }
 
 
+    public void close() {
+        em.close();
+    }
+
+    @Transactional
+    public Optional<JpaEntity> findID(String id) {
+
+        return Optional.ofNullable(em.find(JpaEntity.class, id));
+
+    }
+
+    @Inject
+    EntityManagerFactory emf;
+
+
+    @Transactional
+    public void persistAndFlush(JpaEntity entity) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction()
+              .begin();
+            em.persist(entity);
+            em.flush();
+            em.getTransaction()
+              .commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

@@ -1,3 +1,8 @@
+
+# Web Dev
+[![CodeQL Advanced](https://github.com/kuyeol/social-microservice/actions/workflows/codeql.yml/badge.svg)](https://github.com/kuyeol/social-microservice/actions/workflows/codeql.yml)
+
+
 # social-microservice
  
 "priority","created_date","id","user_id","credential_data","secret_data","type"

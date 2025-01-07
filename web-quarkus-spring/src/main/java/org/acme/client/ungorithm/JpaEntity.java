@@ -1,6 +1,7 @@
 package org.acme.client.ungorithm;
 
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
@@ -9,82 +10,107 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.UniqueConstraint;
+import java.io.Closeable;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.acme.core.utils.ModelUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+
 @Entity
-@Table(name = "JpaEntity")
-public class JpaEntity extends Repesentaion {
+@Table(name = "JpaEntity", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"realm", "username"})
+})
+public class JpaEntity extends Repesentaion implements JpaType{
 
 
     @Id
     @Column(name = "ID", length = 36)
     @Access(AccessType.PROPERTY)
-    private String id;
-    private String password;
+    private final String id;
 
 
+    private String inputOne;
+
+    private String inputTwo;
 
 
+    private final String realm = "USERACCOUNT";
 
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 20)
-    private List<UserProperties> properties = new ArrayList<>();
+    private Collection<UserAttributes> attributes = new LinkedList<>();
 
-
-    private List<UserProperties> getProperties() {
-        return properties;
-    }
-
-    public void addProperty(String name, String value) {
-        UserProperties property = new UserProperties();
-        property.setPropertyName(name);
-        property.setPropertyValue(value);
-        property.setUser(this);
-
-        this.properties.add(property);
-    }
-
-    public void removeProperty(UserProperties property) {
-        properties.remove(property);
-        property.setUser(null);
-    }
-
-
-    private String input;
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy="user")
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 20)
+    private Collection<TestCredential> credentials = new LinkedList<>();
 
     public JpaEntity() {
         super();
 
+        this.id =ModelUtils.generateId() ;
     }
 
 
-    public JpaEntity(String id, String password, String value) {
 
-    }
-
-    private String getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = ModelUtils.generateId();
+
+    public String getInputOne() {
+        return inputOne;
+    }
+
+    public void setInputOne(String input) {
+        this.inputOne = input;
+    }
+
+    public String getInputTwo() {
+        return inputTwo;
+    }
+
+    public void setInputTwo(String inputTwo) {
+        this.inputTwo = inputTwo;
+    }
+
+    private String getRealm() {
+        return realm;
+    }
+
+    private Collection<UserAttributes> getAttributes() {
+        if (attributes == null) {
+            attributes = new LinkedList<>();
+        }
+        return attributes;
+    }
+
+    public void addAttributes(String name, String value) {
+        UserAttributes att = new UserAttributes();
+        att.setAttributeName(name);
+        att.setAttributeValue(value);
+        att.setUser(this);
+
+        this.attributes.add(att);
     }
 
 
-    private String getPassword() {
-        return this.password;
+    public Collection<TestCredential> getCredentials() {
+        if (credentials == null) {
+            credentials = new LinkedList<>();
+        }
+        return credentials;
     }
 
-    private void setPassword(String password) {
-        this.password = password;
+    public void setCredentials(Collection<TestCredential> cred) {
+        this.credentials = cred;
     }
+
 
 
 }
