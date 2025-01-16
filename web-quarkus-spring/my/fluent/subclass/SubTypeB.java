@@ -1,0 +1,55 @@
+package fluent.subclass;
+
+import fluent.subclass.spec.SuperType;
+
+public class SubTypeB implements SuperType
+{
+
+    private String name;
+
+    private String id;
+
+
+    public SubTypeB()
+    {
+
+        this.id = "null";
+    }
+
+
+    public SubTypeB(ClassSource source)
+    {
+        this.id   = source.getId();
+        this.name = source.getName();
+    }
+
+
+    public String getName()
+    {
+
+        return name;
+    }
+
+
+    public void setName(String name)
+    {
+
+        this.name = name;
+    }
+
+
+    public String getId()
+    {
+
+        return id;
+    }
+
+
+    public void setId(String id)
+    {
+
+        this.id = id;
+    }
+
+
+}

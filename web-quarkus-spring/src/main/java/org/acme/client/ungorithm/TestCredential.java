@@ -1,5 +1,6 @@
 package org.acme.client.ungorithm;
 
+import io.smallrye.common.constraint.NotNull;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
@@ -10,16 +11,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.acme.core.utils.ModelUtils;
 
-@Table(name = "TestCredential")
+@Table(name = "TestCredential", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"jpaentity_id", "id"})
+})
 @Entity
 @NamedQueries({
-
     @NamedQuery(name = "testcredentialByUser", query = "select cred from TestCredential cred where cred.user = :user "),
     @NamedQuery(name = "deletetestCredentialsByUser", query =
         "delete from TestCredential cred where cred.user IN (select u from" + " JpaEntity u where u.id =:Id )")})
+
+
 
 public class TestCredential implements JpaType {
 
@@ -34,8 +40,8 @@ public class TestCredential implements JpaType {
     private String id ;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "JPAENTITY_ID")
-    protected JpaEntity user;
+    @JoinColumn(name = "JPAENTITY_ID", nullable = false)
+    private JpaEntity user;
 
     @Column(name = "TYPE")
     private String type;
@@ -85,8 +91,8 @@ public class TestCredential implements JpaType {
     }
 
 
-    public String getType() {
-        return type;
+    public TestCredential getType() {
+        return this;
     }
 
     public void setType(String type) {

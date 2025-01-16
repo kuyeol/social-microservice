@@ -16,12 +16,13 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import java.util.Objects;
-import org.acme.core.security.jwt.RedisSessionManager;
 import org.acme.client.customer.entity.Customer;
+import org.acme.core.security.jwt.RedisSessionManager;
 
 
 @Path("/hello")
-public class Resource {
+public class Resource
+{
 
 
     @Inject
@@ -33,16 +34,17 @@ public class Resource {
 
 
     @GET
-    public String hello(){
+    public String hello()
+    {
         return "Hello from Quarkus REST";
     }
-
 
 
     @POST
     @Path("/login")
 
-    public Response login(Customer customer) {
+    public Response login(Customer customer)
+    {
         // In a real application, you would authenticate the customer here.
         Customer authenticatedCustomer = new Customer();
 
@@ -50,48 +52,61 @@ public class Resource {
         String sessionId = sessionManager.createSession(authenticatedCustomer.getId());
 
         // Set the session ID in a cookie
-        NewCookie sessionCookie = new NewCookie("SESSION_ID", sessionId, "/", null, "session-cookie", 3600, true, true);
+        NewCookie sessionCookie = new NewCookie("SESSION_ID",
+                                                sessionId,
+                                                "/",
+                                                null,
+                                                "session-cookie",
+                                                3600,
+                                                true,
+                                                true);
 
-        return Response.ok(authenticatedCustomer).cookie(sessionCookie).build();
+        return Response.ok(authenticatedCustomer)
+                       .cookie(sessionCookie)
+                       .build();
     }
-
-
 
 
     @GET
     @Path("/me")
-    public Response getMe(@Context SecurityContext sec) {
+    public Response getMe(@Context SecurityContext sec)
+    {
         String sessionId = getSessionIdFromSecurityContext(sec);
 
         if (Objects.isNull(sessionId)) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                           .build();
         }
 
         String userId = sessionManager.getUserIdFromSession(sessionId);
         if (Objects.isNull(userId)) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                           .build();
         }
         // In a real application, you would load customer data from database
         Customer authenticatedCustomer = new Customer();
 
-        return Response.ok(authenticatedCustomer).build();
+        return Response.ok(authenticatedCustomer)
+                       .build();
 
     }
 
 
-    private String getSessionIdFromSecurityContext(SecurityContext sec) {
+    private String getSessionIdFromSecurityContext(SecurityContext sec)
+    {
         if (sec.getUserPrincipal() == null) {
             return null;
         }
-        return sec.getUserPrincipal().getName();
+        return sec.getUserPrincipal()
+                  .getName();
     }
 
 
     @POST
     @Path("{path}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String hello(@PathParam("path") String path) {
-
+    public String hello(@PathParam("path") String path)
+    {
 
         return path;
     }
@@ -99,8 +114,11 @@ public class Resource {
 
     @GET
     @Path("/hello")
-    public Uni<String> helldo(@QueryParam("name") String name) {
-        return bus.<String>request("greetings", name).onItem().transform(Message::body);
+    public Uni<String> helldo(@QueryParam("name") String name)
+    {
+        return bus.<String>request("greetings", name)
+                  .onItem()
+                  .transform(Message::body);
     }
 
 

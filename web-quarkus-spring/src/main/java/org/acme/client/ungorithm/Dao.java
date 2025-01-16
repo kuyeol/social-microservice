@@ -6,19 +6,18 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.Transactional;
+import java.time.Instant;
 import java.util.Optional;
 
 @ApplicationScoped
-@Transactional
 public class Dao {
 
 
     @Inject
     EntityManager em;
 
-    
 
-    @Transactional
+        @Transactional
     public JpaEntity reference(String id) {
 
         return em.getReference(JpaEntity.class, id);
@@ -56,9 +55,34 @@ public class Dao {
         em.persist(entity);
     }
 
+    @Transactional
+    public synchronized TestCredential findCred(String id, Class<?> c) {
+
+
+        String Q = TestCredential.FIND_PARENT_user;
+
+        if (reference(id) == null) {
+            throw new IllegalArgumentException("Entity cannot be null");
+        }
+
+        TestCredential cred;
+        try {
+
+            cred = em.createNamedQuery(Q, TestCredential.class)
+                     .setParameter("user", c)
+                     .getSingleResult();
+            cred.setType("findcred");
+            em.persist(cred);
+        } catch (Exception e) {
+
+            return new TestCredential();
+        }
+
+        return new TestCredential(cred);
+    }
 
     @Transactional
-    public synchronized TestCredential findCred(String id, JpaEntity entity) {
+    public synchronized TestCredential findCred(JpaEntity entity,Class<?> c) {
 
 
         String Q = TestCredential.FIND_PARENT_user;
@@ -71,10 +95,12 @@ public class Dao {
 
         try {
 
-            cred = em.createNamedQuery(Q, TestCredential.class)
-                     .setParameter("user", entity)
-                     .getSingleResult();
+            cred = (TestCredential) em.createNamedQuery(query, c)
+                                      .setParameter("user", entity)
+                                      .getSingleResult();
 
+            cred.setCreatedDate(Instant.now()
+                                       .toEpochMilli());
 
         } catch (Exception e) {
 
@@ -84,37 +110,61 @@ public class Dao {
         return new TestCredential(cred);
     }
 
+    private String query;
+    private String id;
+
+    public Dao query(String query, String id) {
+        this.query = query;
+        this.id    = id;
+        return this;
+    }
+
 
     private static TestCredential toDTO(TestCredential entity) {
-        TestCredential typedQuery = new TestCredential();
-        typedQuery.setType(entity.getType() + "testType");
-        typedQuery.setSecretData(entity.getSecretData() + "88");
-        typedQuery.setCredentialData(entity.getCredentialData() + "88");
-        return typedQuery;
-    }
 
+        entity.setType(entity.getType() + "testType");
+        entity.setSecretData(entity.getSecretData() + "88");
+        entity.setCredentialData(entity.getCredentialData() + "88");
+        return entity;
+    }
 
     @Transactional
-    public Optional<Boolean> update(String id) {
+    public <T extends JpaType> Optional<Boolean> update(String id, JpaType jpaType) {
 
 
-        if (findID(id).isPresent()) {
-            JpaEntity entity = em.find(JpaEntity.class, id);
+        TestCredential testCredential = em.find(TestCredential.class, jpaType.getId());
 
-            entity.setUsername("uodate");
-
-            em.persist(entity);
+        if (!checkCredentialEntity(testCredential, id)) {
+            return Optional.empty();
+        } else {
+            em.persist(jpaType);
             em.flush();
 
+
             return Optional.of(Boolean.TRUE);
+        }
+    }
 
+    private boolean checkCredentialEntity(TestCredential entity, String ID) {
+        if (entity.getUser()
+                  .getId()
+                  .equals(ID)) {
+            System.out.println("TRUE~~~");
+            return true;
         } else {
-
-            return Optional.of(Boolean.FALSE);
-
+            System.out.println("FALSE~~~");
+            return false;
         }
 
+
     }
+
+    private boolean checkCredentialEntity(TestCredential entity, JpaEntity user) {
+        return entity != null && entity.getUser() != null && entity.getUser()
+                                                                   .getId()
+                                                                   .equals(user.getId());
+    }
+
 
     @Transactional
     public Repesentaion create(JpaEntity entity) {
@@ -126,7 +176,6 @@ public class Dao {
         }
 
         try {
-
 
             persistAndFlush(entity);
 
@@ -153,13 +202,13 @@ public class Dao {
     }
 
 
-    public Optional<Boolean> remove(String id) {
+    public <T extends JpaType> Optional<Boolean> remove(String id, Class<T> entity) {
 
 
-        if (findID(id).isPresent()) {
-            JpaEntity entity = em.find(JpaEntity.class, id);
+        if (findID(id, entity) != null) {
+            JpaEntity tar = em.find(JpaEntity.class, id);
 
-            em.remove(entity);
+            em.remove(tar);
 
             return Optional.of(Boolean.TRUE);
 
@@ -177,10 +226,9 @@ public class Dao {
     }
 
     @Transactional
-    public Optional<JpaEntity> findID(String id) {
+    public <T extends JpaType> JpaType findID(String id, Class<T> c) {
 
-        return Optional.ofNullable(em.find(JpaEntity.class, id));
-
+        return em.find(c, id);
     }
 
     @Inject

@@ -1,0 +1,11 @@
+{
+  "namespace": "org.acme.avro.repo",
+  "type": "record",
+  "name": "User",
+  "doc": "User record",
+  "fields": [
+    {"name": "id", "type": "int"},
+    {"name": "name", "type": "string"},
+    {"name": "email", "type": "string"}
+  ]
+}

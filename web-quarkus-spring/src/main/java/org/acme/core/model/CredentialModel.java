@@ -22,76 +22,94 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.acme.core.utils.JsonSerialization;
 
 
 /**
- * Used just in cases when we want to "directly" update or retrieve the hash or salt of customer credential (For example during export/import)
+ * Used just in cases when we want to "directly" update or retrieve the hash or salt of customer credential (For example
+ * during export/import)
  *
  * @author <a href="mailto:mposolda@redhat.com">Marek Posolda</a>
  */
-public class CredentialModel implements Serializable {
+public class CredentialModel implements Serializable
+{
 
 
     // Secret is same as password but it is not hashed
-    public static final String SECRET = "secret";
+    public static final String SECRET      = "secret";
     public static final String CLIENT_CERT = "cert";
-    public static final String KERBEROS = "kerberos";
+    public static final String KERBEROS    = "kerberos";
 
 
     private String id;
     private String type;
-    private Long createdDate;
+    private Long   createdDate;
     private String secretData;
     private String credentialData;
 
-    public CredentialModel shallowClone() {
+    public CredentialModel shallowClone()
+    {
         CredentialModel res = new CredentialModel();
-        res.id = id;
-        res.type = type;
-        res.createdDate = createdDate;
-        res.secretData = secretData;
+        res.id             = id;
+        res.type           = type;
+        res.createdDate    = createdDate;
+        res.secretData     = secretData;
         res.credentialData = credentialData;
         return res;
     }
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
-    public void setId(String id) {
+
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
-    public void setType(String type) {
+
+    public void setType(String type)
+    {
         this.type = type;
     }
 
-    public Long getCreatedDate() {
+    public Long getCreatedDate()
+    {
         return createdDate;
     }
-    public void setCreatedDate(Long createdDate) {
+
+    public void setCreatedDate(Long createdDate)
+    {
         this.createdDate = createdDate;
     }
 
-    public String getSecretData() {
+    public String getSecretData()
+    {
         return secretData;
     }
-    public void setSecretData(String secretData) {
+
+    public void setSecretData(String secretData)
+    {
         this.secretData = secretData;
     }
 
-    public String getCredentialData() {
+    public String getCredentialData()
+    {
         return credentialData;
     }
-    public void setCredentialData(String credentialData) {
+
+    public void setCredentialData(String credentialData)
+    {
         this.credentialData = credentialData;
     }
 
-    public static Comparator<CredentialModel> comparingByStartDateDesc() {
+    public static Comparator<CredentialModel> comparingByStartDateDesc()
+    {
         return (o1, o2) -> { // sort by date descending
             Long o1Date = o1.getCreatedDate() == null ? Long.MIN_VALUE : o1.getCreatedDate();
             Long o2Date = o2.getCreatedDate() == null ? Long.MIN_VALUE : o2.getCreatedDate();
@@ -100,8 +118,8 @@ public class CredentialModel implements Serializable {
     }
 
 
-
-    private Map<String, Object> readMapFromJson(boolean secret) {
+    private Map<String, Object> readMapFromJson(boolean secret)
+    {
         String jsonStr = secret ? secretData : credentialData;
         if (jsonStr == null) {
             return new HashMap<>();
@@ -114,7 +132,8 @@ public class CredentialModel implements Serializable {
         }
     }
 
-    private void writeMapAsJson(Map<String, Object> map, boolean secret) {
+    private void writeMapAsJson(Map<String, Object> map, boolean secret)
+    {
         try {
             String jsonStr = JsonSerialization.writeValueAsString(map);
             if (secret) {
@@ -127,18 +146,21 @@ public class CredentialModel implements Serializable {
         }
     }
 
-    private String readString(String key, boolean secret) {
+    private String readString(String key, boolean secret)
+    {
         Map<String, Object> credentialDataMap = readMapFromJson(secret);
         return (String) credentialDataMap.get(key);
     }
 
-    private int readInt(String key, boolean secret) {
+    private int readInt(String key, boolean secret)
+    {
         Map<String, Object> credentialDataMap = readMapFromJson(secret);
-        Object obj = credentialDataMap.get(key);
+        Object              obj               = credentialDataMap.get(key);
         return obj == null ? 0 : (Integer) obj;
     }
 
-    private void writeProperty(String key, Object value, boolean secret) {
+    private void writeProperty(String key, Object value, boolean secret)
+    {
         Map<String, Object> credentialDataMap = readMapFromJson(secret);
         if (value == null) {
             credentialDataMap.remove(key);

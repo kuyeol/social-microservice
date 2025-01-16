@@ -1,6 +1,7 @@
 package org.acme.core.model;
 
-public interface FormData<T>{
+public interface FormData<T>
+{
 
 
     String getPassword();

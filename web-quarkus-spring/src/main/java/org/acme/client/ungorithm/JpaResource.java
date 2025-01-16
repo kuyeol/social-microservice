@@ -1,8 +1,8 @@
 package org.acme.client.ungorithm;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
+import io.smallrye.common.annotation.Blocking;
+import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
@@ -14,11 +14,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-
-import io.smallrye.common.annotation.Blocking;
-import io.smallrye.mutiny.Uni;
-import io.vertx.core.json.JsonObject;
-
+import java.time.Instant;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.acme.client.ungorithm.dto.PasswordTransForm;
 import org.acme.client.ungorithm.dto.UserDto;
 
@@ -30,7 +28,7 @@ public class JpaResource {
     @Inject
     Dao dao;
 
-    
+
     @POST
     @Path("name")
     @Blocking
@@ -80,18 +78,21 @@ public class JpaResource {
         TestCredential testCredential;
         JpaEntity      entity;
 
-
         if (dao.reference(id) != null) {
 
-            entity         = dao.reference(id);
-            testCredential = dao.findCred(id, entity);
+            testCredential = dao.findCred(id,TestCredential.class);
+            testCredential.setCreatedDate(Instant.now()
+                                                 .toEpochMilli());
+
 
             PasswordTransForm psf = new PasswordTransForm(testCredential);
 
+
             testCredential = psf.input(testCredential);
-            dao.save(testCredential);
+            testCredential.setCreatedDate(Instant.now()
+                                                 .toEpochMilli());
 
-
+            dao.update(id, testCredential);
 
             return Response.ok(psf.output(testCredential))
                            .build();
@@ -106,8 +107,13 @@ public class JpaResource {
     @Path("update")
     @Produces(APPLICATION_JSON)
     public Response update(@QueryParam("id") String id) {
+        TestCredential testCredential = new TestCredential();
+testCredential.setCreatedDate(Instant.now()
+                                     .toEpochMilli());
 
-        if (dao.update(id)
+        dao.findID(id, TestCredential.class);
+
+        if (dao.update(id,testCredential )
                .isPresent()) {
 
             return Response.ok("dddddd")
@@ -129,7 +135,7 @@ public class JpaResource {
     @Produces(APPLICATION_JSON)
     public Response remove(@QueryParam("id") String id) {
 
-        if (dao.remove(id)
+        if (dao.remove(id, JpaEntity.class)
                .isPresent()) {
 
             return Response.ok("dddddd")

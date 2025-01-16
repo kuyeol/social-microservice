@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\org",
+    "\\src\\main\\java\\org\\acme",
+    "\\src\\main\\java\\org\\acme\\repo"
+  ],
+  "SelectedNode": "\\src\\main\\java\\org\\acme\\repo\\Repository.java",
+  "PreviewInSolutionExplorer": false
+}

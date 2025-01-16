@@ -52,7 +52,6 @@ public class JpaEntity extends Repesentaion implements JpaType{
 
     public JpaEntity() {
         super();
-
         this.id =ModelUtils.generateId() ;
     }
 
@@ -112,5 +111,8 @@ public class JpaEntity extends Repesentaion implements JpaType{
     }
 
 
-
+    @Override
+    public JpaType getType() {
+        return this;
+    }
 }

@@ -1,0 +1,122 @@
+-------------------------------------------------------------------------------
+Test set: org.account.ExampleResourceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.801 s <<< FAILURE! -- in org.account.ExampleResourceTest
+org.account.ExampleResourceTest.testHelloEndpoint -- Time elapsed: 0.007 s <<< ERROR!
+java.lang.RuntimeException: 
+java.lang.RuntimeException: io.quarkus.builder.BuildException: Build failure: Build failed due to errors
+	[error]: Build step io.quarkus.arc.deployment.ArcProcessor#validate threw an exception: jakarta.enterprise.inject.spi.DeploymentException: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.BeanDeployment.processErrors(BeanDeployment.java:1551)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:338)
+	at io.quarkus.arc.processor.BeanProcessor.initialize(BeanProcessor.java:167)
+	at io.quarkus.arc.deployment.ArcProcessor.validate(ArcProcessor.java:490)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at io.quarkus.deployment.ExtensionLoader$3.execute(ExtensionLoader.java:856)
+	at io.quarkus.builder.BuildContext.run(BuildContext.java:256)
+	at org.jboss.threads.ContextHandler$1.runWith(ContextHandler.java:18)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at org.jboss.threads.JBossThread.run(JBossThread.java:483)
+Caused by: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.Beans.resolveInjectionPoint(Beans.java:545)
+	at io.quarkus.arc.processor.BeanInfo.init(BeanInfo.java:667)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:323)
+	... 11 more
+
+	at io.quarkus.test.junit.QuarkusTestExtension.throwBootFailureException(QuarkusTestExtension.java:634)
+	at io.quarkus.test.junit.QuarkusTestExtension.interceptTestClassConstructor(QuarkusTestExtension.java:718)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.lang.RuntimeException: io.quarkus.builder.BuildException: Build failure: Build failed due to errors
+	[error]: Build step io.quarkus.arc.deployment.ArcProcessor#validate threw an exception: jakarta.enterprise.inject.spi.DeploymentException: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.BeanDeployment.processErrors(BeanDeployment.java:1551)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:338)
+	at io.quarkus.arc.processor.BeanProcessor.initialize(BeanProcessor.java:167)
+	at io.quarkus.arc.deployment.ArcProcessor.validate(ArcProcessor.java:490)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at io.quarkus.deployment.ExtensionLoader$3.execute(ExtensionLoader.java:856)
+	at io.quarkus.builder.BuildContext.run(BuildContext.java:256)
+	at org.jboss.threads.ContextHandler$1.runWith(ContextHandler.java:18)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at org.jboss.threads.JBossThread.run(JBossThread.java:483)
+Caused by: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.Beans.resolveInjectionPoint(Beans.java:545)
+	at io.quarkus.arc.processor.BeanInfo.init(BeanInfo.java:667)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:323)
+	... 11 more
+
+	at io.quarkus.runner.bootstrap.AugmentActionImpl.runAugment(AugmentActionImpl.java:354)
+	at io.quarkus.runner.bootstrap.AugmentActionImpl.createInitialRuntimeApplication(AugmentActionImpl.java:272)
+	at io.quarkus.runner.bootstrap.AugmentActionImpl.createInitialRuntimeApplication(AugmentActionImpl.java:62)
+	at io.quarkus.test.junit.QuarkusTestExtension.doJavaStart(QuarkusTestExtension.java:219)
+	at io.quarkus.test.junit.QuarkusTestExtension.ensureStarted(QuarkusTestExtension.java:601)
+	at io.quarkus.test.junit.QuarkusTestExtension.beforeAll(QuarkusTestExtension.java:651)
+	... 1 more
+Caused by: io.quarkus.builder.BuildException: Build failure: Build failed due to errors
+	[error]: Build step io.quarkus.arc.deployment.ArcProcessor#validate threw an exception: jakarta.enterprise.inject.spi.DeploymentException: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.BeanDeployment.processErrors(BeanDeployment.java:1551)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:338)
+	at io.quarkus.arc.processor.BeanProcessor.initialize(BeanProcessor.java:167)
+	at io.quarkus.arc.deployment.ArcProcessor.validate(ArcProcessor.java:490)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at io.quarkus.deployment.ExtensionLoader$3.execute(ExtensionLoader.java:856)
+	at io.quarkus.builder.BuildContext.run(BuildContext.java:256)
+	at org.jboss.threads.ContextHandler$1.runWith(ContextHandler.java:18)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at org.jboss.threads.JBossThread.run(JBossThread.java:483)
+Caused by: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.Beans.resolveInjectionPoint(Beans.java:545)
+	at io.quarkus.arc.processor.BeanInfo.init(BeanInfo.java:667)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:323)
+	... 11 more
+
+	at io.quarkus.builder.Execution.run(Execution.java:123)
+	at io.quarkus.builder.BuildExecutionBuilder.execute(BuildExecutionBuilder.java:79)
+	at io.quarkus.deployment.QuarkusAugmentor.run(QuarkusAugmentor.java:161)
+	at io.quarkus.runner.bootstrap.AugmentActionImpl.runAugment(AugmentActionImpl.java:350)
+	... 6 more
+Caused by: jakarta.enterprise.inject.spi.DeploymentException: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.BeanDeployment.processErrors(BeanDeployment.java:1551)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:338)
+	at io.quarkus.arc.processor.BeanProcessor.initialize(BeanProcessor.java:167)
+	at io.quarkus.arc.deployment.ArcProcessor.validate(ArcProcessor.java:490)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at io.quarkus.deployment.ExtensionLoader$3.execute(ExtensionLoader.java:856)
+	at io.quarkus.builder.BuildContext.run(BuildContext.java:256)
+	at org.jboss.threads.ContextHandler$1.runWith(ContextHandler.java:18)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
+	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at org.jboss.threads.JBossThread.run(JBossThread.java:483)
+Caused by: jakarta.enterprise.inject.UnsatisfiedResolutionException: Unsatisfied dependency for type org.account.service.Session and qualifiers [@Default]
+	- injection target: parameter 'session' of org.account.rest.UsersResource constructor
+	- declared on CLASS bean [types=[java.lang.Object, org.account.rest.UsersResource], qualifiers=[@Default, @Any], target=org.account.rest.UsersResource]
+	at io.quarkus.arc.processor.Beans.resolveInjectionPoint(Beans.java:545)
+	at io.quarkus.arc.processor.BeanInfo.init(BeanInfo.java:667)
+	at io.quarkus.arc.processor.BeanDeployment.init(BeanDeployment.java:323)
+	... 11 more
+
