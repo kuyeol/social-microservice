@@ -2,9 +2,11 @@ package org.acme.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import org.acme.EntityID;
+
 
 @Entity
-public class CommandCenter
+public class CommandCenter implements EntityID
 {
 
     @Id
