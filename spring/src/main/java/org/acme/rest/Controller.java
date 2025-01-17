@@ -56,7 +56,8 @@ public class Controller
 
     @GetMapping(value = "list/{type}")
     public ResponseEntity list(@PathVariable("type") String type)
-    { Optional<List<Object>> op = Optional.empty();
+    { 
+        Optional<List<Object>> op = Optional.empty();
         if (type.equals("barraks")) {
             op = Optional.ofNullable(unit.anyList(TAtest.Model.Barraks));
             return ResponseEntity.status(HttpStatus.CREATED).body(op);
