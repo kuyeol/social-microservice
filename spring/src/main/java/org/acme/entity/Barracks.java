@@ -1,10 +1,11 @@
 package org.acme.entity;
 
-import org.acme.EntityID;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import org.acme.EntityID;
+import org.apache.avro.specific.SpecificRecord;
 
 @Entity
 public class Barracks implements EntityID
@@ -15,6 +16,12 @@ public class Barracks implements EntityID
     private int id;
 
     private String name;
+
+
+    public Barracks()
+    {
+
+    }
 
 
     public int getAge()
@@ -31,6 +38,7 @@ public class Barracks implements EntityID
 
     private int age;
 
+
     public void setName(String name)
     {
         this.name = name;
@@ -44,7 +52,6 @@ public class Barracks implements EntityID
     }
 
 
-    @Override
     public String getName()
     {
         return name;
@@ -55,6 +62,7 @@ public class Barracks implements EntityID
     {
         this.id = id;
     }
+
 
     @Override
     public String toString()

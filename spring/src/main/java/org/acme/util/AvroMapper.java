@@ -14,6 +14,7 @@ import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecord;
 
+
 public class AvroMapper<T extends SpecificRecord>
 {
 
@@ -23,7 +24,7 @@ public class AvroMapper<T extends SpecificRecord>
 
     private static Decoder decoder;
 
-    private DatumReader<T> reader  ;
+    private final DatumReader<T> reader;
 
     private static DatumWriter<SpecificRecord> writer;
 
@@ -31,19 +32,24 @@ public class AvroMapper<T extends SpecificRecord>
 
 
 
+    //public AvroMapper(SpecificRecord t)
+    //{
+    //    schema = t.getSchema();
+    //    reader = new SpecificDatumReader<>(schema);
+    //    writer = new SpecificDatumWriter<>(schema);
+    //    mapper = new ObjectMapper();
+    //}
 
-    public AvroMapper(SpecificRecord t)
+    public AvroMapper(T t)
     {
         schema = t.getSchema();
-        reader  = new SpecificDatumReader<>(schema);
-        writer =new SpecificDatumWriter<>(schema);
+        reader = new SpecificDatumReader<>(schema);
+        writer = new SpecificDatumWriter<>(schema);
         mapper = new ObjectMapper();
     }
 
 
-
-
-    public synchronized <T extends SpecificRecord> String toJson(T t)
+    public String toJson(T t)
     {
 
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
@@ -60,7 +66,8 @@ public class AvroMapper<T extends SpecificRecord>
     }
 
 
-    public synchronized  T fromJson(String json)
+
+    public T fromJson(String json)
     {
         try {
             decoder = DecoderFactory.get().jsonDecoder(schema, json);
@@ -72,7 +79,8 @@ public class AvroMapper<T extends SpecificRecord>
     }
 
 
-    public synchronized SpecificRecord fromObject(Object object)
+
+    public SpecificRecord fromObject(Object object)
     {
 
         String json = "null";
@@ -80,11 +88,10 @@ public class AvroMapper<T extends SpecificRecord>
         SpecificRecord record;
 
         try {
-            // obj-> json ->(schema,json)-> avro
+
             json    = mapper.writeValueAsString(object);
             decoder = DecoderFactory.get().jsonDecoder(schema, json);
             record  = reader.read(null, decoder);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

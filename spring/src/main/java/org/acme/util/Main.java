@@ -1,17 +1,11 @@
 package org.acme.util;
 
-import java.time.Instant;
 import org.acme.avro.Unit;
 import org.acme.entity.Barracks;
 import org.apache.avro.specific.SpecificRecord;
 
 public class Main
 {
-
-    private static final long startTime = System.nanoTime();
-
-    static Instant start = Instant.now();
-
 
     public static void main(String[] args)
     {
@@ -54,7 +48,7 @@ public class Main
     }
 
 
-    private static Object MoToEn(Object b, Unit sf)
+    private static <T extends Object> Object MoToEn(Object b, Unit sf)
     {
         Unit             u          = new Unit();
         AvroMapper<Unit> avroMapper = new AvroMapper<>(u);
@@ -68,9 +62,7 @@ public class Main
     private static <sf extends SpecificRecord> Object MoToEn(Object b, Class<?> sf)
     {
         Unit           u          = new Unit();
-        AvroMapper<sf> avroMapper = new AvroMapper<>(u);
 
-        b = avroMapper.fromObject(b);
 
         return b;
     }

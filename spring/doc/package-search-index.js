@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.acme"},{"l":"org.acme.avro"},{"l":"org.acme.dao"},{"l":"org.acme.entity"},{"l":"org.acme.model"},{"l":"org.acme.rest"},{"l":"org.acme.util"}];updateSearchResults();

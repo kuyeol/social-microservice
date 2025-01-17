@@ -11,25 +11,29 @@ plugins {
     alias libs.plugins.avro
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
 def avroSchemasDir = "src/main/avro"
 def avroCodeGenerationDir = "build/generated-main-avro-java"
-sourceSets.main.java.srcDirs += [avroCodeGenerationDir]
 
+sourceSets.main.java.srcDirs += [avroCodeGenerationDir]
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     implementation libs.avro
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -39,8 +43,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-import org.apache.avro.tool.SpecificCompilerTool
 
+import org.apache.avro.tool.SpecificCompilerTool
 
 
 tasks.register('customAvroCodeGeneration') {
@@ -48,7 +52,7 @@ tasks.register('customAvroCodeGeneration') {
     inputs.dir(avroSchemasDir)
     outputs.dir(avroCodeGenerationDir)
     // The Avro code generation logs to the standard streams. Redirect the standard streams to the Gradle log.
-    logging.captureStandardOutput(LogLevel.INFO);
+    logging.captureStandardOutput(LogLevel.INFO)
     logging.captureStandardError(LogLevel.ERROR)
     doLast {
         // Run the Avro code generation.
