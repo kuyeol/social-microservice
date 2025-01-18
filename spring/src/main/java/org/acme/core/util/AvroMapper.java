@@ -1,4 +1,4 @@
-package org.acme.util;
+package org.acme.core.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;

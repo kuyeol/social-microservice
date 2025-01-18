@@ -1,40 +1,32 @@
-package org.acme.entity;
+package org.acme.ext.terran.entity;
 
-import org.acme.EntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import org.acme.EntityID;
+
 
 @Entity
-public class AtomicTable implements EntityID
+public class CommandCenter implements EntityID
 {
-
 
     @Id
     private int id;
 
     private String name;
 
-@Override
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 

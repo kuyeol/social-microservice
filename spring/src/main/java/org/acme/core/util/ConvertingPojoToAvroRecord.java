@@ -1,15 +1,15 @@
-package org.acme.model;
+package org.acme.core.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
-
-import org.acme.entity.Barracks;
-
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.io.*;
+import org.apache.avro.io.BinaryDecoder;
+import org.apache.avro.io.BinaryEncoder;
+import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.reflect.ReflectDatumWriter;
 
@@ -22,31 +22,32 @@ import org.apache.avro.reflect.ReflectDatumWriter;
  * </ul>
  * Each method demonstrates a different technique for achieving the same goal, allowing for flexibility based on specific needs and performance considerations.
  */
-public class ConvertingPojoToAvroRecord {
+public class ConvertingPojoToAvroRecord
+{
 
     /**
-     * Maps a Barracks POJO to an Avro record using a straightforward approach.
-     * @param pojo The Barracks POJO to convert.
+     * Maps a SpawningPool POJO to an Avro record using a straightforward approach.
+     * @param pojo The SpawningPool POJO to convert.
      * @return The Avro record representing the POJO.
      */
-    public static GenericData.Record mapPojoToRecordStraightForward(Barracks pojo) {
+    public static GenericData.Record mapPojoToRecordStraightForward(Object pojo) {
         Schema schema = ReflectData.get().getSchema(pojo.getClass());
         GenericData.Record avroRecord = new GenericData.Record(schema);
 
-        avroRecord.put("id", pojo.getId());
-        avroRecord.put("name", pojo.getName());
+        avroRecord.put("id", pojo);
+        avroRecord.put("name", pojo);
 
 
         return avroRecord;
     }
 
     /**
-     * Maps a Barracks POJO to an Avro record using reflection. This method handles fields from superclasses.
-     * @param pojo The Barracks POJO to convert.
+     * Maps a SpawningPool POJO to an Avro record using reflection. This method handles fields from superclasses.
+     * @param pojo The SpawningPool POJO to convert.
      * @return The Avro record representing the POJO.
      * @throws IllegalAccessException If accessing a field throws an exception.
      */
-    public static GenericData.Record mapPojoToRecordReflection(Barracks pojo) throws IllegalAccessException {
+    public static GenericData.Record mapPojoToRecordReflection(Object pojo) throws IllegalAccessException {
         Class<?> pojoClass = pojo.getClass();
         Schema schema = ReflectData.get().getSchema(pojoClass);
         GenericData.Record avroRecord = new GenericData.Record(schema);

@@ -1,4 +1,4 @@
-package org.acme.model;
+package org.acme.ext.terran.model;
 
 
 public class Marine

@@ -1,7 +1,4 @@
-package org.acme.model;
-
-import java.util.Set;
-
+package org.acme.ext.zerg.model;
 
 public record TablePrinter<A, B>(A instance) {
 

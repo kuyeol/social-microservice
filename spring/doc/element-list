@@ -1,6 +1,6 @@
 org.acme
 org.acme.avro
-org.acme.dao
+org.acme.database
 org.acme.entity
 org.acme.model
 org.acme.rest

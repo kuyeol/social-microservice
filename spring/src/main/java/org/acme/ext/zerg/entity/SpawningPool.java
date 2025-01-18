@@ -1,14 +1,13 @@
-package org.acme.entity;
+package org.acme.ext.zerg.entity;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import org.acme.EntityID;
-import org.apache.avro.specific.SpecificRecord;
 
 @Entity
-public class Barracks implements EntityID
+public class SpawningPool implements EntityID
 {
 
     @Id
@@ -18,7 +17,7 @@ public class Barracks implements EntityID
     private String name;
 
 
-    public Barracks()
+    public SpawningPool()
     {
 
     }
@@ -67,7 +66,7 @@ public class Barracks implements EntityID
     @Override
     public String toString()
     {
-        return "Barracks{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "SpawningPool{" + "id=" + id + ", name='" + name + '\'' + '}';
     }
 
 

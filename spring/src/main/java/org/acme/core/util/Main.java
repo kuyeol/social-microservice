@@ -1,7 +1,6 @@
-package org.acme.util;
+package org.acme.core.util;
 
 import org.acme.avro.Unit;
-import org.acme.entity.Barracks;
 import org.apache.avro.specific.SpecificRecord;
 
 public class Main
@@ -9,33 +8,9 @@ public class Main
 
     public static void main(String[] args)
     {
-        System.out.println("hello");
 
-        Barracks b = new Barracks();
-        b.setName("s");
-        b.setId(1);
-        b.setAge(12);
-
-        Unit unit = new Unit();
-
-        System.out.println(unit);
-
-        System.out.println("Copy :" + "\n origin :" + unit);
-        MoToEn(b, unit);
-
-        SpecificRecord unit1 = MoToEn(b);
-        Object         OOO   = MoToEn(b, Unit.class);
-        System.out.println("\t OOOO " + OOO);
-        System.out.println("\t hhhh " + unit1);
-        System.out.println("\t hhhh " + MoToEn(b, unit));
     }
 
-
-    private static Unit EnToMo(Barracks b)
-    {
-
-        return null;
-    }
 
 
     private static SpecificRecord MoToEn(Object b)

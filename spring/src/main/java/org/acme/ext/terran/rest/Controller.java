@@ -1,44 +1,53 @@
-package org.acme.rest;
+package org.acme.ext.terran.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.ByteBuffer;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.acme.EntityID;
 import org.acme.avro.Unit;
-import org.acme.dao.TAtest;
-import org.acme.entity.Barracks;
-import org.acme.entity.CommandCenter;
+import org.acme.core.util.RequestTypeBindSupport;
+import org.acme.ext.terran.entity.Barracks;
+import org.acme.ext.terran.model.TerranModel;
+import org.acme.ext.terran.service.TerranService;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
+import org.apache.avro.io.Decoder;
+import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.reflect.ReflectData;
-import org.apache.avro.specific.SpecificData;
+import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Controller
 {
 
-    private final TAtest unit;
+    private static final RequestTypeBindSupport<TerranModel> BIND_SUPPORT = new RequestTypeBindSupport<>(
+        TerranModel.class);
+
+    private final TerranService unit;
 
 
-    public Controller(TAtest unit)
+    public Controller(TerranService unit)
     {
         this.unit = unit;
     }
@@ -47,36 +56,31 @@ public class Controller
     @PostMapping(value = "/ping", produces = "application/json")
     public String ping(@RequestBody Barracks u)
     {
-
         unit.save(u);
-
         return "{ \"ping\": \"pong\" }";
     }
 
 
-    @GetMapping(value = "list/{type}")
-    public ResponseEntity list(@PathVariable("type") String type)
-    { Optional<List<Object>> op = Optional.empty();
-        if (type.equals("barraks")) {
-            op = Optional.ofNullable(unit.anyList(TAtest.Model.Barraks));
-            return ResponseEntity.status(HttpStatus.CREATED).body(op);
+    @GetMapping(value = "/list/{page}")
+    public ResponseEntity list(@RequestParam("type") TerranModel type,
+                               @PathVariable("page") int page)
+    {
+        Optional<List<Object>> op = Optional.empty();
 
-        } else if (type.equals("command")) {
-           op = Optional.ofNullable(unit.anyList(TAtest.Model.Command));
-            return ResponseEntity.status(HttpStatus.CREATED).body(op);
-
-        } else {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(op);
+        try {
+            op = Optional.ofNullable(unit.anyList(type.toString().toLowerCase()));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
         }
+        return ResponseEntity.status(HttpStatus.CREATED).body(op);
     }
 
 
-    @GetMapping(value = "/find/{id}", produces = "application/json")
-    public ResponseEntity find(@PathVariable("id") int id)
+    @GetMapping(value = "/findBarrak/{id}", produces = "application/json")
+    public ResponseEntity findBarrak(@PathVariable("id") int id)
     {
-        EntityID rep      = new CommandCenter();
-        Barracks barracks = new Barracks();
+        EntityID rep;
+        // Barracks barracks = new Barracks();
 
         try {
             //Object out = unit.find(id);
@@ -119,6 +123,9 @@ public class Controller
     @PostMapping(value = "/toavro", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> toavro(@RequestBody Unit u)
     {
+
+        unit.findById(u.getAge());
+
         DatumWriter<Unit>     writer      = new SpecificDatumWriter<>(Unit.class);
         byte[]                data        = new byte[0];
         ByteArrayOutputStream stream      = new ByteArrayOutputStream();
@@ -136,42 +143,77 @@ public class Controller
 
             conver = convertObjectToJson(u, schema);
         } catch (IOException e) {
+
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(conver);
     }
 
 
-    @PostMapping(value = "/avro", consumes = "application/json", produces = "application/json")
-    public ResponseEntity avro(@RequestBody Unit u) throws IOException
+    @GetMapping(value = "/avro/{id}",produces = "application/json")
+    public ResponseEntity avro(@PathVariable("id") int u)
     {
 
-        Unit u1 = new Unit();
+        Barracks rep = null;
 
-        Barracks br = new Barracks();
-        br.setName(u.getName());
-        br.setAge(u.getAge());
+        Unit avro = new Unit();
 
-        Schema schema  = inferSchema(u);
-        Schema schema1 = inferSchema(br);
+        byte[] bytes = null;
 
-        ByteBuffer bytes = u.toByteBuffer();
+        Schema schema = null;
 
-        System.out.println(bytes);
+        try {
+            rep = (Barracks) unit.findById(u);
 
-        GenericRecord avroRecord  = new GenericData.Record(schema);
-        GenericRecord avroRecordB = new GenericData.Record(schema1);
+            if (rep == null) {
+                Barracks barracks = new Barracks();
+                barracks.setId(404);
+                barracks.setName("Null Object");
+                return ResponseEntity.status(200).body(barracks);
+            } else {
 
-        avroRecord.put("name", u.getName());
-        avroRecord.put("age", u.getAge());
-        SpecificData d = u.getSpecificData();
-        avroRecordB.put("name", u.getName());
-        avroRecordB.put("age", u.getAge());
-        System.out.println(d);
-        System.out.println(avroRecord);
-        System.out.println(avroRecordB);
-        String conver = convertObjectToJson(br, schema1);
+                //schema = inferSchema(avro);
+               // String rc = convertObjectToJson(rep, schema);
+                avro = convertToAvro(rep);
+                //bytes = serializeToBytes(avro);
+                //avro  = deserializeFromBytes(bytes);
+                return ResponseEntity.status(HttpStatus.CREATED).body(avro);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(conver);
+
+    public Unit deserializeFromBytes(byte[] data) throws Exception
+    {
+        DatumReader<Unit> datumReader = new SpecificDatumReader<>(Unit.class);
+        Decoder           decoder     = DecoderFactory.get().binaryDecoder(data, null);
+
+        return datumReader.read(null, decoder);
+    }
+
+
+    public Unit convertToAvro(Barracks userEntity)
+    {
+        Unit user = new Unit();
+        user.put("name", "userEntity.getName()");
+        user.put("age", userEntity.getAge());
+        //user.put("id", "userEntity.getName()");
+
+        return user;
+    }
+
+
+    public byte[] serializeToBytes(Unit avroUser) throws Exception
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        DatumWriter<Unit>     datumWriter  = new SpecificDatumWriter<>(Unit.class);
+        Encoder               encoder      = EncoderFactory.get().binaryEncoder(outputStream, null);
+        datumWriter.write(avroUser, encoder);
+        encoder.flush();
+        outputStream.close();
+        return outputStream.toByteArray();
     }
 
 
@@ -230,6 +272,13 @@ public class Controller
     public String hi() throws SQLException
     {
         return "{ \"dddddddddddd\": \"12ddfdf\" , \"namessss\": \"JohDDDn\" }";
+    }
+
+
+    @InitBinder
+    private static void initBinder(WebDataBinder binder)
+    {
+        binder.registerCustomEditor(TerranModel.class, BIND_SUPPORT);
     }
 
 
