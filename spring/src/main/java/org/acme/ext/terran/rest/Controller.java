@@ -26,6 +26,7 @@ import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.catalina.connector.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -34,11 +35,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller
+@RequestMapping("/terran")
+class Controller
 {
 
     private static final RequestTypeBindSupport<TerranModel> BIND_SUPPORT = new RequestTypeBindSupport<>(
@@ -47,7 +50,7 @@ public class Controller
     private final TerranService unit;
 
 
-    public Controller(TerranService unit)
+    Controller(TerranService unit)
     {
         this.unit = unit;
     }
@@ -55,7 +58,7 @@ public class Controller
 
     @PostMapping(value = "/ping", produces = "application/json")
     public String ping(@RequestBody Barracks u)
-    {
+    {Request request;
         unit.save(u);
         return "{ \"ping\": \"pong\" }";
     }
@@ -149,7 +152,7 @@ public class Controller
     }
 
 
-    @GetMapping(value = "/avro/{id}",produces = "application/json")
+    @GetMapping(value = "/avro/{id}", produces = "application/json")
     public ResponseEntity avro(@PathVariable("id") int u)
     {
 
@@ -172,7 +175,7 @@ public class Controller
             } else {
 
                 //schema = inferSchema(avro);
-               // String rc = convertObjectToJson(rep, schema);
+                // String rc = convertObjectToJson(rep, schema);
                 avro = convertToAvro(rep);
                 //bytes = serializeToBytes(avro);
                 //avro  = deserializeFromBytes(bytes);

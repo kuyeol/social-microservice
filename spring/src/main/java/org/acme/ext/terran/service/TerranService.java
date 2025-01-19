@@ -16,9 +16,9 @@ public class TerranService
 
     private final TerranDataAccess<CommandCenter> cbuild;
 
-    private static Class       clazz;
+    private static Class clazz;
 
-    private        TerranModel Model;
+    private TerranModel Model;
 
 
     TerranService(TerranDataAccess<Barracks> build, TerranDataAccess<CommandCenter> cbulid)

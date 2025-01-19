@@ -5,10 +5,11 @@ import org.acme.core.database.DataAccess;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TerranDataAccess<T> extends DataAccess
+ class TerranDataAccess<T> extends DataAccess
 {
 
-    private TerranDataAccess(EntityManager em)
+
+    TerranDataAccess(EntityManager em)
     {
         super(em);
     }

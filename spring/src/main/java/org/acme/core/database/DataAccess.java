@@ -14,7 +14,7 @@ public abstract class DataAccess<T> implements AutoCloseable
 
     private Class<T> clazz;
 
-    protected DataAccess(EntityManager em)
+   protected DataAccess(EntityManager em)
     {
         this.em = em;
     }
