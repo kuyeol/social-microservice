@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import org.acme.EntityID;
@@ -58,16 +60,37 @@ class Controller
 
     @PostMapping(value = "/ping", produces = "application/json")
     public String ping(@RequestBody Barracks u)
-    {Request request;
+    {
+        Request request;
         unit.save(u);
         return "{ \"ping\": \"pong\" }";
+    }
+
+
+    @GetMapping(value = "/tolist/{page}")
+    public ResponseEntity tolist(@RequestParam("type") TerranModel type,
+                                 @PathVariable("page") int page)
+    {
+        LocalTime st =  LocalTime.now();
+
+        Optional<List<Object>> op    = Optional.empty();
+
+        try {
+            op = Optional.ofNullable(unit.toList(type.toString().toLowerCase()));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        LocalTime t = LocalTime.now();
+        return ResponseEntity.status(HttpStatus.CREATED).body("start:"+st+"end : "+t+op);
     }
 
 
     @GetMapping(value = "/list/{page}")
     public ResponseEntity list(@RequestParam("type") TerranModel type,
                                @PathVariable("page") int page)
-    {
+    {   LocalTime st =  LocalTime.now();
         Optional<List<Object>> op = Optional.empty();
 
         try {
@@ -75,7 +98,8 @@ class Controller
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(op);
+        LocalTime t = LocalTime.now();
+        return ResponseEntity.status(HttpStatus.CREATED).body(t+" /  "+st+op);
     }
 
 

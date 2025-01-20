@@ -63,11 +63,11 @@ public class Barracks implements EntityID
     }
 
 
-    @Override
-    public String toString()
-    {
-        return "SpawningPool{" + "id=" + id + ", name='" + name + '\'' + '}';
-    }
+    //@Override
+    //public String toString()
+    //{
+    //    return "SpawningPool{" + "id=" + id + ", name='" + name + '\'' + '}';
+    //}
 
 
 }
