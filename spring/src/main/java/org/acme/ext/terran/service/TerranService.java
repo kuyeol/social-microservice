@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.acme.ext.terran.entity.Barracks;
 import org.acme.ext.terran.entity.CommandCenter;
-import  org.acme.ext.terran.model.TerranModel;
+import org.acme.ext.terran.model.TerranModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -52,22 +52,23 @@ public class TerranService
         }
     }
 
+
     public List<Object> toList(String select)
     {
-       return switch (select) {
-           case "barracks"->{
-               clazz = TerranModel.BARRACKS.getClazz();
-               yield cbuild.setClazz(clazz).listAll();
-           }
-           case "command"->{clazz =
-               TerranModel.COMMAND.getClazz();
-               yield cbuild.setClazz(clazz).listAll();
-           }
-           default -> throw new IllegalStateException("Unexpected value: " + select);
-
-
-       };
+        return switch (select) {
+            case "barracks" -> {
+                clazz = TerranModel.BARRACKS.getClazz();
+                yield cbuild.setClazz(clazz).listAll();
+            }
+            case "command" -> {
+                clazz = TerranModel.COMMAND.getClazz();
+                yield cbuild.setClazz(clazz).listAll();
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + select);
+        };
     }
+
+
     @Transactional
     public void save(Barracks o)
     {

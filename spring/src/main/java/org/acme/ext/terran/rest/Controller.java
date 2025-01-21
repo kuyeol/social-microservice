@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -71,9 +70,9 @@ class Controller
     public ResponseEntity tolist(@RequestParam("type") TerranModel type,
                                  @PathVariable("page") int page)
     {
-        LocalTime st =  LocalTime.now();
+        LocalTime st = LocalTime.now();
 
-        Optional<List<Object>> op    = Optional.empty();
+        Optional<List<Object>> op = Optional.empty();
 
         try {
             op = Optional.ofNullable(unit.toList(type.toString().toLowerCase()));
@@ -81,16 +80,16 @@ class Controller
             throw new RuntimeException(e);
         }
 
-
         LocalTime t = LocalTime.now();
-        return ResponseEntity.status(HttpStatus.CREATED).body("start:"+st+"end : "+t+op);
+        return ResponseEntity.status(HttpStatus.CREATED).body("start:" + st + "end : " + t + op);
     }
 
 
     @GetMapping(value = "/list/{page}")
     public ResponseEntity list(@RequestParam("type") TerranModel type,
                                @PathVariable("page") int page)
-    {   LocalTime st =  LocalTime.now();
+    {
+        LocalTime              st = LocalTime.now();
         Optional<List<Object>> op = Optional.empty();
 
         try {
@@ -99,7 +98,7 @@ class Controller
             throw new RuntimeException(e);
         }
         LocalTime t = LocalTime.now();
-        return ResponseEntity.status(HttpStatus.CREATED).body(t+" /  "+st+op);
+        return ResponseEntity.status(HttpStatus.CREATED).body(t + " /  " + st + op);
     }
 
 
