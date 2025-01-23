@@ -1,3 +1,71 @@
+# Core class
+
+- *interface* __Maker__
+- *interface* __Factory__ <**T extends Maker**>
+- *abstract class* __NoteBook__<**Maker**>
+
+# Extends class Mac
+
+- _interface_ __Mac__ _extends_ **Maker**
+- _class_ __MacBook__ _extends_ **NoteBook<**Mac**>**
+- *class* __MacFactory__ _extends_ **MacBook** _implements_ **Factory<**Mac**>**
+
+# Extends class Windows
+
+- *interface* __Windows__ _extends_ **Maker**
+- *class* __WindowsBook__ _extends_ **NoteBook<Windows>**
+- *class* __WindowsFactory__ _extends_ **WindowsBook** _implements_ **Factory<**Windows**>**
+
+
+# Constructor Capsule ex MacBook
+
+```java
+//MacBook.java
+   protected MacBook()
+    {
+        super();
+    }
+
+    //extends class only create instance
+   @Override
+   protected MacBook orderBook()
+   {    
+       return new MacBook();
+   }
+
+```
+```java
+//MacFactory.java
+    @Override
+    public NoteBook<Mac> makeBook()
+    {
+        //test instance init
+        MacBook m = orderBook();
+        m.setName("mac");
+        return m;
+    }
+```
+
+# Invoke Method
+
+```java
+//test use main method
+
+        Factory factory;
+        NoteBook anyNote;
+
+        factory = new WindowsFactory();
+        anyNote = factory.makeBook();
+        System.out.println(anyNote);
+
+        factory = new MacFactory();
+        anyNote=factory.makeBook();
+        System.out.println(anyNote);
+```
+       
+
+
+
 # Chain of Responsibility
 
 var king = new OrcKing();
