@@ -135,7 +135,7 @@ public interface Pool
             final int dynamicCoreSize = properties.coreSize().get();
             final int configuredMaximumSize = properties.maximumSize().get();
             int dynamicMaximumSize = properties.actualMaximumSize();
-            final boolean allowSizesToDiverge = properties.getAllowMaximumSizeToDivergeFromCoreSize().get();
+            final boolean allowSizesToDiverge = properties.coreSize().get().equals(4);
             boolean maxTooLow = false;
 
             if (allowSizesToDiverge && configuredMaximumSize < dynamicCoreSize) {
