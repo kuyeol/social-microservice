@@ -1,21 +1,23 @@
 package org.acme.ext.terran.entity;
 
+import java.awt.print.Book;
 import org.acme.core.domain.Maker;
 import org.acme.core.domain.NoteBook;
 import org.acme.ext.terran.service.Mac;
 
-public class MacBook extends NoteBook<Mac> implements Maker
+public class MacBook<T extends MacBook> extends NoteBook<Mac> implements Maker
 {
 
-    protected MacBook mab;
+    protected MacBook<T> source;
 
     private String serial;
 
 
-    public MacBook MAB()
+    protected MacBook getSource(MacBook N)
     {
-        mab = new MacBook();
-        return mab;
+        ;
+        this.source = N;
+        return source;
     }
 
 
@@ -26,9 +28,16 @@ public class MacBook extends NoteBook<Mac> implements Maker
 
 
     @Override
-    public NoteBook createMaker()
+    public Object get()
     {
-        return makeProduct();
+        return source;
+    }
+
+
+    @Override
+    public NoteBook createProduct(Object m)
+    {
+        return null;
     }
 
 

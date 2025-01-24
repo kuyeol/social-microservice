@@ -1,6 +1,11 @@
 package org.acme.core.domain;
 
-public interface Maker
+public interface Maker<T>
 {
-    NoteBook createMaker();
+
+    T get();
+
+    NoteBook createProduct(T m);
+
+
 }

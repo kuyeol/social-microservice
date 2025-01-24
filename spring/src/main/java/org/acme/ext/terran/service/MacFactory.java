@@ -8,7 +8,7 @@ import org.acme.ext.terran.entity.M1Book;
 import org.acme.ext.terran.entity.M2Book;
 import org.acme.ext.terran.entity.MacBook;
 
-public class MacFactory extends MacBook implements Factory<Mac>
+public class MacFactory extends MacBook<MacBook> implements Factory<Mac>
 {
 
     private Mac mac;
@@ -19,6 +19,26 @@ public class MacFactory extends MacBook implements Factory<Mac>
     }
 
 
+    public MacFactory setSeries()
+    {
+        return this;
+    }
+
+
+    public MacBook toBuild()
+    {
+
+        return getSource(source);
+    }
+
+
+    public MacBook setOption(String s)
+    {
+        this.source.setName(s);
+        return source;
+    }
+
+
     @Override
     protected String setSeri(String s)
     {
@@ -26,9 +46,9 @@ public class MacFactory extends MacBook implements Factory<Mac>
     }
 
 
-    MacBook   mm;
+    MacBook mm;
 
-    Calendar  c  = Calendar.getInstance();
+    Calendar c = Calendar.getInstance();
 
     Timestamp ts = new Timestamp(System.currentTimeMillis());
 
