@@ -1,8 +1,8 @@
 package org.acme.ext.terran.service;
 
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.acme.EntityID;
 import org.acme.ext.terran.entity.Barracks;
 import org.acme.ext.terran.entity.CommandCenter;
 import org.acme.ext.terran.model.TerranModel;
@@ -35,41 +35,22 @@ public class TerranService
     }
 
 
+    // @Transactional(Transactional.TxType.REQUIRED)
     public List<Object> anyList(String select)
     {
-        switch (select) {
 
-            case "barracks":
-                clazz = TerranModel.BARRACKS.getClazz();
-                return build.setClazz(clazz).listAll();
+        try {
+            clazz = TerranModel.toStr(select).getClazz();
+        } catch (RuntimeException e) {
 
-            case "command":
-                clazz = TerranModel.COMMAND.getClazz();
-                return cbuild.setClazz(clazz).listAll();
-
-            default:
-                return build.listAll();
+            throw new IllegalArgumentException(e);
         }
+
+        return build.setClazz(clazz).listAll();
     }
 
 
-    public List<Object> toList(String select)
-    {
-        return switch (select) {
-            case "barracks" -> {
-                clazz = TerranModel.BARRACKS.getClazz();
-                yield cbuild.setClazz(clazz).listAll();
-            }
-            case "command" -> {
-                clazz = TerranModel.COMMAND.getClazz();
-                yield cbuild.setClazz(clazz).listAll();
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + select);
-        };
-    }
-
-
-    @Transactional
+    // @Transactional
     public void save(Barracks o)
     {
         create();
@@ -77,15 +58,32 @@ public class TerranService
         build.save(o);
     }
 
+    private Class<?> enc;
 
-    @Transactional
+    public Object findOfBarracks(int id)
+    {
+        return build.find(id, enc);
+    }
+
+    public Object findOfCommand(int id)
+    {
+        return cbuild.find(id, enc);
+    }
+
+    public void setEntity(Class<?> clazz)
+    {
+        this.enc = clazz;
+    }
+
+
     public Object find(int id)
     {
+
         return cbuild.find(id, CommandCenter.class);
     }
 
 
-    @Transactional
+    // @Transactional
     public <T> Object findById(int id)
     {
         return build.setClazz(Barracks.class).find(id);
@@ -93,7 +91,7 @@ public class TerranService
 
 
     //test mockdata generate
-    @Transactional
+    // @Transactional
     protected String create()
     {
 

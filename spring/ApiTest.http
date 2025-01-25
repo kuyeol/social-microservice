@@ -1,0 +1,13 @@
+
+GET http://localhost:8080/terran/list/1?type=BARRACKS
+accept: */*
+
+###
+GET http://localhost:8080/terran/list/1?type=bARRACKs
+accept: */*
+
+
+###
+
+GET http://localhost:8080/terran/list/1?type=comMan
+accept: */*

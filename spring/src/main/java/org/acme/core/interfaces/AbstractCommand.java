@@ -1,39 +1,58 @@
-package org.acme.core.domain;
+package org.acme.core.interfaces;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
-import org.acme.core.interfaces.CommandKey;
-import org.acme.core.interfaces.HystrixCommandProperties;
-import org.acme.core.interfaces.HystrixPropertiesStrategy;
-import org.acme.core.interfaces.Pool;
-import org.acme.core.interfaces.PoolKey;
-import org.acme.core.interfaces.PropertiesFactory;
-import org.acme.core.interfaces.ThreadPoolProperties;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.subjects.ReplaySubject;
 
-abstract class Command<T>
+abstract class AbstractCommand<T>
 {
 
-    protected final Pool threadPool;
+    protected  Pool threadPool;
 
-    protected final PoolKey threadPoolKey;
+    protected  PoolKey threadPoolKey;
 
-    protected final HystrixCommandProperties properties;
+    protected  HystrixCommandProperties properties;
 
-    private final CommandKey commandKey;
+    private  CommandKey commandKey;
 
 
-    Command(Pool threadPool, PoolKey threadPoolKey, HystrixCommandProperties properties,
-            CommandKey commandKey)
+    AbstractCommand(Pool threadPool, PoolKey threadPoolKey, HystrixCommandProperties properties,
+                    CommandKey commandKey)
     {
         this.threadPool    = threadPool;
         this.threadPoolKey = threadPoolKey;
         this.properties    = properties;
         this.commandKey    = commandKey;
     }
+
+
+    public AbstractCommand(Object o, PoolKey threadPool, Object o1, Object o2, HystrixCommandProperties.Setter setter, Object o3, Object o4, Object o5,
+                           Object o6, Object o7, Object o8, Pool threadPool1, PoolKey threadPoolKey,
+                           HystrixCommandProperties properties, CommandKey commandKey)
+    {
+
+        this.threadPool    = threadPool1;
+        this.threadPoolKey = threadPoolKey;
+        this.properties    = properties;
+        this.commandKey    = commandKey;
+    }
+
+
+    public AbstractCommand(Object o, PoolKey threadPool, Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                           Object o7, Object o8, Object o9)
+    {
+
+    }
+
+
+    public AbstractCommand(CommandKey key, PoolKey threadPoolKey, Pool threadPool, HystrixCommandProperties.Setter commandPropertiesDefaults, ThreadPoolProperties.Setter threadPoolPropertiesDefaults, HystrixPropertiesStrategy propertiesStrategy)
+    {
+
+    }
+
 
 
     protected enum TimedOutStatus
@@ -86,10 +105,10 @@ abstract class Command<T>
     }
 
 
-    protected Command(CommandKey key, PoolKey threadPoolKey, Pool threadPool,
-                      HystrixPropertiesStrategy propertiesStrategy,
-                      HystrixCommandProperties.Setter commandPropertiesDefaults,
-                      ThreadPoolProperties.Setter threadPoolPropertiesDefaults, Pool threadPool1)
+    protected AbstractCommand(CommandKey key, PoolKey threadPoolKey, Pool threadPool,
+                              HystrixPropertiesStrategy propertiesStrategy,
+                              HystrixCommandProperties.Setter commandPropertiesDefaults,
+                              ThreadPoolProperties.Setter threadPoolPropertiesDefaults, Pool threadPool1)
     {
 
         this.commandKey    = initCommandKey(key, getClass());
@@ -101,6 +120,9 @@ abstract class Command<T>
                                                this.properties.executionIsolationThreadPoolKeyOverride()
                                                               .get());
     }
+
+
+
 
 
     private static HystrixCommandProperties initCommandProperties(CommandKey commandKey,
@@ -132,7 +154,9 @@ abstract class Command<T>
         }
     }
 
-
+    public HystrixCommandProperties getProperties() {
+        return properties;
+    }
     private static CommandKey initCommandKey(final CommandKey fromConstructor, Class<?> clazz)
     {
         if (fromConstructor == null || fromConstructor.name().trim().equals("")) {
@@ -164,7 +188,7 @@ abstract class Command<T>
 
     public Observable<T> toObservable()
     {
-        final Command<T> _cmd = this;
+        final AbstractCommand<T> _cmd = this;
 
         //doOnCompleted handler already did all of the SUCCESS work
         //doOnError handler already did all of the FAILURE/TIMEOUT/REJECTION/BAD_REQUEST work

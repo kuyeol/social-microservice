@@ -1,10 +1,11 @@
 package org.acme.ext.terran.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.POJONode;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.acme.EntityID;
 import org.acme.avro.Unit;
 import org.acme.core.util.RequestTypeBindSupport;
 import org.acme.ext.terran.entity.Barracks;
+import org.acme.ext.terran.entity.CommandCenter;
 import org.acme.ext.terran.model.TerranModel;
 import org.acme.ext.terran.service.TerranService;
 import org.apache.avro.Schema;
@@ -31,6 +33,7 @@ import org.apache.catalina.connector.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,11 +42,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping("/terran")
 class Controller
 {
+
+    @GetMapping(value = "/**")
+    public ResponseEntity<String> HOME(MethodArgumentTypeMismatchException ex)
+    {
+
+        //return handleTypeMismatch(ex);
+        return redir();
+    }
+
+
+    public ResponseEntity<String> redir(){
+        return ResponseEntity.ok("NULL");
+    }
 
     private static final RequestTypeBindSupport<TerranModel> BIND_SUPPORT = new RequestTypeBindSupport<>(
         TerranModel.class);
@@ -66,23 +83,6 @@ class Controller
     }
 
 
-    @GetMapping(value = "/tolist/{page}")
-    public ResponseEntity tolist(@RequestParam("type") TerranModel type,
-                                 @PathVariable("page") int page)
-    {
-        LocalTime st = LocalTime.now();
-
-        Optional<List<Object>> op = Optional.empty();
-
-        try {
-            op = Optional.ofNullable(unit.toList(type.toString().toLowerCase()));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
-
-        LocalTime t = LocalTime.now();
-        return ResponseEntity.status(HttpStatus.CREATED).body("start:" + st + "end : " + t + op);
-    }
 
 
     @GetMapping(value = "/list/{page}")
@@ -93,32 +93,67 @@ class Controller
         Optional<List<Object>> op = Optional.empty();
 
         try {
-            op = Optional.ofNullable(unit.anyList(type.toString().toLowerCase()));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            op = Optional.ofNullable(unit.anyList(type.toString()));
+        } catch (MethodArgumentTypeMismatchException e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(""+e);
         }
-        LocalTime t = LocalTime.now();
-        return ResponseEntity.status(HttpStatus.CREATED).body(t + " /  " + st + op);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(op);
     }
+
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex)
+    {
+        // 잘못된 파라미터가 전달되었을 때의 처리 로직
+
+        JsonNode j = new POJONode(ex);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(j.asText());
+    }
+
+
+
 
 
     @GetMapping(value = "/findBarrak/{id}", produces = "application/json")
     public ResponseEntity findBarrak(@PathVariable("id") int id)
     {
         EntityID rep;
-        // Barracks barracks = new Barracks();
+         Barracks barracks = new Barracks();
 
         try {
-            //Object out = unit.find(id);
+
+            unit.setEntity(TerranModel.BARRACKS.getClazz());
+            barracks = (Barracks) unit.findOfBarracks(id);
+            Object out = unit.findOfBarracks(id);
             rep = (EntityID) unit.find(id);
+
         } catch (Exception e) {
 
             return ResponseEntity.status(200).location(URI.create("ping")).build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(rep);
+        return ResponseEntity.status(HttpStatus.CREATED).body(barracks);
     }
+    @GetMapping(value = "/findcommand/{id}", produces = "application/json")
+    public ResponseEntity findCommand(@PathVariable("id") int id)
+    {
 
+        Object   command =null;
+
+        try {
+
+             unit.setEntity(TerranModel.COMMAND.getClazz());
+            command =  unit.findOfCommand(id);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(200).location(URI.create("ping")).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(command);
+    }
 
     @GetMapping(value = "/findID/{id}", produces = "application/json")
     public ResponseEntity findD(@PathVariable("id") int id)
@@ -295,7 +330,7 @@ class Controller
 
 
     @GetMapping(value = "/hi", produces = "application/json")
-    public String hi() throws SQLException
+    public String hi()
     {
         return "{ \"dddddddddddd\": \"12ddfdf\" , \"namessss\": \"JohDDDn\" }";
     }
