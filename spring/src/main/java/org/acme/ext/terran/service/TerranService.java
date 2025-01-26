@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 public class TerranService<T>
 {
 
+
+    //TODO: ENTITY TYPE && DTO IMPLEMENT
     private static TerranDataAccess<?> T;
 
     private Class<?> enc;
