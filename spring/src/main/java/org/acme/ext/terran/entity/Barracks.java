@@ -17,6 +17,42 @@ public class Barracks implements EntityID
     private String name;
 
 
+    @Override
+    public String toString()
+    {
+        return "Barracks{" + "id=" + id + ", name='" + name + '\'' + ", publicstring='" +
+               publicstring + '\'' + ", secret='" + secret + '\'' + ", age=" + age + '}';
+    }
+
+
+    public String getPublicstring()
+    {
+        return publicstring;
+    }
+
+
+    public void setPublicstring(String publicstring)
+    {
+        this.publicstring = publicstring;
+    }
+
+
+    public String getSecret()
+    {
+        return secret;
+    }
+
+
+    public void setSecret(String secret)
+    {
+        this.secret = secret;
+    }
+
+
+    public String publicstring;
+
+    private String secret;
+
     public Barracks()
     {
 

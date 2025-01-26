@@ -2,40 +2,54 @@ package org.acme.ext.terran.service;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.acme.EntityID;
 import org.acme.ext.terran.entity.Barracks;
 import org.acme.ext.terran.entity.CommandCenter;
 import org.acme.ext.terran.model.TerranModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TerranService
+public class TerranService<T>
 {
 
-    private final TerranDataAccess<Barracks> build;
+    private static TerranDataAccess<?> T;
 
-    private final TerranDataAccess<CommandCenter> cbuild;
+    private Class<?> enc;
+
+    private final TerranDataAccess<?> build;
 
     private static Class clazz;
 
 
-    TerranService(TerranDataAccess<Barracks> build, TerranDataAccess<CommandCenter> cbulid)
+    TerranService(TerranDataAccess<?> build)
     {
-        this.build  = build;
-        this.cbuild = cbulid;
+        this.build = build;
     }
+
+
 
 
     static final AtomicInteger at = new AtomicInteger();
 
 
-    public int idGet()
+    private int idGet()
     {
         return at.incrementAndGet();
     }
 
 
-    // @Transactional(Transactional.TxType.REQUIRED)
+    public Object EntityType(String select, int id)
+    {
+        try {
+
+            clazz = TerranModel.toStr(select).getClazz();
+        } catch (RuntimeException e) {
+
+            throw new IllegalArgumentException(e);
+        }
+        return build.setClazz(clazz).find(id);
+    }
+
+
     public List<Object> anyList(String select)
     {
 
@@ -50,43 +64,44 @@ public class TerranService
     }
 
 
-    // @Transactional
-    public void save(Barracks o)
+    public void setEntity(String select)
     {
-        create();
-        o.setId(idGet());
-        build.save(o);
-    }
+        clazz = TerranModel.toStr(select).getClazz();
 
-    private Class<?> enc;
+        this.enc = clazz;
+
+    }
 
     public Object findOfBarracks(int id)
     {
-        return build.find(id, enc);
+        return  build.find(id, Barracks.class);
     }
+
 
     public Object findOfCommand(int id)
     {
-        return cbuild.find(id, enc);
-    }
-
-    public void setEntity(Class<?> clazz)
-    {
-        this.enc = clazz;
+        return build.find(id, CommandCenter.class);
     }
 
 
     public Object find(int id)
     {
 
-        return cbuild.find(id, CommandCenter.class);
+        return build.find(id,clazz);
     }
 
 
-    // @Transactional
     public <T> Object findById(int id)
     {
         return build.setClazz(Barracks.class).find(id);
+    }
+
+
+    public void save(Barracks o)
+    {
+        create();
+        o.setId(idGet());
+        build.save(o);
     }
 
 
@@ -107,7 +122,7 @@ public class TerranService
         c.setName("Command");
 
         build.save(marine);
-        cbuild.save(c);
+        build.save(c);
         build.save(fire);
 
         return "";
