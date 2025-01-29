@@ -1,30 +1,30 @@
-package org.acme.ext.terran.service;
+package org.acme.ext.terran.entity;
 
 import jakarta.persistence.EntityManager;
-import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.acme.core.database.DataAccess;
-import org.acme.ext.terran.entity.Barracks;
-import org.acme.ext.terran.entity.CommandCenter;
 import org.springframework.stereotype.Component;
 
+
+
 @Component
-class TerranDataAccess extends DataAccess
+public class AccessController extends DataAccess
 {
 
   private static final ConcurrentMap<Object, Class<?>> entityMap = new ConcurrentHashMap<>();
 
-  TerranDataAccess(EntityManager em)
+
+  protected AccessController(EntityManager em)
   {
     super( em );
     init();
   }
 
+
   final void init()
   {
-    registerEntity( Barracks.class );
-    registerEntity( CommandCenter.class );
+    registerEntity( PrivBarrack.class );
   }
 
 
@@ -34,20 +34,15 @@ class TerranDataAccess extends DataAccess
     return entityMap.get( name );
   }
 
+public PrivBarrack newIns(){
+    PrivBarrack pv = new PrivBarrack();
 
-  protected String getUnitName(String name)
-  {
-    return entityMap.get( name ).getSimpleName().toLowerCase();
-  }
-
-
+    return pv;
+}
   public final void registerEntity(Class<?> cl)
   {
     entityMap.put( cl.getSimpleName().toLowerCase() , cl );
   }
-
-
-
 
 
 }

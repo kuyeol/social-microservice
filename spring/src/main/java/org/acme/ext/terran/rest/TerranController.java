@@ -12,6 +12,7 @@ import org.acme.avro.Unit;
 import org.acme.core.util.RequestTypeBindSupport;
 import org.acme.ext.terran.entity.Barracks;
 import org.acme.ext.terran.model.TerranModel;
+import org.acme.ext.terran.service.AccessService;
 import org.acme.ext.terran.service.TerranService;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
@@ -26,7 +27,6 @@ import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
-import org.apache.catalina.connector.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -41,293 +41,313 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
-@RequestMapping("/terran")
-class TerranController
+@RequestMapping( "/terran" )
+public class TerranController
 {
 
-    private final TerranService unit;
+  private final TerranService unit;
+
+  private final AccessService privAccess;
 
 
-    @GetMapping(value = "/")
-    public ResponseEntity HOME(@RequestParam("id") int id, @RequestParam("type") TerranModel type)
-    {
-        Object o = unit.EntityType(type.toString(), id);
-        unit.setEntity(type.toString());
+  @GetMapping( "NEW" )
+  public ResponseEntity newmethod(@RequestParam( "type" ) TerranModel type , int id)
+  {
+
+    Object o = unit.findNewMethod( type.lowToString( type ) , id );
+
+    return ResponseEntity.status( HttpStatus.CREATED ).body( o );
+  }
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(o);
+  @GetMapping( value = "/" )
+  public ResponseEntity HOME(@RequestParam( "id" ) int id ,
+                             @RequestParam( "type" ) TerranModel type)
+  {
+    Object o = unit.EntityType( type.toString() , id );
+    unit.setEntity( type.toString() );
+
+    return ResponseEntity.status( HttpStatus.CREATED ).body( o );
+  }
+
+
+  public ResponseEntity<String> redir()
+  {
+    return ResponseEntity.ok( "NULL" );
+  }
+
+
+  private static final RequestTypeBindSupport<TerranModel> BIND_SUPPORT = new RequestTypeBindSupport<>(
+    TerranModel.class );
+
+
+  TerranController(TerranService unit , AccessService privAccess)
+  {
+    this.unit       = unit;
+    this.privAccess = privAccess;
+  }
+
+
+  @GetMapping( "accessTest" )
+  public ResponseEntity ttt()
+  {
+
+    privAccess.test();
+    return ResponseEntity.status( HttpStatus.CREATED ).body( "" );
+  }
+
+
+  @PostMapping( value = "/ping", produces = "application/json" )
+  public String ping(@RequestBody Barracks u)
+  {
+    privAccess.test();
+    unit.save( u );
+    return "{ \"ping\": \"pong\" }";
+  }
+
+
+  @GetMapping( value = "/list/{page}" )
+  public ResponseEntity list(@RequestParam( "type" ) TerranModel type ,
+                             @PathVariable( "page" ) int page)
+  {
+    LocalTime              st = LocalTime.now();
+    Optional<List<Object>> op = Optional.empty();
+
+    try {
+      op = Optional.ofNullable( unit.anyList( type.toString() ) );
+    } catch ( MethodArgumentTypeMismatchException e ) {
+
+      return ResponseEntity.status( HttpStatus.BAD_REQUEST ).body( "" + e );
     }
 
+    return ResponseEntity.status( HttpStatus.CREATED ).body( op );
+  }
 
-    public ResponseEntity<String> redir()
-    {
-        return ResponseEntity.ok("NULL");
+
+  @GetMapping( value = "/findBarrak/{id}", produces = "application/json" )
+  public ResponseEntity findBarrak(@PathVariable( "id" ) int id)
+  {
+    EntityID rep;
+    Barracks barracks = new Barracks();
+
+    try {
+
+      unit.setEntity( "barracks" );
+      barracks = ( Barracks )unit.findOfBarracks( id );
+    } catch ( Exception e ) {
+
+      return ResponseEntity.status( 200 ).location( URI.create( "ping" ) ).build();
     }
 
+    return ResponseEntity.status( HttpStatus.CREATED ).body( barracks );
+  }
 
-    private static final RequestTypeBindSupport<TerranModel> BIND_SUPPORT = new RequestTypeBindSupport<>(
-        TerranModel.class);
 
+  @GetMapping( value = "/findcommand/{id}", produces = "application/json" )
+  public ResponseEntity findCommand(@PathVariable( "id" ) int id)
+  {
 
-    TerranController(TerranService unit)
-    {
-        this.unit = unit;
+    Object command = null;
+
+    try {
+
+      unit.setEntity( "command" );
+      command = unit.findOfCommand( id );
+    } catch ( Exception e ) {
+
+      return ResponseEntity.status( 200 ).location( URI.create( "ping" ) ).build();
     }
 
-
-    @PostMapping(value = "/ping", produces = "application/json")
-    public String ping(@RequestBody Barracks u)
-    {
-        Request request;
-        unit.save(u);
-        return "{ \"ping\": \"pong\" }";
-    }
+    return ResponseEntity.status( HttpStatus.CREATED ).body( command );
+  }
 
 
-    @GetMapping(value = "/list/{page}")
-    public ResponseEntity list(@RequestParam("type") TerranModel type,
-                               @PathVariable("page") int page)
-    {
-        LocalTime              st = LocalTime.now();
-        Optional<List<Object>> op = Optional.empty();
+  @GetMapping( value = "/findID/{id}", produces = "application/json" )
+  public ResponseEntity findD(@PathVariable( "id" ) int id)
+  {
+    EntityID rep = null;
 
-        try {
-            op = Optional.ofNullable(unit.anyList(type.toString()));
-        } catch (MethodArgumentTypeMismatchException e) {
+    try {
+      rep = ( EntityID )unit.findById( id );
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("" + e);
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(op);
-    }
-
-
-    @GetMapping(value = "/findBarrak/{id}", produces = "application/json")
-    public ResponseEntity findBarrak(@PathVariable("id") int id)
-    {
-        EntityID rep;
+      if ( rep == null ) {
         Barracks barracks = new Barracks();
-
-        try {
-
-            unit.setEntity("barracks");
-            barracks= (Barracks) unit.findOfBarracks(id);
-
-
-        } catch (Exception e) {
-
-            return ResponseEntity.status(200).location(URI.create("ping")).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(barracks);
+        barracks.setId( 404 );
+        barracks.setName( "Null Object" );
+        return ResponseEntity.status( 200 ).body( barracks );
+      } else {
+        return ResponseEntity.status( HttpStatus.CREATED ).body( rep );
+      }
+    } catch ( Exception e ) {
+      e.printStackTrace();
+      return new ResponseEntity( HttpStatus.NOT_FOUND );
     }
+  }
 
 
-    @GetMapping(value = "/findcommand/{id}", produces = "application/json")
-    public ResponseEntity findCommand(@PathVariable("id") int id)
-    {
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-        Object command = null;
 
-        try {
+  @PostMapping( value = "/toavro", consumes = "application/json", produces = "application/json" )
+  public ResponseEntity<String> toavro(@RequestBody Unit u)
+  {
 
-            unit.setEntity("command");
-            command = unit.findOfCommand(id);
-        } catch (Exception e) {
+    unit.findById( u.getAge() );
 
-            return ResponseEntity.status(200).location(URI.create("ping")).build();
-        }
+    DatumWriter<Unit>     writer      = new SpecificDatumWriter<>( Unit.class );
+    byte[]                data        = new byte[0];
+    ByteArrayOutputStream stream      = new ByteArrayOutputStream();
+    Encoder               jsonEncoder = null;
+    GenericRecord         avroRecord  = null;
+    String                conver      = "";
+    try {
+      jsonEncoder = EncoderFactory.get().jsonEncoder( Unit.getClassSchema() , stream );
+      writer.write( u , jsonEncoder );
+      jsonEncoder.flush();
+      data = stream.toByteArray();
+      stream.close();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(command);
+      Schema schema = inferSchema( u );
+
+      conver = convertObjectToJson( u , schema );
+    } catch ( IOException e ) {
+
     }
+    return ResponseEntity.status( HttpStatus.CREATED ).body( conver );
+  }
 
 
-    @GetMapping(value = "/findID/{id}", produces = "application/json")
-    public ResponseEntity findD(@PathVariable("id") int id)
-    {
-        EntityID rep = null;
+  @GetMapping( value = "/avro/{id}", produces = "application/json" )
+  public ResponseEntity avro(@PathVariable( "id" ) int u)
+  {
 
-        try {
-            rep = (EntityID) unit.findById(id);
+    Barracks rep = null;
 
-            if (rep == null) {
-                Barracks barracks = new Barracks();
-                barracks.setId(404);
-                barracks.setName("Null Object");
-                return ResponseEntity.status(200).body(barracks);
-            } else {
-                return ResponseEntity.status(HttpStatus.CREATED).body(rep);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+    Unit avro = new Unit();
+
+    byte[] bytes = null;
+
+    Schema schema = null;
+
+    try {
+      rep = ( Barracks )unit.findById( u );
+
+      if ( rep == null ) {
+        Barracks barracks = new Barracks();
+        barracks.setId( 404 );
+        barracks.setName( "Null Object" );
+        return ResponseEntity.status( 200 ).body( barracks );
+      } else {
+
+        //schema = inferSchema(avro);
+        // String rc = convertObjectToJson(rep, schema);
+        avro = convertToAvro( rep );
+        //bytes = serializeToBytes(avro);
+        //avro  = deserializeFromBytes(bytes);
+        return ResponseEntity.status( HttpStatus.CREATED ).body( avro );
+      }
+    } catch ( Exception e ) {
+      e.printStackTrace();
+      return new ResponseEntity( HttpStatus.NOT_FOUND );
     }
+  }
 
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+  public Unit deserializeFromBytes(byte[] data) throws Exception
+  {
+    DatumReader<Unit> datumReader = new SpecificDatumReader<>( Unit.class );
+    Decoder           decoder     = DecoderFactory.get().binaryDecoder( data , null );
+
+    return datumReader.read( null , decoder );
+  }
 
 
-    @PostMapping(value = "/toavro", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> toavro(@RequestBody Unit u)
-    {
+  public Unit convertToAvro(Barracks userEntity)
+  {
+    Unit user = new Unit();
+    user.put( "name" , "userEntity.getName()" );
+    user.put( "age" , userEntity.getAge() );
+    //user.put("id", "userEntity.getName()");
 
-        unit.findById(u.getAge());
+    return user;
+  }
 
-        DatumWriter<Unit>     writer      = new SpecificDatumWriter<>(Unit.class);
-        byte[]                data        = new byte[0];
-        ByteArrayOutputStream stream      = new ByteArrayOutputStream();
-        Encoder               jsonEncoder = null;
-        GenericRecord         avroRecord  = null;
-        String                conver      = "";
-        try {
-            jsonEncoder = EncoderFactory.get().jsonEncoder(Unit.getClassSchema(), stream);
-            writer.write(u, jsonEncoder);
-            jsonEncoder.flush();
-            data = stream.toByteArray();
-            stream.close();
 
-            Schema schema = inferSchema(u);
+  public byte[] serializeToBytes(Unit avroUser) throws Exception
+  {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    DatumWriter<Unit>     datumWriter  = new SpecificDatumWriter<>( Unit.class );
+    Encoder               encoder      = EncoderFactory.get().binaryEncoder( outputStream , null );
+    datumWriter.write( avroUser , encoder );
+    encoder.flush();
+    outputStream.close();
+    return outputStream.toByteArray();
+  }
 
-            conver = convertObjectToJson(u, schema);
-        } catch (IOException e) {
 
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(conver);
+  public Schema inferSchema(Unit p)
+  {
+    return ReflectData.get().getSchema( p.getClass() );
+  }
+
+
+  public Schema inferSchema(Barracks p)
+  {
+    return ReflectData.get().getSchema( p.getClass() );
+  }
+
+
+  public String convertObjectToJson(Barracks p , Schema schema)
+  {
+    try {
+      ByteArrayOutputStream             outputStream  = new ByteArrayOutputStream();
+      GenericDatumWriter<GenericRecord> datumWriter   = new GenericDatumWriter<>( schema );
+      GenericRecord                     genericRecord = new GenericData.Record( schema );
+      genericRecord.put( "name" , p.getName() );
+      genericRecord.put( "age" , p.getAge() );
+      genericRecord.put( "id" , p.getId() );
+      Encoder encoder = EncoderFactory.get().jsonEncoder( schema , outputStream );
+      datumWriter.write( genericRecord , encoder );
+      encoder.flush();
+      outputStream.close();
+      return outputStream.toString();
+    } catch ( Exception e ) {
+      throw new RuntimeException( e );
     }
+  }
 
 
-    @GetMapping(value = "/avro/{id}", produces = "application/json")
-    public ResponseEntity avro(@PathVariable("id") int u)
-    {
-
-        Barracks rep = null;
-
-        Unit avro = new Unit();
-
-        byte[] bytes = null;
-
-        Schema schema = null;
-
-        try {
-            rep = (Barracks) unit.findById(u);
-
-            if (rep == null) {
-                Barracks barracks = new Barracks();
-                barracks.setId(404);
-                barracks.setName("Null Object");
-                return ResponseEntity.status(200).body(barracks);
-            } else {
-
-                //schema = inferSchema(avro);
-                // String rc = convertObjectToJson(rep, schema);
-                avro = convertToAvro(rep);
-                //bytes = serializeToBytes(avro);
-                //avro  = deserializeFromBytes(bytes);
-                return ResponseEntity.status(HttpStatus.CREATED).body(avro);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+  public String convertObjectToJson(Unit p , Schema schema)
+  {
+    try {
+      ByteArrayOutputStream             outputStream  = new ByteArrayOutputStream();
+      GenericDatumWriter<GenericRecord> datumWriter   = new GenericDatumWriter<>( schema );
+      GenericRecord                     genericRecord = new GenericData.Record( schema );
+      genericRecord.put( "name" , p.getName() );
+      genericRecord.put( "age" , p.getAge() );
+      Encoder encoder = EncoderFactory.get().jsonEncoder( schema , outputStream );
+      datumWriter.write( genericRecord , encoder );
+      encoder.flush();
+      outputStream.close();
+      return outputStream.toString();
+    } catch ( Exception e ) {
+      throw new RuntimeException( e );
     }
+  }
 
 
-    public Unit deserializeFromBytes(byte[] data) throws Exception
-    {
-        DatumReader<Unit> datumReader = new SpecificDatumReader<>(Unit.class);
-        Decoder           decoder     = DecoderFactory.get().binaryDecoder(data, null);
-
-        return datumReader.read(null, decoder);
-    }
+  @GetMapping( value = "/hi", produces = "application/json" )
+  public String hi()
+  {
+    return "{ \"dddddddddddd\": \"12ddfdf\" , \"namessss\": \"JohDDDn\" }";
+  }
 
 
-    public Unit convertToAvro(Barracks userEntity)
-    {
-        Unit user = new Unit();
-        user.put("name", "userEntity.getName()");
-        user.put("age", userEntity.getAge());
-        //user.put("id", "userEntity.getName()");
-
-        return user;
-    }
-
-
-    public byte[] serializeToBytes(Unit avroUser) throws Exception
-    {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        DatumWriter<Unit>     datumWriter  = new SpecificDatumWriter<>(Unit.class);
-        Encoder               encoder      = EncoderFactory.get().binaryEncoder(outputStream, null);
-        datumWriter.write(avroUser, encoder);
-        encoder.flush();
-        outputStream.close();
-        return outputStream.toByteArray();
-    }
-
-
-    public Schema inferSchema(Unit p)
-    {
-        return ReflectData.get().getSchema(p.getClass());
-    }
-
-
-    public Schema inferSchema(Barracks p)
-    {
-        return ReflectData.get().getSchema(p.getClass());
-    }
-
-
-    public String convertObjectToJson(Barracks p, Schema schema)
-    {
-        try {
-            ByteArrayOutputStream             outputStream  = new ByteArrayOutputStream();
-            GenericDatumWriter<GenericRecord> datumWriter   = new GenericDatumWriter<>(schema);
-            GenericRecord                     genericRecord = new GenericData.Record(schema);
-            genericRecord.put("name", p.getName());
-            genericRecord.put("age", p.getAge());
-            genericRecord.put("id", p.getId());
-            Encoder encoder = EncoderFactory.get().jsonEncoder(schema, outputStream);
-            datumWriter.write(genericRecord, encoder);
-            encoder.flush();
-            outputStream.close();
-            return outputStream.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public String convertObjectToJson(Unit p, Schema schema)
-    {
-        try {
-            ByteArrayOutputStream             outputStream  = new ByteArrayOutputStream();
-            GenericDatumWriter<GenericRecord> datumWriter   = new GenericDatumWriter<>(schema);
-            GenericRecord                     genericRecord = new GenericData.Record(schema);
-            genericRecord.put("name", p.getName());
-            genericRecord.put("age", p.getAge());
-            Encoder encoder = EncoderFactory.get().jsonEncoder(schema, outputStream);
-            datumWriter.write(genericRecord, encoder);
-            encoder.flush();
-            outputStream.close();
-            return outputStream.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    @GetMapping(value = "/hi", produces = "application/json")
-    public String hi()
-    {
-        return "{ \"dddddddddddd\": \"12ddfdf\" , \"namessss\": \"JohDDDn\" }";
-    }
-
-
-    @InitBinder
-    private static void initBinder(WebDataBinder binder)
-    {
-        binder.registerCustomEditor(TerranModel.class, BIND_SUPPORT);
-    }
+  @InitBinder
+  private static void initBinder(WebDataBinder binder)
+  {
+    binder.registerCustomEditor( TerranModel.class , BIND_SUPPORT );
+  }
 
 
 }
