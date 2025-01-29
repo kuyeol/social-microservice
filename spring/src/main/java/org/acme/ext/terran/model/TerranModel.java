@@ -5,37 +5,44 @@ import org.acme.ext.terran.entity.CommandCenter;
 
 public enum TerranModel
 {
-    BARRACKS(Barracks.class), COMMAND(CommandCenter.class);
+  BARRACKS( Barracks.class ), COMMANDCENTER( CommandCenter.class );
 
-    private final Class<?> clazz;
+  private final Class<?> clazz;
 
 
-    TerranModel(Class<?> clazz)
-    {
-        this.clazz = clazz;
+  TerranModel(Class<?> clazz)
+  {
+    this.clazz = clazz;
+  }
+
+
+  public Class<?> getClazz()
+  {
+    return clazz;
+  }
+
+
+  public String lowToString(TerranModel type)
+  {
+
+    return type.toString().toLowerCase();
+  }
+
+
+  public static TerranModel toStr(final String s)
+  {
+    String toStr = s.toLowerCase();
+
+    switch ( toStr ) {
+      case "barracks" -> {
+        return TerranModel.BARRACKS;
+      }
+      case "commandcenter" -> {
+        return TerranModel.COMMANDCENTER;
+      }
+      default -> {
+        return null;
+      }
     }
-
-
-    public Class<?> getClazz()
-    {
-        return clazz;
-    }
-
-
-    public static TerranModel toStr(final String s)
-    {
-        String toStr = s.toLowerCase();
-
-        switch (toStr) {
-            case "barracks" -> {
-                return TerranModel.BARRACKS;
-            }
-            case "command" -> {
-                return TerranModel.COMMAND;
-            }
-            default -> {
-                return null;
-            }
-        }
-    }
+  }
 }

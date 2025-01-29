@@ -32,7 +32,7 @@ public class ZergService
                 return zergFactory.setClazz(clazz).listAll();
 
             case "command":
-                clazz = Model.COMMAND.getClazz();
+
                 return zergFactory.setClazz(clazz).listAll();
 
             default:

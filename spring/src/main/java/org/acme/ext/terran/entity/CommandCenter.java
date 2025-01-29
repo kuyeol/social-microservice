@@ -14,6 +14,7 @@ public class CommandCenter implements EntityID
 
     private String name;
 
+
     public int getId() {
         return id;
     }

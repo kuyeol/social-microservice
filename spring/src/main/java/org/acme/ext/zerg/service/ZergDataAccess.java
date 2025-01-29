@@ -29,7 +29,7 @@ class ZergDataAccess<T> extends DataAccess
                 return setClazz(clazz).listAll();
 
             case "command":
-                clazz = Model.COMMAND.getClazz();
+
                 return setClazz(clazz).listAll();
 
             default:

@@ -20,7 +20,6 @@ public class RequestTypeBindSupport<T extends Enum<T>> extends PropertyEditorSup
 
     public T fromString(String modelString) {
         try {
-            // 소문자 요청을 대문자로 변환하여 Enum으로 매핑
             return Enum.valueOf(enumType, modelString.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid value for " + enumType.getSimpleName() + ": " + modelString);
