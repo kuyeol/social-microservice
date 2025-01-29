@@ -1,10 +1,7 @@
 package org.acme.ext.terran.service;
 
 import jakarta.persistence.EntityManager;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.acme.ext.terran.entity.AccessController;
-import org.acme.ext.terran.entity.PrivBarrack;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,21 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccessService extends AccessController
 {
 
-
   protected AccessService(EntityManager em)
   {
     super( em );
   }
 
-AtomicInteger a = new AtomicInteger();
-  @Transactional
-  public void test()
-  {
-    PrivBarrack v = newIns();
 
-    v.setId(a.getAndIncrement() );
-    v.setName( "dasf" );
-    save( v );
+  @Transactional
+  public void stage()
+  {
+    test();
+  }
+
+  @Transactional
+  public Object seach(){
+    Class c= getUnitClass( "privbarrack" );
+   Object o =  find( 1, c );
+     return o;
   }
 
 

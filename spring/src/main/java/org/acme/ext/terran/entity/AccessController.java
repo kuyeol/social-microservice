@@ -3,13 +3,13 @@ package org.acme.ext.terran.entity;
 import jakarta.persistence.EntityManager;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.acme.core.database.DataAccess;
 import org.springframework.stereotype.Component;
-
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class AccessController extends DataAccess
+public abstract class AccessController extends DataAccess
 {
 
   private static final ConcurrentMap<Object, Class<?>> entityMap = new ConcurrentHashMap<>();
@@ -28,18 +28,35 @@ public class AccessController extends DataAccess
   }
 
 
-  public Class getUnitClass(String name)
+  protected Class getUnitClass(String name)
   {
 
     return entityMap.get( name );
   }
 
-public PrivBarrack newIns(){
+
+  AtomicInteger a = new AtomicInteger();
+
+
+  protected void test()
+  {
+    PrivBarrack v = new PrivBarrack();
+
+    v.setId( a.getAndIncrement() );
+    v.setName( "dasf" );
+    save( v );
+  }
+
+
+  protected PrivBarrack newIns()
+  {
     PrivBarrack pv = new PrivBarrack();
 
     return pv;
-}
-  public final void registerEntity(Class<?> cl)
+  }
+
+
+  protected final void registerEntity(Class<?> cl)
   {
     entityMap.put( cl.getSimpleName().toLowerCase() , cl );
   }

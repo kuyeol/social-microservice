@@ -91,16 +91,19 @@ public class TerranController
   @GetMapping( "accessTest" )
   public ResponseEntity ttt()
   {
+    Object find;
+    find = privAccess.seach();
 
-    privAccess.test();
-    return ResponseEntity.status( HttpStatus.CREATED ).body( "" );
+
+
+    return ResponseEntity.status( HttpStatus.CREATED ).body( find );
   }
 
 
   @PostMapping( value = "/ping", produces = "application/json" )
   public String ping(@RequestBody Barracks u)
   {
-    privAccess.test();
+    privAccess.stage();
     unit.save( u );
     return "{ \"ping\": \"pong\" }";
   }
