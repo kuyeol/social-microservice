@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import org.acme.EntityID;
 
 @Entity
-public class PrivBarrack implements EntityID
+ class PrivBarrack implements EntityID
 {
 
   @Id
