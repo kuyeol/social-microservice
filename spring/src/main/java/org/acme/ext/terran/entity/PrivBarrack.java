@@ -20,10 +20,12 @@ import org.acme.EntityID;
 
   }
 
+//
   @Override
   public String toString()
   {
-    return "Barracks{" + "id=" + id + ", name='" + name + '\'' + ", publicstring='" + publicstring +
+    return " PRBARARR{" + "id=" + id + ", name='" + name + '\'' + ", publicstring='" +
+           publicstring +
            '\'' + ", secret='" + secret + '\'' + ", age=" + age + '}';
   }
 

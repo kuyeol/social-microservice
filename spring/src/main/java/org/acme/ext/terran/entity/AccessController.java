@@ -1,18 +1,24 @@
 package org.acme.ext.terran.entity;
 
 import jakarta.persistence.EntityManager;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.acme.core.database.DataAccess;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public abstract class AccessController extends DataAccess
 {
 
   private static final ConcurrentMap<Object, Class<?>> entityMap = new ConcurrentHashMap<>();
+
+  protected static final String PB = PrivBarrack.class.getSimpleName().toLowerCase();
+
+  protected static final String BA = Barracks.class.getSimpleName().toLowerCase();
+
+  AtomicInteger a = new AtomicInteger();
 
 
   protected AccessController(EntityManager em)
@@ -21,10 +27,32 @@ public abstract class AccessController extends DataAccess
     init();
   }
 
+  private PrivBarrack P;
+
+
+  public void intance(String S)
+  {
+    this.P = new PrivBarrack();
+  }
+
+
+  protected final void registerEntity(Class<?> cl)
+  {
+    entityMap.put( cl.getSimpleName().toLowerCase() , cl );
+  }
+
 
   final void init()
   {
     registerEntity( PrivBarrack.class );
+    registerEntity( Barracks.class );
+  }
+
+
+  protected Object test(String s) throws InstantiationException, IllegalAccessException
+  {
+
+    return getUnitClass( s ).newInstance();
   }
 
 
@@ -32,19 +60,6 @@ public abstract class AccessController extends DataAccess
   {
 
     return entityMap.get( name );
-  }
-
-
-  AtomicInteger a = new AtomicInteger();
-
-
-  protected void test()
-  {
-    PrivBarrack v = new PrivBarrack();
-
-    v.setId( a.getAndIncrement() );
-    v.setName( "dasf" );
-    save( v );
   }
 
 
@@ -56,9 +71,9 @@ public abstract class AccessController extends DataAccess
   }
 
 
-  protected final void registerEntity(Class<?> cl)
+  public Object getPr()
   {
-    entityMap.put( cl.getSimpleName().toLowerCase() , cl );
+    return P;
   }
 
 

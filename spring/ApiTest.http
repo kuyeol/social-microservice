@@ -11,3 +11,9 @@ accept: */*
 
 GET http://localhost:8080/terran/list/1?type=comMan
 accept: */*
+
+
+
+###
+
+GET  http://182.218.135.247:11434/

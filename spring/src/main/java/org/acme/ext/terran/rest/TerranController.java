@@ -3,6 +3,7 @@ package org.acme.ext.terran.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.time.LocalTime;
 import java.util.List;
@@ -102,6 +103,8 @@ public class TerranController
 
   @PostMapping( value = "/ping", produces = "application/json" )
   public String ping(@RequestBody Barracks u)
+    throws InvocationTargetException, NoSuchMethodException, InstantiationException,
+           IllegalAccessException
   {
     privAccess.stage();
     unit.save( u );
