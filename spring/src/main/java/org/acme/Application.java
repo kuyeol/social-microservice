@@ -27,11 +27,19 @@ public class Application implements CommandLineRunner
   static String timeForm;
 
 
+  public static void main(String[] args)
+  {
+
+    SpringApplication.run( Application.class , "200" );
+  }
+
+
+//
   @Override
   public void run(String... req)
   {
-    this.loop = Integer.valueOf( req[0] );
-    this.requestBody = new Barracks();
+    loop = Integer.valueOf( req[0] );
+    requestBody = new Barracks();
 
 
 
@@ -47,23 +55,14 @@ public class Application implements CommandLineRunner
                       .contentType( MediaType.APPLICATION_JSON )
                       .accept( MediaType.APPLICATION_JSON )
                       .bodyValue( requestBody )
-                      .retrieve()
-                      .bodyToMono( String.class )
-                      .block();
+                      .retrieve().bodyToFlux( String.class ).blockFirst();
     };
 
     for ( int i = 0 ; i < loop ; i++ ) {
-      this.current          = new Timestamp( System.currentTimeMillis() );
-      this.timeForm         = new SimpleDateFormat( "HH:mm:ss" ).format( current );
+      current          = new Timestamp( System.currentTimeMillis() );
+      timeForm         = new SimpleDateFormat( "HH:mm:ss" ).format( current );
       makeRequest.apply(current.getNanos() );
     }
-  }
-
-
-  public static void main(String[] args)
-  {
-
-    SpringApplication.run( Application.class , "20" );
   }
 
 

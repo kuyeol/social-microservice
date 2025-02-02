@@ -34,7 +34,6 @@ class TerranDataAccess extends DataAccess
     return entityMap.get( name );
   }
 
-
   protected String getUnitName(String name)
   {
     return entityMap.get( name ).getSimpleName().toLowerCase();

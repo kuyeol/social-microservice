@@ -1,4 +1,4 @@
-package org.acme.core.database;
+package org.acme.core.database.dev;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

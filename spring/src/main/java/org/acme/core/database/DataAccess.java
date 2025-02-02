@@ -1,9 +1,9 @@
 package org.acme.core.database;
 
 import jakarta.persistence.EntityManager;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.acme.core.database.dev.LogTable;
 import org.springframework.transaction.annotation.Transactional;
 
 public abstract class DataAccess<T>
