@@ -25,9 +25,9 @@ public class Application implements CommandLineRunner
 
   static int loop;
 
-  static Barracks  requestBody = new Barracks();
+  static Barracks requestBody = new Barracks();
 
-  static Timestamp current= new Timestamp( System.currentTimeMillis() );
+  static Timestamp current = new Timestamp( System.currentTimeMillis() );
 
   static String timeForm;
 
@@ -35,11 +35,10 @@ public class Application implements CommandLineRunner
   public static void main(String[] args)
   {
 
-    SpringApplication.run( Application.class , "200" );
+    SpringApplication.run( Application.class , "11" );
   }
 
 
-//
   @Override
   public void run(String... req)
   {
@@ -56,12 +55,14 @@ public class Application implements CommandLineRunner
         requestBody.setAge( current.getNanos() );
 
         return webClient.post()
-                .contentType( MediaType.APPLICATION_JSON )
-                .accept( MediaType.APPLICATION_JSON )
-                .bodyValue( requestBody )
-                .retrieve()
-                .bodyToFlux( String.class )
-                .blockFirst();
+
+                        .contentType( MediaType.APPLICATION_JSON )
+                        .accept( MediaType.APPLICATION_JSON )
+                        .bodyValue( requestBody )
+                        .retrieve()
+                        .bodyToFlux( String.class )
+                        .blockFirst();
+
       };
 
       for ( int i = 0 ; i < loop ; i++ ) {

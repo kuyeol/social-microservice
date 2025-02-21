@@ -14,7 +14,8 @@ import org.apache.avro.reflect.ReflectData;
 import org.apache.avro.reflect.ReflectDatumWriter;
 
 /**
- * This class provides methods for converting POJOs (Plain Old Java Objects) to Avro records.  It offers three different approaches:
+ * This class provides methods for converting POJOs (Plain Old Java Objects) to Avro records.  It
+ * offers three different approaches:
  * <ul>
  *   <li>Straightforward mapping: Manually maps POJO fields to Avro record fields.</li>
  *   <li>Reflection-based mapping: Uses reflection to automatically map POJO fields to Avro record fields, including superclass fields.</li>
@@ -25,71 +26,89 @@ import org.apache.avro.reflect.ReflectDatumWriter;
 public class ConvertingPojoToAvroRecord
 {
 
-    /**
-     * Maps a SpawningPool POJO to an Avro record using a straightforward approach.
-     * @param pojo The SpawningPool POJO to convert.
-     * @return The Avro record representing the POJO.
-     */
-    public static GenericData.Record mapPojoToRecordStraightForward(Object pojo) {
-        Schema schema = ReflectData.get().getSchema(pojo.getClass());
-        GenericData.Record avroRecord = new GenericData.Record(schema);
+  /**
+   * Maps a SpawningPool POJO to an Avro record using a straightforward approach.
+   *
+   * @param pojo The SpawningPool POJO to convert.
+   *
+   * @return The Avro record representing the POJO.
+   */
+  public static GenericData.Record mapPojoToRecordStraightForward(Object pojo)
+  {
+    Schema             schema     = ReflectData.get().getSchema( pojo.getClass() );
+    GenericData.Record avroRecord = new GenericData.Record( schema );
 
-        avroRecord.put("id", pojo);
-        avroRecord.put("name", pojo);
+    avroRecord.put( "id" , pojo );
+    avroRecord.put( "name" , pojo );
+
+    return avroRecord;
+  }
 
 
-        return avroRecord;
+  /**
+   * Maps a SpawningPool POJO to an Avro record using reflection. This method handles fields from
+   * superclasses.
+   *
+   * @param pojo The SpawningPool POJO to convert.
+   *
+   * @return The Avro record representing the POJO.
+   *
+   * @throws IllegalAccessException If accessing a field throws an exception.
+   */
+  public static GenericData.Record mapPojoToRecordReflection(Object pojo)
+    throws IllegalAccessException
+  {
+    Class<?>           pojoClass  = pojo.getClass();
+    Schema             schema     = ReflectData.get().getSchema( pojoClass );
+    GenericData.Record avroRecord = new GenericData.Record( schema );
+
+    for ( Field field : pojoClass.getDeclaredFields() ) {
+      field.setAccessible( true );
+      avroRecord.put( field.getName() , field.get( pojo ) );
     }
 
-    /**
-     * Maps a SpawningPool POJO to an Avro record using reflection. This method handles fields from superclasses.
-     * @param pojo The SpawningPool POJO to convert.
-     * @return The Avro record representing the POJO.
-     * @throws IllegalAccessException If accessing a field throws an exception.
-     */
-    public static GenericData.Record mapPojoToRecordReflection(Object pojo) throws IllegalAccessException {
-        Class<?> pojoClass = pojo.getClass();
-        Schema schema = ReflectData.get().getSchema(pojoClass);
-        GenericData.Record avroRecord = new GenericData.Record(schema);
-
-        for (Field field : pojoClass.getDeclaredFields()) {
-            field.setAccessible(true);
-            avroRecord.put(field.getName(), field.get(pojo));
-        }
-
-        // Handle superclass fields
-        Class<?> superClass = pojoClass.getSuperclass();
-        while (superClass != null && superClass != Object.class) {
-            for (Field field : superClass.getDeclaredFields()) {
-                field.setAccessible(true);
-                avroRecord.put(field.getName(), field.get(pojo));
-            }
-            superClass = superClass.getSuperclass();
-        }
-
-        return avroRecord;
+    // Handle superclass fields
+    Class<?> superClass = pojoClass.getSuperclass();
+    while ( superClass != null && superClass != Object.class ) {
+      for ( Field field : superClass.getDeclaredFields() ) {
+        field.setAccessible( true );
+        avroRecord.put( field.getName() , field.get( pojo ) );
+      }
+      superClass = superClass.getSuperclass();
     }
 
-    /**
-     * Maps a Object to an Avro record using ReflectDatumWriter.
-     * This method is generally more efficient and robust.
-     * @param pojo The Object to convert.
-     * @return The Avro record representing the Object.
-     * @throws IOException If an I/O error occurs during the conversion.
-     */
-    public static GenericData.Record mapPojoToRecordReflectDatumWriter(Object pojo) throws IOException {
+    return avroRecord;
+  }
 
-        Schema schema = ReflectData.get().getSchema(pojo.getClass());
-        ReflectDatumWriter<Object> writer = new ReflectDatumWriter<>(schema);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(out, null);
 
-        writer.write(pojo, encoder);
-        encoder.flush();
+  /**
+   * Maps a Object to an Avro record using ReflectDatumWriter. This method is generally more
+   * efficient and robust.
+   *
+   * @param pojo The Object to convert.
+   *
+   * @return The Avro record representing the Object.
+   *
+   * @throws IOException If an I/O error occurs during the conversion.
+   */
+  public static GenericData.Record mapPojoToRecordReflectDatumWriter(Object pojo) throws IOException
+  {
 
-        BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(out.toByteArray(), null);
-        GenericDatumReader<GenericData.Record> reader = new GenericDatumReader<>(schema);
+    Schema                     schema  = ReflectData.get().getSchema( pojo.getClass() );
+    ReflectDatumWriter<Object> writer  = new ReflectDatumWriter<>( schema );
+    ByteArrayOutputStream      out     = new ByteArrayOutputStream();
+    BinaryEncoder              encoder = EncoderFactory.get().binaryEncoder( out , null );
 
-        return reader.read(null, decoder);
-    }
+    writer.write( pojo , encoder );
+    encoder.flush();
+
+    BinaryDecoder                          decoder = DecoderFactory.get()
+                                                                   .binaryDecoder( out.toByteArray() ,
+                                                                                   null );
+    GenericDatumReader<GenericData.Record> reader  = new GenericDatumReader<>( schema );
+
+    return reader.read( null , decoder );
+  }
+
+
 }

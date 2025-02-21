@@ -1,7 +1,6 @@
 package org.acme.ext.terran.entity;
 
 import jakarta.persistence.EntityManager;
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,6 +26,7 @@ public abstract class AccessController extends DataAccess
     init();
   }
 
+
   private PrivBarrack P;
 
 
@@ -35,10 +35,11 @@ public abstract class AccessController extends DataAccess
     this.P = new PrivBarrack();
   }
 
-
+  String e1;
   protected final void registerEntity(Class<?> cl)
   {
-    entityMap.put( cl.getSimpleName().toLowerCase() , cl );
+
+     entityMap.put( cl.getSimpleName().toLowerCase() , cl );
   }
 
 
@@ -58,7 +59,7 @@ public abstract class AccessController extends DataAccess
 
   protected Class getUnitClass(String name)
   {
-
+    name = "barracks";
     return entityMap.get( name );
   }
 
