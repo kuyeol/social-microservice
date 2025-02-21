@@ -46,6 +46,7 @@ abstract class AbstractCommand<T>
     NOT_USING_THREAD, STARTED, UNSUBSCRIBED, TERMINAL
   }
 
+
   AbstractCommand(Pool threadPool , PoolKey threadPoolKey , HystrixCommandProperties properties ,
                   CommandKey commandKey)
   {
@@ -84,9 +85,6 @@ abstract class AbstractCommand<T>
   {
 
   }
-
-
-
 
 
   /* package */

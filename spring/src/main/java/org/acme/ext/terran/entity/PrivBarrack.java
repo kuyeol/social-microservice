@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import org.acme.EntityID;
 
 @Entity
- class PrivBarrack implements EntityID
+public class PrivBarrack implements EntityID
 {
 
   @Id
@@ -16,17 +16,19 @@ import org.acme.EntityID;
 
   private String name;
 
-  protected PrivBarrack(){
+
+  protected PrivBarrack()
+  {
 
   }
 
-//
+
+  //
   @Override
   public String toString()
   {
     return " PRBARARR{" + "id=" + id + ", name='" + name + '\'' + ", publicstring='" +
-           publicstring +
-           '\'' + ", secret='" + secret + '\'' + ", age=" + age + '}';
+           publicstring + '\'' + ", secret='" + secret + '\'' + ", age=" + age + '}';
   }
 
 

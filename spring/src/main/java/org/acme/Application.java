@@ -20,9 +20,9 @@ public class Application implements CommandLineRunner
 
   static int loop;
 
-  static Barracks  requestBody = new Barracks();
+  static Barracks requestBody = new Barracks();
 
-  static Timestamp current= new Timestamp( System.currentTimeMillis() );
+  static Timestamp current = new Timestamp( System.currentTimeMillis() );
 
   static String timeForm;
 
@@ -30,38 +30,41 @@ public class Application implements CommandLineRunner
   public static void main(String[] args)
   {
 
-    SpringApplication.run( Application.class , "200" );
+    SpringApplication.run( Application.class , "11" );
   }
 
 
-//
   @Override
   public void run(String... req)
   {
     loop = Integer.valueOf( req[0] );
-    requestBody = new Barracks();
+    try {
+      requestBody = new Barracks();
 
+      Function<Integer, String> makeRequest = (i)->{
 
+        requestBody.setId( current.getNanos() );
+        requestBody.setName( "app" );
+        requestBody.setPublicstring( timeForm );
+        requestBody.setSecret( timeForm );
+        requestBody.setAge( current.getNanos() );
 
-    Function<Integer, String> makeRequest = (stamp)->{
+        return webClient.post()
+                        .contentType( MediaType.APPLICATION_JSON )
+                        .accept( MediaType.APPLICATION_JSON )
+                        .bodyValue( requestBody )
+                        .retrieve()
+                        .bodyToFlux( String.class )
+                        .blockFirst();
+      };
 
-      requestBody.setId( current.getNanos() );
-      requestBody.setName( String.valueOf( stamp ) );
-      requestBody.setPublicstring( timeForm );
-      requestBody.setSecret( timeForm );
-      requestBody.setAge( current.getNanos() );
+      for ( int i = 0 ; i < loop ; i++ ) {
+        current  = new Timestamp( System.currentTimeMillis() );
+        timeForm = new SimpleDateFormat( "HH:mm:ss" ).format( current );
+        makeRequest.apply( current.getNanos() );
+      }
+    } catch ( Exception e ) {
 
-      return webClient.post()
-                      .contentType( MediaType.APPLICATION_JSON )
-                      .accept( MediaType.APPLICATION_JSON )
-                      .bodyValue( requestBody )
-                      .retrieve().bodyToFlux( String.class ).blockFirst();
-    };
-
-    for ( int i = 0 ; i < loop ; i++ ) {
-      current          = new Timestamp( System.currentTimeMillis() );
-      timeForm         = new SimpleDateFormat( "HH:mm:ss" ).format( current );
-      makeRequest.apply(current.getNanos() );
     }
   }
 
