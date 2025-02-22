@@ -1,6 +1,7 @@
 package org.acme.ext.terran.entity;
 
 import java.awt.print.Book;
+
 import org.acme.core.domain.Maker;
 import org.acme.core.domain.NoteBook;
 import org.acme.ext.terran.service.Mac;
@@ -15,7 +16,6 @@ public class MacBook<T extends MacBook> extends NoteBook<Mac> implements Maker
 
     protected MacBook getSource(MacBook N)
     {
-        ;
         this.source = N;
         return source;
     }
@@ -44,8 +44,7 @@ public class MacBook<T extends MacBook> extends NoteBook<Mac> implements Maker
     @Override
     public String toString()
     {
-        return "MacBook\t{" + "serial='" + serial + '\'' + ", m=" + m + ", name='" + name + '\'' +
-               '}';
+        return "MacBook\t{" + "serial='" + serial + '\'' + ", m=" + m + ", name='" + name + '\'' + '}';
     }
 
 

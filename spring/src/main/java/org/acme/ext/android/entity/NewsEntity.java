@@ -1,34 +1,47 @@
 package org.acme.ext.android.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class NewsEntity {
-
+public class NewsEntity
+{
 
     @Id
-    private String        id;
+    private String id;
+
     private String        title;
     private String        content;
     private String        url;
     private String        headerImageUrl;
     private LocalDateTime publishDate;
     private String        type;
+    static  int           count = 0;
 
+
+    public NewsEntity() {
+    }
+
+    public NewsEntity(TopicEntity topic) {
+        this.topic = topic;
+        this.id    = String.valueOf(++count);
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    protected TopicEntity topic;
+    @NotNull
+    private TopicEntity topic;
+
+
+    public String getId() {
+        return id;
+    }
 
     public TopicEntity getTopic() {
         return topic;
-    }
-
-    public void setTopic(TopicEntity topicId) {
-        this.topic = topicId;
     }
 
     private String authors;
@@ -41,13 +54,6 @@ public class NewsEntity {
         this.authors = authors;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -98,4 +104,8 @@ public class NewsEntity {
     }
 
 
+    @Override
+    public String toString() {
+        return "NewsEntity{" + "id='" + id + '\'' + ", title='" + title + '\'' + ", content='" + content + '\'' + ", url='" + url + '\'' + ", headerImageUrl='" + headerImageUrl + '\'' + ", publishDate=" + publishDate + ", type='" + type + '\'' + ", topic=" + topic + ", authors='" + authors + '\'' + '}';
+    }
 }

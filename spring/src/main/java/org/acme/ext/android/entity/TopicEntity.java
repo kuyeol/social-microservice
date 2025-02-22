@@ -1,6 +1,7 @@
 package org.acme.ext.android.entity;
 
 import java.util.*;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -11,7 +12,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 @Entity
-public class TopicEntity {
+public class TopicEntity
+{
 
     @Id
     private String id;
@@ -22,18 +24,23 @@ public class TopicEntity {
     private String imageUrl;
     private String url;
 
+    static int count = 0;
+
+    public TopicEntity() {
+
+        this.id = String.valueOf(count++);
+    }
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "topic")
+    @BatchSize(size = 20)
+    private Set<NewsEntity> news;
+
 
     public Set<NewsEntity> getNews() {
         return news;
     }
 
-    public void setNews(Set<NewsEntity> news) {
-        this.news = news;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy ="topic")
-    @BatchSize(size = 20)
-    private Set<NewsEntity> news;
 
     public String getId() {
         return id;
@@ -78,5 +85,10 @@ public class TopicEntity {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "TopicEntity{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", shortDescription='" + shortDescription + '\'' + ", longDescription='" + longDescription + '\'' + ", imageUrl='" + imageUrl + '\'' + ", url='" + url + '\'' + ", news=" + news + '}';
     }
 }

@@ -1,66 +1,69 @@
 package org.acme.ext.android.service;
 
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import org.acme.core.database.DataAccess;
 import org.acme.ext.android.entity.NewsEntity;
 import org.acme.ext.android.entity.TopicEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Component
-public class TopicService extends DataAccess {
+public class TopicService
+{
+
+    private static EntityManager em;
+
+    public TopicService(EntityManager em) {
+        this.em = em;
+    }
 
     private static final ConcurrentMap<Object, Class<?>> entityMap = new ConcurrentHashMap<>();
 
-    protected TopicService(EntityManager em) {
-        super(em);
-        this.em = em;
-        init();
-    }
 
     public final void registerEntity(Class<?> cl) {
         entityMap.put(cl.getSimpleName().toLowerCase(), cl);
     }
 
-    final void init() {
-        registerEntity(TopicEntity.class);
-        registerEntity(NewsEntity.class);
 
-    }
-
+    @Transactional
     public void createTopic(TopicEntity topic) {
 
-        save(topic);
-    }
-
-    public void createNews(NewsEntity news) {
-        news.setTopic(news.getTopic());
-
-        save(news);
-    }
-
-
-    private static EntityManager em;
-
-
-    public Optional<List> getAllNews(String id) {
-        setClazz(NewsEntity.class);
-        return Optional.ofNullable(listAll());
+        em.persist(topic);
 
     }
 
+    @Transactional
+    public void createNews(String id) {
 
-    public List<TopicEntity> getAllTopics() {
-        setClazz(TopicEntity.class);
+        TopicEntity topic = em.find(TopicEntity.class, id);
 
-        return listAll();
+        NewsEntity news = new NewsEntity(topic);
+
+        news.setContent("asdfsadf");
+
+        topic.getNews().add(news);
+
+        em.persist(topic);
+
     }
+
+
+    @Transactional
+    public NewsEntity getNews(String id) {
+
+        NewsEntity news = em.find(NewsEntity.class, id);
+
+        return news;
+    }
+
 
 }
