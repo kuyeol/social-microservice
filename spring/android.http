@@ -1,0 +1,67 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+# curl -X 'POST'
+#  'http://182.218.135.247:8081/android'
+#  -H 'accept: */*'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "id": "1",
+#  "name": "string",
+#  "shortDescription": "string",
+#  "longDescription": "string",
+#  "imageUrl": "string",
+#  "url": "string"
+#
+#}'
+POST http://182.218.135.247:8081/android
+accept: */*
+Content-Type: application/json
+
+{
+  "id": "1",
+  "name": "string",
+  "shortDescription": "string",
+  "longDescription": "string",
+  "imageUrl": "string",
+  "url": "string"
+}
+
+###
+# curl -X 'POST'
+#  'http://182.218.135.247:8081/android/news'
+#  -H 'accept: */*'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "id": "string",
+#  "title": "string",
+#  "content": "string",
+#  "url": "string",
+#  "headerImageUrl": "string",
+#  "publishDate": "2025-02-21T07:23:34.125Z",
+#  "type": "string",
+#  "topicId": {
+#    "id": "string"
+#
+#  },
+#  "authors": "string"
+#}'
+POST http://182.218.135.247:8081/android/news
+accept: */*
+Content-Type: application/json
+
+{
+  "id": "strin1g",
+  "title": "string",
+  "content": "string",
+  "url": "string",
+  "headerImageUrl": "string",
+  "publishDate": "2025-02-21T07:23:34.125Z",
+  "type": "string",
+    "topic_Id": "1",
+  "authors": "string"
+}
+
+###

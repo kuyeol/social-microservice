@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2ff3b6a-5a6b-4775-a74f-c7323b40ef79" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/android.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/androidBackEnd.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/entity/NewsEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/entity/TopicEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/model/Topic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/service/TopicService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/model/AndroidResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/android/AndroidResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/terran/service/TerranDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/terran/service/TerranDataAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/terran/service/TerranService.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring/src/main/java/org/acme/ext/terran/service/TerranService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,12 +30,12 @@
     &quot;assignee&quot;: &quot;kuyeol&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/kuyeol/social-microservice.git&quot;,
-    &quot;accountId&quot;: &quot;d53bc680-e0ca-4afe-9797-3ea98a3487e5&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/kuyeol/social-microservice.git",
+    "accountId": "e70051a6-f6d3-411f-af48-e2d730bb1ca6"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -72,7 +79,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32994792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16482143" />
       <window_info id="Commit" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Android Profiler" />
@@ -224,6 +231,7 @@
       <workItem from="1727735851745" duration="327000" />
       <workItem from="1727860692090" duration="1261000" />
       <workItem from="1740111187072" duration="72000" />
+      <workItem from="1740127691528" duration="1071000" />
     </task>
     <servers />
   </component>
