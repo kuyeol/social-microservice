@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  description: spring API
+  title: spring API
+  version: 1.0.0
+servers:
+- url: https://spring
+paths:
+  /android/news{id}:
+    get:
+      operationId: getNewsByID
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+      summary: "GET android/news{id}"
+      x-accepts:
+      - '*/*'
+components:
+  schemas:
+    HttpHeaders:
+      properties: {}
+      type: object
+    ResponseEntity:
+      example:
+        headers: "{}"
+      properties:
+        headers:
+          properties: {}
+          type: object
+      required:
+      - headers
+
