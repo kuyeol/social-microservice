@@ -3,6 +3,7 @@ package org.acme.ext.android.entity;
 import java.util.*;
 
 import jakarta.persistence.*;
+import org.apache.avro.generic.GenericData;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -17,7 +18,6 @@ public class TopicEntity
 
     @Id
     private String id;
-
     private String name;
     private String shortDescription;
     private String longDescription;
@@ -34,10 +34,10 @@ public class TopicEntity
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "topic")
     @BatchSize(size = 20)
-    private Set<NewsEntity> news;
+    private List<NewsEntity> news =new ArrayList<>();
 
 
-    public Set<NewsEntity> getNews() {
+    public List<NewsEntity> getNews() {
         return news;
     }
 

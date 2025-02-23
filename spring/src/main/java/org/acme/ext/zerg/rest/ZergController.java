@@ -192,7 +192,6 @@ import org.springframework.web.bind.annotation.RestController;
         }
     }
 
-
     public Unit deserializeFromBytes(byte[] data) throws Exception
     {
         DatumReader<Unit> datumReader = new SpecificDatumReader<>(Unit.class);

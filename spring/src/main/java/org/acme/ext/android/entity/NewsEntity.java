@@ -20,20 +20,23 @@ public class NewsEntity
     private String        headerImageUrl;
     private LocalDateTime publishDate;
     private String        type;
+    private String        authors;
     static  int           count = 0;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private TopicEntity topic;
 
-    public NewsEntity() {
-    }
+
 
     public NewsEntity(TopicEntity topic) {
         this.topic = topic;
         this.id    = String.valueOf(++count);
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private TopicEntity topic;
+    public NewsEntity() {
+
+    }
 
 
     public String getId() {
@@ -44,7 +47,6 @@ public class NewsEntity
         return topic;
     }
 
-    private String authors;
 
     public String getAuthors() {
         return authors;

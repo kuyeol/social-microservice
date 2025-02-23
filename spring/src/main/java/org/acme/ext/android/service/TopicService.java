@@ -3,15 +3,12 @@ package org.acme.ext.android.service;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
-import org.acme.core.database.DataAccess;
 import org.acme.ext.android.entity.NewsEntity;
 import org.acme.ext.android.entity.TopicEntity;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.acme.ext.android.model.NewsDto;
+import org.acme.ext.android.model.TopicModel;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -35,20 +32,26 @@ public class TopicService
 
 
     @Transactional
-    public void createTopic(TopicEntity topic) {
+    public void createTopic(TopicModel topic) {
 
-        em.persist(topic);
+
+        // TopicModel  newTopic = new TopicModel();
+        //   TopicEntity entity   = newTopic.toEntity(topic);
+        TopicEntity entity = topic.toEntity(topic);
+
+
+        em.persist(entity);
 
     }
 
+
     @Transactional
-    public void createNews(String id) {
+    public void createNews(NewsDto dto) {
 
-        TopicEntity topic = em.find(TopicEntity.class, id);
+        TopicEntity topic = em.find(TopicEntity.class, dto.topicId());
 
-        NewsEntity news = new NewsEntity(topic);
 
-        news.setContent("asdfsadf");
+        NewsEntity news = NewsDto.toEntity(dto,topic);
 
         topic.getNews().add(news);
 
@@ -56,14 +59,24 @@ public class TopicService
 
     }
 
+    public Optional<NewsDto> getNews(String id) {
+        NewsEntity nn = em.find(NewsEntity.class, id);
 
-    @Transactional
-    public NewsEntity getNews(String id) {
 
-        NewsEntity news = em.find(NewsEntity.class, id);
+        NewsDto.toDto(nn);
+        return Optional.of(NewsDto.toDto(nn));
+    }
 
-        return news;
+    public TopicModel getTopic(String id) {
+
+
+        TopicEntity entity = em.find(TopicEntity.class, id);
+
+        TopicModel tm = new TopicModel(entity);
+
+        return tm;
     }
 
 
+    //todo: dto or model create
 }

@@ -1,16 +1,16 @@
 package org.acme.ext.android;
 
 
-import org.acme.ext.android.entity.NewsEntity;
 import org.acme.ext.android.entity.TopicEntity;
+import org.acme.ext.android.model.NewsDto;
+import org.acme.ext.android.model.TopicModel;
 import org.acme.ext.android.service.TopicService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -28,61 +28,51 @@ public class AndroidResource
     }
 
 
-    @GetMapping(value = "/news{id}")
-    @ResponseBody
-    public ResponseEntity getNewsByID(@PathVariable("id") String id) {
+    @GetMapping(value = "/news/{id}")
+    public ResponseEntity getNewsByID(@RequestParam("id") String id) {
 
-     Object news = topicService.getNews(id);
+        Optional<NewsDto> news = topicService.getNews(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(news);
     }
 
-    @GetMapping("/topics")
+    @GetMapping("/topics/{id}")
     public ResponseEntity getTopic(@RequestParam("id") String id) {
 
 
-        Optional<Optional<List>> op = Optional.empty();
+        TopicModel topicModel = topicService.getTopic(id);
 
         try {
-            op = Optional.empty();
 
+            topicModel = topicService.getTopic(id);
 
         } catch (MethodArgumentTypeMismatchException e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("dd");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
         }
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(op);
+        return ResponseEntity.status(HttpStatus.OK).body(topicModel);
     }
 
 
     @PostMapping(path = "/news")
-    public ResponseEntity createNews(@RequestBody String topicid) {
+    public ResponseEntity createNews(@RequestBody NewsDto dto) {
 
-        topicService.createNews(topicid);
+        topicService.createNews(dto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("??");
+        return ResponseEntity.status(HttpStatus.CREATED).body("rep");
     }
-
-
 
 
     @PostMapping("/topic")
-    public ResponseEntity createTopic(@RequestBody String topic) {
+    public ResponseEntity createTopic(@RequestBody TopicModel topic) {
 
-        TopicEntity tobj = new TopicEntity();
-        topicService.createTopic(tobj);
+        topicService.createTopic(topic);
+
         return ResponseEntity.status(HttpStatus.CREATED).body("topics.toString()");
     }
 
-
-    private TopicEntity mockTopicCreate() {
-        TopicEntity topic = new TopicEntity();
-
-        topic.setName("test");
-
-        return topic;
-    }
 
 }
