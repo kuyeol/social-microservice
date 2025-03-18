@@ -1,12 +1,14 @@
 package org.acme;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Vector;
+import java.lang.reflect.*;
+import java.security.KeyFactory;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiFunction;
+
 import org.acme.ext.terran.model.TerranModel;
+import org.python.core.exceptions;
 
 public class Main
 {
@@ -147,5 +149,102 @@ public class Main
         return "Main{" + "attribs=" + attribs + '}';
     }
 
+
+
+
+
+    static void getServiceLoader( final Class<?>[] interfaces,  InvocationHandler h) throws IllegalArgumentException,
+                                                                                            NoSuchMethodException,
+                                                                                            InvocationTargetException,
+                                                                                            InstantiationException,
+                                                                                            IllegalAccessException
+    {
+
+        Class<?>[] cl = interfaces.clone();
+
+        Class<?>       clElement   = cl.getClass();
+        Constructor<?> constructor = clElement.getConstructor(InvocationHandler.class);
+
+        constructor.newInstance(new Object[]{h});
+
+    }
+
+    private static final Comparator<Method> ORDER_BY_SIGNATURE_AND_SUBTYPE = new Comparator<Method>() {
+        @Override public int compare(Method a, Method b) {
+            int comparison =ORDER_BY_SIGNATURE.compare(a, b);
+            if (comparison != 0) {
+                return comparison;
+            }
+            Class<?> aClass = a.getDeclaringClass();
+            Class<?> bClass = b.getDeclaringClass();
+            if (aClass == bClass) {
+                return 0;
+            } else if (aClass.isAssignableFrom(bClass)) {
+                return 1;
+            } else if (bClass.isAssignableFrom(aClass)) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    };
+
+
+      public static final Comparator<Method> ORDER_BY_SIGNATURE = new Comparator<Method>() {
+            @Override public int compare(Method a, Method b) {
+                if (a == b) {
+                    return 0;
+                }
+                int comparison = a.getName().compareTo(b.getName());
+                if (comparison == 0) {
+
+                    if (comparison == 0) {
+                        // This is necessary for methods that have covariant return types.
+                        Class<?> aReturnType = a.getReturnType();
+                        Class<?> bReturnType = b.getReturnType();
+                        if (aReturnType == bReturnType) {
+                            comparison = 0;
+                        } else {
+                            comparison = aReturnType.getName().compareTo(bReturnType.getName());
+                        }
+                    }
+                }
+                return comparison;
+            }
+        };
+
+
+
+    private static native Class<?> generateProxy(String name, Class<?>[] interfaces,
+                                                 ClassLoader loader, Method[] methods,
+                                                 Class<?>[][]exceptions);
+
+
+
+
+    private static List<Method> getMethods(Class<?>[] interfaces) {
+        List<Method> result = new ArrayList<Method>();
+        try {
+            result.add(Object.class.getMethod("equals", Object.class));
+            result.add(Object.class.getMethod("hashCode", Object.class));
+            result.add(Object.class.getMethod("toString",  Object.class));
+        } catch (NoSuchMethodException e) {
+            throw new AssertionError();
+        }
+
+        getMethodsRecursive(interfaces, result);
+        return result;
+    }
+
+    /**
+     * Fills {@code proxiedMethods} with the methods of {@code interfaces} and
+     * the interfaces they extend. May contain duplicates.
+     */
+    private static void getMethodsRecursive(Class<?>[] interfaces, List<Method> methods) {
+        for (Class<?> i : interfaces) {
+            getMethodsRecursive(i.getInterfaces(), methods);
+            Collections.addAll(methods, i.getDeclaredMethods());
+        }
+    }
 
 }

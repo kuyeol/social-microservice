@@ -27,10 +27,11 @@ public class TopicEntity
     static int count = 0;
 
     public TopicEntity() {
-
         this.id = String.valueOf(count++);
     }
-
+public TopicEntity(int  id){
+        this.id = String.valueOf(id);
+}
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "topic")
     @BatchSize(size = 20)

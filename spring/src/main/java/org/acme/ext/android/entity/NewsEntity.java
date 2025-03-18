@@ -31,11 +31,15 @@ public class NewsEntity
 
     public NewsEntity(TopicEntity topic) {
         this.topic = topic;
-        this.id    = String.valueOf(++count);
+        if (topic.getId().equals("-1")) {
+              this.id    = "0";
+        }else {
+            this.id    = String.valueOf(++count);
+        }
     }
 
     public NewsEntity() {
-
+this.id="0";
     }
 
 

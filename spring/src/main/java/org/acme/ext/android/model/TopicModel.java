@@ -22,14 +22,14 @@ public TopicModel(){}
         this.url = entity.getUrl();
 
     }
-
+static int count;
     public TopicEntity toEntity( TopicModel model) {
-        TopicEntity entity = new TopicEntity();
-        entity.setName(name);
-        entity.setShortDescription(shortDescription);
-        entity.setLongDescription(longDescription);
-        entity.setImageUrl(imageUrl);
-        entity.setUrl(url);
+        TopicEntity entity = new TopicEntity(count++);
+        entity.setName(model.name);
+        entity.setShortDescription(model.shortDescription);
+        entity.setLongDescription(model.longDescription);
+        entity.setImageUrl(model.imageUrl);
+        entity.setUrl(model.url);
         return entity;
     }
 

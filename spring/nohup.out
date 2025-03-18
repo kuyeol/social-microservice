@@ -1,0 +1,505 @@
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :generateAvroProtocol NO-SOURCE
+> Task :generateAvroJava UP-TO-DATE
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.1)
+
+2025-02-28T14:26:50.418+09:00  INFO 1362880 --- [spring] [  restartedMain] org.acme.Application                     : Starting Application using Java 17.0.12 with PID 1362880 (/home/ung/IdeaProjects/social-microservice/spring/build/classes/java/main started by ung in /home/ung/IdeaProjects/social-microservice/spring)
+2025-02-28T14:26:50.420+09:00  INFO 1362880 --- [spring] [  restartedMain] org.acme.Application                     : No active profile set, falling back to 1 default profile: "default"
+2025-02-28T14:26:50.448+09:00  INFO 1362880 --- [spring] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-28T14:26:50.448+09:00  INFO 1362880 --- [spring] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-28T14:26:51.136+09:00  INFO 1362880 --- [spring] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-28T14:26:51.158+09:00  INFO 1362880 --- [spring] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+2025-02-28T14:26:51.846+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-02-28T14:26:51.856+09:00  INFO 1362880 --- [spring] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-02-28T14:26:51.856+09:00  INFO 1362880 --- [spring] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-02-28T14:26:51.906+09:00  INFO 1362880 --- [spring] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-02-28T14:26:51.907+09:00  INFO 1362880 --- [spring] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1458 ms
+2025-02-28T14:26:52.146+09:00  INFO 1362880 --- [spring] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-02-28T14:26:52.187+09:00  INFO 1362880 --- [spring] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-02-28T14:26:52.211+09:00  INFO 1362880 --- [spring] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-02-28T14:26:52.386+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-02-28T14:26:52.405+09:00  INFO 1362880 --- [spring] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-02-28T14:26:52.501+09:00  INFO 1362880 --- [spring] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3133fdf1
+2025-02-28T14:26:52.502+09:00  INFO 1362880 --- [spring] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-02-28T14:26:52.550+09:00  INFO 1362880 --- [spring] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.6
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-02-28T14:26:53.224+09:00  INFO 1362880 --- [spring] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    set client_min_messages = WARNING
+Hibernate: 
+    alter table if exists news_entity 
+       drop constraint if exists FKe4abyqtwd6sw9xb39tyb61cwa
+Hibernate: 
+    drop table if exists atomic_table cascade
+Hibernate: 
+    drop table if exists barracks cascade
+Hibernate: 
+    drop table if exists command_center cascade
+Hibernate: 
+    drop table if exists hatchery cascade
+Hibernate: 
+    drop table if exists log_table cascade
+Hibernate: 
+    drop table if exists news_entity cascade
+Hibernate: 
+    drop table if exists priv_barrack cascade
+Hibernate: 
+    drop table if exists spawning_pool cascade
+Hibernate: 
+    drop table if exists topic_entity cascade
+Hibernate: 
+    create table atomic_table (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table barracks (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        publicstring varchar(255),
+        secret varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table command_center (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table hatchery (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table log_table (
+        id integer not null,
+        timestamp timestamp(6),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table news_entity (
+        publish_date timestamp(6),
+        authors varchar(255),
+        content varchar(255),
+        header_image_url varchar(255),
+        id varchar(255) not null,
+        title varchar(255),
+        topic_id varchar(255),
+        type varchar(255),
+        url varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table priv_barrack (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        publicstring varchar(255),
+        secret varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table spawning_pool (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table topic_entity (
+        id varchar(255) not null,
+        image_url varchar(255),
+        long_description varchar(255),
+        name varchar(255),
+        short_description varchar(255),
+        url varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists news_entity 
+       add constraint FKe4abyqtwd6sw9xb39tyb61cwa 
+       foreign key (topic_id) 
+       references topic_entity
+2025-02-28T14:26:53.386+09:00  INFO 1362880 --- [spring] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-02-28T14:26:53.393+09:00  INFO 1362880 --- [spring] [  restartedMain] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static int org.acme.Application.port
+2025-02-28T14:26:53.696+09:00  WARN 1362880 --- [spring] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-02-28T14:26:53.751+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-02-28T14:26:54.226+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-02-28T14:26:54.234+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-02-28T14:26:54.293+09:00  INFO 1362880 --- [spring] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-02-28T14:26:54.310+09:00  INFO 1362880 --- [spring] [  restartedMain] org.acme.Application                     : Started Application in 4.124 seconds (process running for 4.693)
+2025-02-28T14:26:59.149+09:00  INFO 1362880 --- [spring] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-28T14:26:59.149+09:00  INFO 1362880 --- [spring] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-02-28T14:26:59.150+09:00  INFO 1362880 --- [spring] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-02-28T14:26:59.733+09:00  INFO 1362880 --- [spring] [nio-8081-exec-4] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 307 ms
+2025-03-01T02:31:47.055+09:00  INFO 1362880 --- [spring] [io-8081-exec-10] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x00{0x010x000x00w0x030x03+<)0x08E0xabN0x840x15}0x97i40xccggj0x1a0x12K0xdb0x950x9240xc50x02&40xc1t0x06@0x000x000x1a0xc0/0xc0+0xc00x110xc00x070xc00x130xc00x090xc00x140xc00x0a0x000x050x00/0x0050xc00x120x000x0a0x010x000x0040x000x050x000x050x010x000x000x000x000x000x0a0x000x080x000x060x000x170x000x180x000x190x000x0b0x000x020x010x000x000x0d0x000x100x000x0e0x040x010x040x030x020x010x020x030x040x010x050x010x060x010xff0x010x000x010x00...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-02T04:28:37.931+09:00  INFO 1362880 --- [spring] [nio-8081-exec-2] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [MGLNDD_182.218.135.247_80810x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-03T11:38:40.090+09:00  INFO 1362880 --- [spring] [nio-8081-exec-4] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x00{0x010x000x00w0x030x030xfc0xa9d00xd50x82e0x14V(0x84m0x1f0xb9z0x940xdf0xf70xb40xff0xb10x060xdf0x9d0xb50x9b0x050xdbiR0xc2u0x000x000x1a0xc0/0xc0+0xc00x110xc00x070xc00x130xc00x090xc00x140xc00x0a0x000x050x00/0x0050xc00x120x000x0a0x010x000x0040x000x050x000x050x010x000x000x000x000x000x0a0x000x080x000x060x000x170x000x180x000x190x000x0b0x000x020x010x000x000x0d0x000x100x000x0e0x040x010x040x030x020x010x020x030x040x010x050x010x060x010xff0x010x000x010x00...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-04T18:48:25.587+09:00  INFO 1362880 --- [spring] [io-8081-exec-10] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x040x010x010xbb0xd4/0xfa0x0e0x00...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-05T18:52:40.637+09:00  INFO 1362880 --- [spring] [nio-8081-exec-4] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x010x170x010x000x010x130x030x0380xe6I0xbdP0xf230xa00xc30xa60xc9VevR0x800xf3HTi0xcd0x9cEE0x910x0b0xb80xd5cx0xeaM ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-05T23:14:34.358+09:00  WARN 1362880 --- [spring] [nio-8081-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-03-07T09:01:39.857+09:00  INFO 1362880 --- [spring] [nio-8081-exec-7] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [MGLNDD_182.218.135.247_80810x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-08T23:26:22.996+09:00  INFO 1362880 --- [spring] [nio-8081-exec-4] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [MGLNDD_182.218.135.247_80810x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-10T07:02:02.853+09:00  INFO 1362880 --- [spring] [nio-8081-exec-5] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x000xf20x010x000x000xee0x030x03s0x05z/c0x86S/H0x08u0x0f,0x16t0xea0xa50xac0xd60xce0x1f0xca?0xcd0xb1^J0xc9g0xe70xab0xb2 ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-11T07:04:11.251+09:00  INFO 1362880 --- [spring] [nio-8081-exec-8] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x030x010xa80x010x000x010xa40x030x030xec0xa80xdc0xfc0x180xa3"0x9dj0xc80x120x8d0xba0xf20xeaa.0xa30xd20x090xf520x0fk*0x110xfc0xda0xfb0xad0x9at ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-03-12T14:22:51.811+09:00  INFO 1362880 --- [spring] [io-8081-exec-10] o.apache.coyote.http11.Http11Processor   : Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x010x170x010x000x010x130x030x030x1eL0xa40xbdH0x8a0x190x89%0xae0x8f0x160x9a0x19S0x060x960xf50x000xef0x1b0x0a0xe650x810x9b}0xf20xd50xd60xef0xf9 ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:406) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:270) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.34.jar:10.1.34]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+openjdk version "21.0.6" 2025-01-21
+OpenJDK Runtime Environment (build 21.0.6+7-Ubuntu-124.04.1)
+OpenJDK 64-Bit Server VM (build 21.0.6+7-Ubuntu-124.04.1, mixed mode, sharing)
+Starting a Gradle Daemon (subsequent builds will be faster)
+Exception in thread "DisconnectableInputStream source reader" org.gradle.api.UncheckedIOException: java.io.IOException: 파일 디스크립터가 잘못됨
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:57)
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:40)
+	at org.gradle.util.DisconnectableInputStream$1.run(DisconnectableInputStream.java:125)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.io.IOException: 파일 디스크립터가 잘못됨
+	at java.base/java.io.FileInputStream.readBytes(Native Method)
+	at java.base/java.io.FileInputStream.read(FileInputStream.java:287)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:291)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:347)
+	at java.base/java.io.BufferedInputStream.implRead(BufferedInputStream.java:420)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:399)
+	at org.gradle.util.DisconnectableInputStream$1.run(DisconnectableInputStream.java:96)
+	... 1 more
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/home/ung/IdeaProjects/social-microservice/spring/settings.gradle' line: 2
+
+* What went wrong:
+A problem occurred evaluating settings 'spring'.
+> Could not find method plugins() for arguments [settings_b3amrala0q0avgqpzep1leqco$_run_closure1$_closure2@33871aa6] on object of type org.gradle.plugin.management.internal.DefaultPluginManagementSpec.
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 2s
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :generateAvroProtocol NO-SOURCE
+> Task :generateAvroJava UP-TO-DATE
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.1)
+
+2025-03-15T14:33:30.487+09:00  INFO 456510 --- [spring] [  restartedMain] org.acme.Application                     : Starting Application using Java 17.0.14 with PID 456510 (/home/ung/IdeaProjects/social-microservice/spring/build/classes/java/main started by ung in /home/ung/IdeaProjects/social-microservice/spring)
+2025-03-15T14:33:30.489+09:00  INFO 456510 --- [spring] [  restartedMain] org.acme.Application                     : No active profile set, falling back to 1 default profile: "default"
+2025-03-15T14:33:30.519+09:00  INFO 456510 --- [spring] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-03-15T14:33:30.519+09:00  INFO 456510 --- [spring] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-03-15T14:33:31.256+09:00  INFO 456510 --- [spring] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-15T14:33:31.279+09:00  INFO 456510 --- [spring] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2025-03-15T14:33:32.012+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-03-15T14:33:32.022+09:00  INFO 456510 --- [spring] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-15T14:33:32.022+09:00  INFO 456510 --- [spring] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-03-15T14:33:32.060+09:00  INFO 456510 --- [spring] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-15T14:33:32.061+09:00  INFO 456510 --- [spring] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1541 ms
+2025-03-15T14:33:32.283+09:00  INFO 456510 --- [spring] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-15T14:33:32.326+09:00  INFO 456510 --- [spring] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-03-15T14:33:32.350+09:00  INFO 456510 --- [spring] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-03-15T14:33:32.538+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-15T14:33:32.558+09:00  INFO 456510 --- [spring] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-15T14:33:32.689+09:00  INFO 456510 --- [spring] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5ae7c72c
+2025-03-15T14:33:32.690+09:00  INFO 456510 --- [spring] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-15T14:33:32.738+09:00  INFO 456510 --- [spring] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.6
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-03-15T14:33:33.440+09:00  INFO 456510 --- [spring] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    set client_min_messages = WARNING
+Hibernate: 
+    alter table if exists news_entity 
+       drop constraint if exists FKe4abyqtwd6sw9xb39tyb61cwa
+Hibernate: 
+    drop table if exists atomic_table cascade
+Hibernate: 
+    drop table if exists barracks cascade
+Hibernate: 
+    drop table if exists command_center cascade
+Hibernate: 
+    drop table if exists hatchery cascade
+Hibernate: 
+    drop table if exists log_table cascade
+Hibernate: 
+    drop table if exists news_entity cascade
+Hibernate: 
+    drop table if exists priv_barrack cascade
+Hibernate: 
+    drop table if exists spawning_pool cascade
+Hibernate: 
+    drop table if exists topic_entity cascade
+Hibernate: 
+    create table atomic_table (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table barracks (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        publicstring varchar(255),
+        secret varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table command_center (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table hatchery (
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table log_table (
+        id integer not null,
+        timestamp timestamp(6),
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table news_entity (
+        publish_date timestamp(6),
+        authors varchar(255),
+        content varchar(255),
+        header_image_url varchar(255),
+        id varchar(255) not null,
+        title varchar(255),
+        topic_id varchar(255),
+        type varchar(255),
+        url varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table priv_barrack (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        publicstring varchar(255),
+        secret varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table spawning_pool (
+        age integer not null,
+        id integer not null,
+        name varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table topic_entity (
+        id varchar(255) not null,
+        image_url varchar(255),
+        long_description varchar(255),
+        name varchar(255),
+        short_description varchar(255),
+        url varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists news_entity 
+       add constraint FKe4abyqtwd6sw9xb39tyb61cwa 
+       foreign key (topic_id) 
+       references topic_entity
+2025-03-15T14:33:33.596+09:00  INFO 456510 --- [spring] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-15T14:33:33.604+09:00  INFO 456510 --- [spring] [  restartedMain] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static int org.acme.Application.port
+2025-03-15T14:33:33.898+09:00  WARN 456510 --- [spring] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-15T14:33:33.950+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-03-15T14:33:34.412+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-03-15T14:33:34.420+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-03-15T14:33:34.482+09:00  INFO 456510 --- [spring] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-03-15T14:33:34.500+09:00  INFO 456510 --- [spring] [  restartedMain] org.acme.Application                     : Started Application in 4.263 seconds (process running for 4.975)
+2025-03-15T14:33:34.641+09:00  INFO 456510 --- [spring] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-15T14:33:34.641+09:00  INFO 456510 --- [spring] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-03-15T14:33:34.642+09:00  INFO 456510 --- [spring] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-03-15T14:33:35.298+09:00  INFO 456510 --- [spring] [nio-8081-exec-4] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 321 ms
